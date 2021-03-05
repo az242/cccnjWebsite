@@ -1,15 +1,21 @@
 <div class="overlay header">
-  <img width="23%" src="https://cccnj.org/landing/images/logo_2020_1.png" />
+  <img class="header-image" src="https://cccnj.org/landing/images/logo_2020_1.png" />
 </div>
-<div>
-  <div class="overlay content">
-    test
+<div class="overlay title" [@fade]="state" (@fade.done)="end($event)">
+  {{titles[currentDescription]}}
+</div>
+<div class="overlay content">
+  <div>
+    <a href="https://cn.cccnj.org/">
+      <button type="button" class="btn btn-light btn-lg button" >台語堂</button>
+    </a>
+    <a href="#">
+      <button type="button" class="btn btn-light btn-lg button" (click)="englishRoute()">English Ministry</button>
+    </a>
+    <a href="https://cn.cccnj.org/">
+      <button type="button" class="btn btn-light btn-lg button" >國語堂</button> 
+    </a>
   </div>
-</div>
-<div class="video-container background-overlay">
-    <video autoplay muted loop="true" width="1280" height="720">
-      <source type="video/mp4" src="../assets/video.mp4">
-    </video>
 </div>
 <div class="overlay footer">
   <div>
@@ -19,3 +25,9 @@
     973-335-0183
   </div>
 </div>
+<div class="video-container">
+  <video autoplay muted loop="true" width="1280" height="720">
+    <source type="video/mp4" src="../assets/video.mp4">
+  </video>
+</div>
+<div class="background-overlay"></div>

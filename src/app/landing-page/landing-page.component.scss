@@ -27,7 +27,10 @@
 
 .background-overlay {
   // background: url(../../assets/overlay-pattern.png) repeat;
-  background: rgba(0, 0, 0, .8);
+  background: rgba(0, 0, 0, .4) !important;
+  z-index: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 ////////////////////////////////////////
@@ -45,7 +48,7 @@ body {
   padding: 2em;
   line-height: 1.5;
   text-align: center;
-  color:rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 1);
   left: 0;
   right: 0;
   position: absolute;
@@ -53,14 +56,34 @@ body {
   :last-child {
     margin-bottom: 0;
   }
-  &.header{
-    background: radial-gradient(circle, rgba(33,66,99,1) 10%, rgba(0,0,0,.7) 57%, rgba(255,255,255,0) 95%);
+
+  &.header {
+    background: radial-gradient(circle, rgba(33, 66, 99, 1) 10%, rgba(0, 0, 0, .7) 57%, rgba(255, 255, 255, 0) 95%);
   }
+
   &.footer {
-    background: radial-gradient(circle, rgba(33,66,99,1) 10%, rgba(0,0,0,.7) 57%, rgba(255,255,255,0) 90%);
+    background: radial-gradient(circle, rgba(33, 66, 99, 1) 10%, rgba(0, 0, 0, .7) 57%, rgba(255, 255, 255, 0) 90%);
     bottom: 0;
   }
-  &.content {
-    bottom: 50%
+
+  &.title {
+    font-family: sans-serif;
+    font-weight: 400;
+    font-size: 70px;
+    top: 15%;
+    bottom: 50%;
   }
+
+  &.content {
+    bottom: 35%;
+  }
+}
+
+.button {
+  margin: 10px;
+}
+
+.header-image {
+  width: 35vh;
+  max-width: 50vh;
 }
