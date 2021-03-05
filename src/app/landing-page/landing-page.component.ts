@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing-page',
@@ -18,8 +19,8 @@ export class LandingPageComponent implements OnInit {
   fadeInterval: any;
   currentDescription: number;
   state: string = 'visible';
-  titles = ['Welcome to Chinese Christian Church of New Jersey', '台語堂'];
-  constructor() { 
+  titles = ['Welcome to Chinese Christian Church of New Jersey', '歡迎來到主恩堂'];
+  constructor(private router: Router) { 
     this.currentDescription = 0;
   }
 
@@ -41,7 +42,15 @@ export class LandingPageComponent implements OnInit {
     }
   }
   englishRoute() {
-    
+    this.router.navigate(['/en']);
+  }
+  cantoneseRoute() {
+    // this.router.navigate(['/cn']);
+    window.location.replace("https://cn.cccnj.org/");
+  }
+  mandarinRoute() {
+    // this.router.navigate(['/md']);
+    window.location.replace("https://cn.cccnj.org/");
   }
 
 }

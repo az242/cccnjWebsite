@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoremIspumComponent } from './lorem-ispum.component';
+import { EnglishPageComponent } from './english-page.component';
 
-describe('LoremIspumComponent', () => {
-  let component: LoremIspumComponent;
-  let fixture: ComponentFixture<LoremIspumComponent>;
+describe('EnglishPageComponent', () => {
+  let component: EnglishPageComponent;
+  let fixture: ComponentFixture<EnglishPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoremIspumComponent ]
+      declarations: [ EnglishPageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoremIspumComponent);
+    fixture = TestBed.createComponent(EnglishPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

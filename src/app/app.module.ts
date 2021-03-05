@@ -48,15 +48,15 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
-import { LoremIspumComponent } from './lorem-ispum/lorem-ispum.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { EnglishPageComponent } from './english-page/english-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    LoremIspumComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    EnglishPageComponent
   ],
   imports: [
     BrowserModule,
