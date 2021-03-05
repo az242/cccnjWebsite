@@ -42,7 +42,7 @@ body {
 }
 
 .overlay {
-  width: 95%;
+  width: 100%;
   margin: auto auto 1em;
   // box-sizing: border-box;
   padding: 2em;
@@ -54,7 +54,8 @@ body {
   position: absolute;
 
   &.header {
-    background: radial-gradient(circle, rgba(33, 66, 99, 1) 10%, rgba(0, 0, 0, .7) 57%, rgba(255, 255, 255, 0) 95%);
+    // background: radial-gradient(circle, rgba(33, 66, 99, 1) 10%, rgba(0, 0, 0, .7) 57%, rgba(255, 255, 255, 0) 95%);
+    background: rgba(33, 66, 99, 1)
   }
 
   &.footer {
@@ -75,11 +76,39 @@ body {
   }
 }
 
-.button {
-  margin: 10px;
-}
-
 .header-image {
   width: 35vh;
   max-width: 50vh;
+}
+
+.seperater {
+  background-attachment: scroll;
+  background-image: url(../../assets/divider1.png);
+  background-repeat: repeat-x;
+  background-position: bottom center;
+  padding-bottom: 14px;
+  margin-bottom: 10px;
+  display: inline-block;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 25px;
+}
+
+.custom-button {
+  border-style: solid;
+  border: 5px solid white;
+  color: white;
+  background-color: rgba(255, 255, 255, 0);
+  height: 75px;
+  width: 250px;
+  margin: 10px;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: white;
+    color: black;
 }

@@ -19,7 +19,7 @@ export class LandingPageComponent implements OnInit {
   fadeInterval: any;
   currentDescription: number;
   state: string = 'visible';
-  titles = ['Welcome to Chinese Christian Church of New Jersey', '歡迎來到主恩堂'];
+  titles = ['Welcome to CCCNJ!', '歡迎來到主恩堂'];
   constructor(private router: Router) { 
     this.currentDescription = 0;
   }
