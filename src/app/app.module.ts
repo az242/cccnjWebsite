@@ -50,13 +50,15 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { EnglishPageComponent } from './english-page/english-page.component';
+import { ContentComponent } from './english-page/content/content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     LandingPageComponent,
-    EnglishPageComponent
+    EnglishPageComponent,
+    ContentComponent
   ],
   imports: [
     BrowserModule,
