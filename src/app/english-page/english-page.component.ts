@@ -11,5 +11,5 @@ export class EnglishPageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
 }

@@ -1,0 +1,39 @@
+.slideshow-fullscreen {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.ssfullscreen {
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.slideshow-fullscreen img {
+  width: 100%;
+}
+
+.carousel-caption {
+  bottom: 50%;
+  z-index: 1;
+}
+
+.background-overlay {
+  // background: url(../../assets/overlay-pattern.png) repeat;
+  background: rgba(0, 0, 0, .4) ;
+  z-index: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.first-layer {
+    z-index: -1;
+}
+
+.second-layer {
+    z-index: 0;
+}
+
+.third-layer {
+    z-index: 1;
+}

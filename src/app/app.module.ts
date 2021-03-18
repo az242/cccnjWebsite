@@ -50,15 +50,18 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { EnglishPageComponent } from './english-page/english-page.component';
-import { ContentComponent } from './english-page/content/content.component';
+import { NavBarComponent } from './english-page/nav-bar/nav-bar.component';
+import { SlideshowComponent } from './english-page/slideshow/slideshow.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent,
     LandingPageComponent,
+    NavigationComponent,
     EnglishPageComponent,
-    ContentComponent
+    NavBarComponent,
+    SlideshowComponent
   ],
   imports: [
     BrowserModule,
@@ -108,6 +111,7 @@ import { ContentComponent } from './english-page/content/content.component';
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
