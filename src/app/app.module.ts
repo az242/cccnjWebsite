@@ -53,6 +53,7 @@ import { EnglishPageComponent } from './english-page/english-page.component';
 import { NavBarComponent } from './english-page/nav-bar/nav-bar.component';
 import { SlideshowComponent } from './english-page/slideshow/slideshow.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { NavigationComponent } from './english-page/navigation/navigation.component';
 
 @NgModule({
   declarations: [
