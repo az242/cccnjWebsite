@@ -53,6 +53,13 @@ import { EnglishPageComponent } from './english-page/english-page.component';
 import { NavBarComponent } from './english-page/nav-bar/nav-bar.component';
 import { SlideshowComponent } from './english-page/slideshow/slideshow.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AboutComponent } from './english-page/about/about.component';
+import { ConnectComponent } from './english-page/connect/connect.component';
+import { MinistriesComponent } from './english-page/ministries/ministries.component';
+import { SermonsComponent } from './english-page/sermons/sermons.component';
+import { GiveComponent } from './english-page/give/give.component';
+import { ResourcesComponent } from './english-page/resources/resources.component';
+import { ContactComponent } from './english-page/contact/contact.component';
 //import { NavigationComponent } from './english-page/navigation/navigation.component';
 
 @NgModule({
@@ -62,7 +69,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavigationComponent,
     EnglishPageComponent,
     NavBarComponent,
-    SlideshowComponent
+    SlideshowComponent,
+    AboutComponent,
+    ConnectComponent,
+    MinistriesComponent,
+    SermonsComponent,
+    GiveComponent,
+    ResourcesComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
