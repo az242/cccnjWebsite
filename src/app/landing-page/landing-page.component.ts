@@ -25,9 +25,23 @@ export class LandingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fadeInterval = setInterval(() => {
-      this.setNewDescription(); 
-      }, 5000);
+    const observer = new IntersectionObserver(entries => {
+      // Loop over the entries
+      entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+          entry.target.classList.add('slide-in');
+          return; // if we added the class, exit the function
+        }
+
+        // We're not intersecting, so remove the class!
+        entry.target.classList.remove('slide-in');
+      });
+    });
+    observer.observe(document.querySelector('.welcome-container'));
+    // this.fadeInterval = setInterval(() => {
+    //   this.setNewDescription(); 
+    //   }, 5000);
   }
   setNewDescription() {
     this.state = 'invisible';
@@ -51,6 +65,9 @@ export class LandingPageComponent implements OnInit {
   mandarinRoute() {
     // this.router.navigate(['/md']);
     window.location.replace("https://cn.cccnj.org/");
+  }
+  click(test) {
+    console.log(test);
   }
 
 }
