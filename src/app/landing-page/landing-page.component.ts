@@ -27,21 +27,21 @@ export class LandingPageComponent implements OnInit {
   ngOnInit(): void {
     const observer = new IntersectionObserver(entries => {
       // Loop over the entries
-      entries.forEach(entry => {
-
+      entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('slide-in');
+          (<HTMLElement>(entry.target)).style.transition = 'opacity 1s cubic-bezier(0.5, 0, 0, 1) ' + index*.3 + 's, transform 1s cubic-bezier(0.5, 0, 0, 1) ' + index*.3 + 's';
+          (<HTMLElement>(entry.target)).style.transform = 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)';
+          (<HTMLElement>(entry.target)).style.opacity = '1';
           return; // if we added the class, exit the function
         }
-
         // We're not intersecting, so remove the class!
-        entry.target.classList.remove('slide-in');
+        (<HTMLElement>(entry.target)).style.transition = '';
+        (<HTMLElement>(entry.target)).style.opacity = '';
+        (<HTMLElement>(entry.target)).style.transform = '';
       });
     });
-    observer.observe(document.querySelector('.welcome-container'));
-    // this.fadeInterval = setInterval(() => {
-    //   this.setNewDescription(); 
-    //   }, 5000);
+    let stuff = document.querySelectorAll<HTMLElement>('.slidein-container');
+    stuff.forEach(element => observer.observe(element));
   }
   setNewDescription() {
     this.state = 'invisible';
