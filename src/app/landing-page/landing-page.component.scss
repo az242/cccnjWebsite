@@ -233,6 +233,11 @@ footer {
             color: var(--accent-1);
         }
     }
+    .amazon-smile-filter {
+        :hover {
+            filter: brightness(53%) sepia(100) saturate(100) hue-rotate(30deg);
+        }
+    }
     .footer-content {
         font-size: 12px;
         line-height: 20px;
