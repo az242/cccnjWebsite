@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     gap: 25px;
+    box-shadow: 0 5px 20px 0px rgba(0,0,0,0.1);
 
     .header-image {
         // width:250px;
@@ -74,6 +75,7 @@
 .event-container {
     padding-top: 25px;
     gap:16px;
+    flex-wrap:wrap;
 }
 .video-background {
     position: relative;
