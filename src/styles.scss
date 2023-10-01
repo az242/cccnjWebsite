@@ -9,6 +9,7 @@ body {
 :root {
   --very-dark: #252525;
   --bg-very-dark: #151515;
+  --bg-light: #efeff0;
   --white: #faf0e6;
   --accent-1: #d43c3c;
   --accent-1-dark: #aa2f2f;
@@ -33,6 +34,16 @@ body {
   &.white {
     color: white;
   }
+  &.black {
+    color: black;
+  }
+}
+.small-header {
+  margin-bottom: 10px;
+  color: var(--accent-1);
+  font: 700 16px/16px 'Poppins';
+  text-transform: uppercase;
+  letter-spacing: 1pt;
 }
 .flex-container {
   display: flex;
@@ -76,9 +87,48 @@ section {
   position: relative;
   &.section-1 {
     background-color: var(--very-dark);
+    z-index: 2;
   }
   &.section-2 {
-    background-color: salmon;
+    background-color: white;
+  }
+  &.postcard {
+    margin-bottom: -125px;
+    background-color: var(--very-dark);
+    z-index: 0;
+    height: 250px;
+    .content {
+      z-index:2;
+      position:absolute;
+      top:50px;
+      .image-container {
+        z-index: 2;
+        width: 575px
+      }
+      .txt-container {
+        position:absolute;
+        top: -5px;
+        left: 560px;
+        background-color: var(--bg-light);
+        padding: 50px;
+        z-index: 1;
+        height: 515px;
+        width:50%;
+        h2 {
+          color: black;
+        }
+        &::after {
+          content: '';
+          width: 50vw;
+          height: 100%;
+          background: var(--bg-light);
+          position: absolute;
+          top: 0;
+          left: 40px;
+          z-index: -1;
+        }
+      }
+    }
   }
 }
 .parallax-container {
@@ -95,9 +145,9 @@ section {
 }
 .parallax__group {
   position: relative;
-  height: 500px;
   transform-style: preserve-3d;
-  z-index:0;
+  z-index:-1;
+  padding-bottom: 700px;
   // overflow:hidden;
 }
 .parallax-layer {
@@ -108,9 +158,11 @@ section {
   left: 0;
 }
 .parallax-layer-base {
+  top: 575px;
   transform: translateZ(0);
 }
 .parallax-layer-back {
+  top: -50px;
   transform: translateZ(-1px) scale(3);
   filter: grayscale(1) brightness(25%);
   background: url("assets/bg.jpg");
@@ -122,11 +174,15 @@ section {
   width: 1100px;
   .txt-container {
     width:40%;
+    
     .txt-body {
       // padding-top: 25px;
       margin: 30px 0 0 0;
       line-height: 30px;
     }
+  }
+  .button-container {
+    margin-top: 30px;
   }
   h2 {
     color:white;
@@ -136,14 +192,26 @@ section {
     text-transform: uppercase;
     // border-bottom: 2px solid var(--accent-1);
   }
-  .divider {
+  .divider-right {
     position: relative;
     &::after {
       content: '';
-      width: 50vw;
+      width: 75vw;
       position: absolute;
       top: 0;
       right: 0;
+      height: 2px;
+      background-color: var(--accent-1);
+    }
+  }
+  .divider-left {
+    position: relative;
+    &::after {
+      content: '';
+      width: 75vw;
+      position: absolute;
+      top: 0;
+      left: 0;
       height: 2px;
       background-color: var(--accent-1);
     }
