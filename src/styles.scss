@@ -147,7 +147,7 @@ section {
   position: relative;
   transform-style: preserve-3d;
   z-index:-1;
-  padding-bottom: 700px;
+  padding-bottom: 1000px;
   // overflow:hidden;
 }
 .parallax-layer {
@@ -158,11 +158,11 @@ section {
   left: 0;
 }
 .parallax-layer-base {
-  top: 575px;
+  top: 400px;
   transform: translateZ(0);
 }
 .parallax-layer-back {
-  top: -50px;
+  top: 250px;
   transform: translateZ(-1px) scale(3);
   filter: grayscale(1) brightness(25%);
   background: url("assets/bg.jpg");
@@ -300,7 +300,7 @@ footer {
 }
 }
 
-.slidein-container, .slidein-container-delay  {
+.slidein-container, .slidein-container-short  {
   opacity: 0;
   transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 40, 0, 1);
 }
