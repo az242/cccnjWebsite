@@ -1,0 +1,60 @@
+footer {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    .column-1 {
+        flex: 1 0 0;
+    }
+    .column-2 {
+        flex: 2 0 0;
+        border-left: 1px solid #535353;
+        border-right: 1px solid #535353;
+    }
+    .column-3 {
+        flex: 1 0 0;
+    }
+    .footer-header {
+        font-family: "Poppins", Helvetica, Arial, sans-serif;
+        line-height: 1;
+        text-transform: uppercase;
+        letter-spacing: 2pt;
+        font-weight: 700;
+        font-size: 16px;
+        margin: 0 0 12px;
+    }
+    .style-1 {
+        text-transform: uppercase;
+        letter-spacing: .5pt;
+        font-size: 13px;
+    }
+    a {
+        color: #fff;
+        text-decoration: none;
+        transition: all .25s ease;
+        &:hover {
+            color: var(--accent-1);
+        }
+    }
+    // .amazon-smile-filter {
+    //     :hover {
+    //         filter: brightness(53%) sepia(100) saturate(100) hue-rotate(30deg);
+    //     }
+    // }
+    .footer-content {
+        font-size: 12px;
+        line-height: 20px;
+        margin: 0 0 25px;
+    }
+    .grid {
+        display: grid;
+        &.two-column {
+            grid-template-columns: 1fr 2fr;
+        }
+    }
+    .icon {
+        font-size: 25px;
+        transition: all .25s ease;
+        &:hover {
+            color: var(--accent-1);
+        }
+    }
+}

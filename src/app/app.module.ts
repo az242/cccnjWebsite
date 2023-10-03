@@ -4,128 +4,116 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationComponent } from './navigation/navigation.component';
-import {A11yModule} from '@angular/cdk/a11y';
-import {ClipboardModule} from '@angular/cdk/clipboard';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {PortalModule} from '@angular/cdk/portal';
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CdkStepperModule} from '@angular/cdk/stepper';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
-import {MatButtonModule} from '@angular/material/button';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatCardModule} from '@angular/material/card';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatListModule} from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSortModule} from '@angular/material/sort';
-import {MatTableModule} from '@angular/material/table';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatTreeModule} from '@angular/material/tree';
-import {OverlayModule} from '@angular/cdk/overlay';
+// import {A11yModule} from '@angular/cdk/a11y';
+// import {ClipboardModule} from '@angular/cdk/clipboard';
+// import {DragDropModule} from '@angular/cdk/drag-drop';
+// import {PortalModule} from '@angular/cdk/portal';
+// import {ScrollingModule} from '@angular/cdk/scrolling';
+// import {CdkStepperModule} from '@angular/cdk/stepper';
+// import {CdkTableModule} from '@angular/cdk/table';
+// import {CdkTreeModule} from '@angular/cdk/tree';
+// import {MatAutocompleteModule} from '@angular/material/autocomplete';
+// import {MatBadgeModule} from '@angular/material/badge';
+// import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+// import {MatButtonModule} from '@angular/material/button';
+// import {MatButtonToggleModule} from '@angular/material/button-toggle';
+// import {MatCardModule} from '@angular/material/card';
+// import {MatCheckboxModule} from '@angular/material/checkbox';
+// import {MatChipsModule} from '@angular/material/chips';
+// import {MatStepperModule} from '@angular/material/stepper';
+// import {MatDatepickerModule} from '@angular/material/datepicker';
+// import {MatDialogModule} from '@angular/material/dialog';
+// import {MatDividerModule} from '@angular/material/divider';
+// import {MatExpansionModule} from '@angular/material/expansion';
+// import {MatGridListModule} from '@angular/material/grid-list';
+// import {MatIconModule} from '@angular/material/icon';
+// import {MatInputModule} from '@angular/material/input';
+// import {MatListModule} from '@angular/material/list';
+// import {MatMenuModule} from '@angular/material/menu';
+// import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+// import {MatPaginatorModule} from '@angular/material/paginator';
+// import {MatProgressBarModule} from '@angular/material/progress-bar';
+// import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+// import {MatRadioModule} from '@angular/material/radio';
+// import {MatSelectModule} from '@angular/material/select';
+// import {MatSidenavModule} from '@angular/material/sidenav';
+// import {MatSliderModule} from '@angular/material/slider';
+// import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+// import {MatSnackBarModule} from '@angular/material/snack-bar';
+// import {MatSortModule} from '@angular/material/sort';
+// import {MatTableModule} from '@angular/material/table';
+// import {MatTabsModule} from '@angular/material/tabs';
+// import {MatToolbarModule} from '@angular/material/toolbar';
+// import {MatTooltipModule} from '@angular/material/tooltip';
+// import {MatTreeModule} from '@angular/material/tree';
+// import {OverlayModule} from '@angular/cdk/overlay';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { EnglishPageComponent } from './english-page/english-page.component';
-import { NavBarComponent } from './english-page/nav-bar/nav-bar.component';
-import { SlideshowComponent } from './english-page/slideshow/slideshow.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AboutComponent } from './english-page/about/about.component';
-import { ConnectComponent } from './english-page/connect/connect.component';
-import { MinistriesComponent } from './english-page/ministries/ministries.component';
-import { SermonsComponent } from './english-page/sermons/sermons.component';
-import { GiveComponent } from './english-page/give/give.component';
-import { ResourcesComponent } from './english-page/resources/resources.component';
-import { ContactComponent } from './english-page/contact/contact.component';
+import { VisitPageComponent } from './visit-page/visit-page.component';
+import { HeaderComponent } from './common/header/header.component';
+import { FooterComponent } from './common/footer/footer.component';
+import { TileOneComponent } from './common/event-tiles/tile-one/tile-one.component';
+import { TileTwoComponent } from './common/event-tiles/tile-two/tile-two.component';
 //import { NavigationComponent } from './english-page/navigation/navigation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
-    NavigationComponent,
-    EnglishPageComponent,
-    NavBarComponent,
-    SlideshowComponent,
-    AboutComponent,
-    ConnectComponent,
-    MinistriesComponent,
-    SermonsComponent,
-    GiveComponent,
-    ResourcesComponent,
-    ContactComponent
+    VisitPageComponent,
+    HeaderComponent,
+    FooterComponent,
+    TileOneComponent,
+    TileTwoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    A11yModule,
-    ClipboardModule,
-    CdkStepperModule,
-    CdkTableModule,
-    CdkTreeModule,
-    DragDropModule,
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatStepperModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatTreeModule,
-    OverlayModule,
-    PortalModule,
-    ScrollingModule,
+    // A11yModule,
+    // ClipboardModule,
+    // CdkStepperModule,
+    // CdkTableModule,
+    // CdkTreeModule,
+    // DragDropModule,
+    // MatAutocompleteModule,
+    // MatBadgeModule,
+    // MatBottomSheetModule,
+    // MatButtonModule,
+    // MatButtonToggleModule,
+    // MatCardModule,
+    // MatCheckboxModule,
+    // MatChipsModule,
+    // MatStepperModule,
+    // MatDatepickerModule,
+    // MatDialogModule,
+    // MatDividerModule,
+    // MatExpansionModule,
+    // MatGridListModule,
+    // MatIconModule,
+    // MatInputModule,
+    // MatListModule,
+    // MatMenuModule,
+    // MatNativeDateModule,
+    // MatPaginatorModule,
+    // MatProgressBarModule,
+    // MatProgressSpinnerModule,
+    // MatRadioModule,
+    // MatRippleModule,
+    // MatSelectModule,
+    // MatSidenavModule,
+    // MatSliderModule,
+    // MatSlideToggleModule,
+    // MatSnackBarModule,
+    // MatSortModule,
+    // MatTableModule,
+    // MatTabsModule,
+    // MatToolbarModule,
+    // MatTooltipModule,
+    // MatTreeModule,
+    // OverlayModule,
+    // PortalModule,
+    // ScrollingModule,
     NgbModule
   ],
   providers: [],

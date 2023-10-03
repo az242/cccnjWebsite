@@ -1,0 +1,67 @@
+h2 {
+    font-size:30px;
+    margin-bottom: 10px;
+    line-height: 30px;
+}
+.tile-content {
+    height:max-content;
+    background:white;
+    flex: 1 0 0;
+    position:relative;
+    a:hover .hover {
+        opacity: 1;
+    }
+    .hover {
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.90);
+        color: #262626;
+        text-align: center;
+        line-height: 18px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        opacity: 0;
+        -webkit-transition: all .25s ease;
+        -moz-transition: all .25s ease;
+        transition: all .25s ease;
+    }
+    .title {
+        font-size: 15px;
+        line-height: 1;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 15px auto 15px;
+        padding: 0 10px;
+    }
+    .txt-container {
+        margin-bottom: 20px;
+    }
+}
+.color-button {
+    // width: 100px;
+    background-color: var(--accent-1-dark);;
+    color: white;
+    width: auto;
+    // height: 15px;
+    // display: inline-block;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 17px 25px 16px;
+    font-size: 14px;
+    line-height: 1;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2pt;
+    box-shadow: rgba(0,0,0,.4) 0 10px 25px;
+    text-decoration: none;
+    transition: all .25s ease;
+    &:hover {
+        background-color: black;
+        color: white;
+    }
+}

@@ -1,30 +1,23 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EnvironmentInjector, OnInit, ViewChild, ViewContainerRef, createComponent } from '@angular/core';
 import { Router } from '@angular/router';
+import { TileOneComponent } from '../common/event-tiles/tile-one/tile-one.component';
 
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
-  animations: [
-    trigger('fade', [
-      state('visible', style({opacity: 1})),
-      state('invisible', style({opacity: 0})),
-      transition('visible => invisible', [animate('0.5s'),]),
-      transition('invisible => visible', [animate('0.5s')]),
-    ]),
-  ],
+  styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent implements OnInit {
-  fadeInterval: any;
-  currentDescription: number;
-  state: string = 'visible';
-  titles = ['Welcome to CCCNJ!', '歡迎來到主恩堂'];
-  constructor(private router: Router) { 
-    this.currentDescription = 0;
+export class LandingPageComponent implements OnInit, AfterViewInit {
+  @ViewChild('eventContainer',{ read: ViewContainerRef }) eventContainer: ViewContainerRef;
+  constructor(private environmentInjector: EnvironmentInjector,private router: Router) { 
+  }
+  ngOnInit(): void {
+    // throw new Error('Method not implemented.');
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.addTiles();
     const observer = new IntersectionObserver(entries => {
       // Loop over the entries
       entries.forEach((entry, index) => {
@@ -59,29 +52,38 @@ export class LandingPageComponent implements OnInit {
     });
     let stuff2 = document.querySelectorAll<HTMLElement>('.slidein-container-short');
     stuff2.forEach(element => observer2.observe(element));
+
+    
   }
-  setNewDescription() {
-    this.state = 'invisible';
-  }
-  end(event) {
-    if(event.toState === 'invisible') {
-      this.currentDescription++;
-      if(this.currentDescription >= this.titles.length) {
-        this.currentDescription = 0;
-      }
-      this.state= 'visible';
+
+  addTiles() {
+    let event = {
+      date: new Date(),
+      displayPhoto: 'https://granger.wpenginepowered.com/wp-content/uploads/2023/08/youngadults_OTbiblestudy_520x520.jpg',
+      shortDescription: 'Short description!',
+      title: 'Young Adult Small Group',
+      location: 'CCCNJ',
+      tags: []
     }
+    let tile1 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
+    tile1.instance.event = event;
+    tile1.location.nativeElement.className="slidein-container-short";
+    this.eventContainer.insert(tile1.hostView);
+    let tile2 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
+    tile2.instance.event = {date: new Date()};
+    tile2.location.nativeElement.className="slidein-container-short";
+    this.eventContainer.insert(tile2.hostView);
+    let tile3 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
+    tile3.instance.event = {date: new Date()};
+    tile3.location.nativeElement.className="slidein-container-short";
+    this.eventContainer.insert(tile3.hostView);
+    let tile4 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
+    tile4.instance.event = {date: new Date()};
+    tile4.location.nativeElement.className="slidein-container-short";
+    this.eventContainer.insert(tile4.hostView);
   }
-  englishRoute() {
-    this.router.navigate(['/en']);
-  }
-  cantoneseRoute() {
-    // this.router.navigate(['/cn']);
-    window.location.replace("https://cn.cccnj.org/");
-  }
-  mandarinRoute() {
-    // this.router.navigate(['/md']);
-    window.location.replace("https://cn.cccnj.org/");
+  arrowClick() {
+    document.querySelector('.section-1').scrollIntoView({behavior:'smooth'});
   }
   click(test) {
     console.log(test);

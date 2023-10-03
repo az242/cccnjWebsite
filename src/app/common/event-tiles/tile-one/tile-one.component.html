@@ -1,0 +1,21 @@
+<div class="font black flex-container vertical" style="height:300px; width: 260px;">
+    <h2>{{event.date.toLocaleDateString('en-us', {month: 'short', day: 'numeric'})}}</h2>
+    <div class="font black tile-content">
+        <a href="#">
+            <div>
+                <img src="{{event.displayPhoto}}" style="width:100%" class="image-frame">
+            </div>
+            <div class="hover flex-container vertical center-all">
+                <div class="title">
+                    {{event.title}}
+                </div>
+                <div class="txt-container">
+                    {{event.shortDescription}}
+                </div>
+                <div class="color-button">
+                    MORE DETAILS
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
