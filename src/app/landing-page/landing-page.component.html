@@ -10,7 +10,7 @@
         <div class="visit-us">
           Come and worship with us
         </div>
-        <a href="#" class="visit-button">
+        <a href="#" class="visit-button" (click)="route('visit', $event)">
           Visit
         </a>
       </div>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <video class="overlay video" playsinline autoplay muted loop oncanplay="this.play()" onloadedmetadata="this.muted = true">
-      <source type="video/mp4" src="assets/Untitled.mp4">
+      <source type="video/mp4" src="assets/output.mp4">
     </video>
   </section>
   <section class="flex-container vertical section-1">

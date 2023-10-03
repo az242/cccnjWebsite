@@ -88,5 +88,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   click(test) {
     console.log(test);
   }
+  route(path, event) {
+    event.preventDefault();
+    this.router.navigate([path]);
+  }
 
 }

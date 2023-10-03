@@ -131,8 +131,8 @@
             stroke-dasharray: 250;
             stroke-dashoffset: 250;
             // fill: none;
-            animation: dash-cccnj 1.5s linear 1s forwards,
-            fill-logo .75s ease-in 2s forwards;
+            animation: dash-cccnj 1.5s linear .25s forwards,
+            fill-logo .75s ease-in 1.25s forwards;
 
             &.c1 {
                 animation-delay: 1s, 2s;
@@ -163,12 +163,12 @@
         stroke-dasharray: 550;
         stroke-dashoffset: 550;
         // fill: none;
-        animation: dash-logo 1.5s linear 1s forwards,
-        fill-logo .75s ease-in 2s forwards;
+        animation: dash-logo 1.5s linear .25s forwards,
+        fill-logo .75s ease-in 1.25s forwards;
     }
 
     g.long-cccnj path {
         fill: #fff;
-        animation: fill-logo .75s ease-in 2s forwards;
+        animation: fill-logo .75s ease-in 1.25s forwards;
     }
 }
