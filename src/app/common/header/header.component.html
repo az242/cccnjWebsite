@@ -148,7 +148,7 @@
           </a>
         </li>
         <li>
-          <a href="#" (click)="click($event)">
+          <a href="#" (click)="route('events', $event)">
             Events
           </a>
         </li>
@@ -163,7 +163,7 @@
           </a>
         </li>
         <li>
-          <a href="#" (click)="click($event)">
+          <a href="#" (click)="route('watch', $event)">
             Watch
           </a>
         </li>
@@ -180,13 +180,13 @@
     </div>
   </div>
 </header>
-<div class="expanded-nav"  [@visibilityChanged]="expanded ? 'in' : 'out'">
+<div id="expandedNav" class="expanded-nav"  [@visibilityChanged]="expanded ? 'in' : 'out'"  (blur)="expanded = false" tabindex="-1">
   <div class="nav-container">
     <div class="group">
-      <a href="#" class="parent">
+      <a href="#" class="parent" (click)="route('visit', $event)">
         Visit
       </a>
-      <a href="#" class="parent">
+      <a href="#" class="parent" (click)="route('events', $event)">
         Events
       </a>
       <a href="#" class="parent">
@@ -195,7 +195,7 @@
       <a href="#" class="parent">
         Give
       </a>
-      <a href="#" class="parent">
+      <a href="#" class="parent" (click)="route('watch', $event)">
         Watch
       </a>
     </div>

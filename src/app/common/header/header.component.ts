@@ -33,7 +33,10 @@ export class HeaderComponent {
     console.log(test);
   }
   expandNav(event) {
-    event.preventDefault;
+    event.preventDefault();
     this.expanded = !this.expanded;
+    if(this.expanded) {
+      setTimeout(()=>{document.getElementById("expandedNav").focus();},100);
+    }
   }
 }

@@ -54,6 +54,8 @@ import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { TileOneComponent } from './common/event-tiles/tile-one/tile-one.component';
 import { TileTwoComponent } from './common/event-tiles/tile-two/tile-two.component';
+import { EventsPageComponent } from './events-page/events-page.component';
+import { WatchPageComponent } from './watch-page/watch-page.component';
 //import { NavigationComponent } from './english-page/navigation/navigation.component';
 
 @NgModule({
@@ -64,7 +66,9 @@ import { TileTwoComponent } from './common/event-tiles/tile-two/tile-two.compone
     HeaderComponent,
     FooterComponent,
     TileOneComponent,
-    TileTwoComponent
+    TileTwoComponent,
+    EventsPageComponent,
+    WatchPageComponent
   ],
   imports: [
     BrowserModule,
