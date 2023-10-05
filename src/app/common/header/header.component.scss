@@ -57,8 +57,10 @@
     }
 
     .user-controls {
-        // margin-left:30px;
-        // padding-left: 100px;
+        width: 100%;
+        max-width: 230px;
+        display: flex;
+        justify-content: end;
         a {
             margin: 1em;
             color: var(--accent-1-dark);
