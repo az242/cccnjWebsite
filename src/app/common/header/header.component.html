@@ -153,12 +153,12 @@
           </a>
         </li>
         <li>
-          <a (click)="click($event)">
+          <a routerLink="/groups">
             Groups
           </a>
         </li>
         <li>
-          <a (click)="click($event)">
+          <a routerLink="/give">
             Give
           </a>
         </li>
@@ -202,10 +202,10 @@
       <a class="parent" routerLink="/events">
         Events
       </a>
-      <a class="parent">
+      <a class="parent" routerLink="/groups">
         Groups
       </a>
-      <a class="parent">
+      <a class="parent" routerLink="/give">
         Give
       </a>
       <a class="parent" routerLink="/watch">
@@ -219,7 +219,7 @@
       <a class="child">
         staff
       </a>
-      <a class="child">
+      <a class="child" routerLink="/events?tag=regeneration">
         events
       </a>
       <!-- <a class="child">
@@ -231,7 +231,7 @@
       <a class="parent">
         Youth
       </a>
-      <a class="child">
+      <a class="child" routerLink="/events?tag=youth">
         events
       </a>
       <a class="child">
@@ -245,7 +245,7 @@
       <a class="parent">
         Children
       </a>
-      <a class="child">
+      <a class="child" routerLink="/events?tag=children">
         Events
       </a>
       <!-- <a class="child">
@@ -280,10 +280,10 @@
       <a class="parent">
         Volunteer
       </a>
-      <a class="parent">
+      <a class="parent" routerLink="/give">
         Give
       </a>
-      <a class="parent">
+      <a class="parent"  routerLink="/contactus">
         Contact Us
       </a>
     </div>
