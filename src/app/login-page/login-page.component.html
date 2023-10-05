@@ -1,0 +1,36 @@
+
+<app-header></app-header>
+<div class="header-padding">
+    <section class="login-background">
+        <div class="content flex-container center-all vertical">
+            <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
+                {{alertMessage}}
+            </div>
+            <div class="login-container">
+                <h3 class="">
+                    Log in
+                </h3>
+                <form (ngSubmit)="login($event)" #loginForm="ngForm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input name="exampleInputEmail1" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input name="exampleInputPassword1" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"  [(ngModel)]="password">
+                    </div>
+                    <div class="form-check">
+                        <input name="rememberMe" type="checkbox" class="form-check-input" id="rememberMe" [(ngModel)]="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember Me</label>
+                    </div>
+                    <div class="flex-container pt-3" style="gap: 20px">
+                        <button type="submit" class="color-button">Login</button>
+                        <button type="button" class="color-button">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<app-footer></app-footer>

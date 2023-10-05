@@ -1,6 +1,6 @@
 <header class="header">
   <div class="flex-container center-all header-container">
-    <a href="#" (click)="route('/', $event)" class="run-animation">
+    <a routerLink="/" class="run-animation">
       <svg class="header-image" version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 274 73" style="enable-background:new 0 0 274 73;" xml:space="preserve">
         <switch>
           <g i:extraneous="self">
@@ -143,37 +143,50 @@
     <nav class="navigation-menu">
       <ul>
         <li>
-          <a href="#" (click)="route('visit', $event)">
+          <a routerLink="/visit">
             Visit
           </a>
         </li>
         <li>
-          <a href="#" (click)="route('events', $event)">
+          <a routerLink="/events">
             Events
           </a>
         </li>
         <li>
-          <a href="#" (click)="click($event)">
+          <a (click)="click($event)">
             Groups
           </a>
         </li>
         <li>
-          <a href="#" (click)="click($event)">
+          <a (click)="click($event)">
             Give
           </a>
         </li>
         <li>
-          <a href="#" (click)="route('watch', $event)">
+          <a routerLink="/watch">
             Watch
           </a>
         </li>
       </ul>
     </nav>
     <div class="user-controls">
-      <a href="#">
+      <a *ngIf="!isLoggedIn" routerLink="/profile">
         <i class="fa-solid fa-user"></i>
       </a>
-      <a href="#" (click)="expandNav($event)">
+      <!-- <a *ngIf="isLoggedIn" class="user-profile">
+        <i class="fa-solid fa-user"></i> {{name}}
+      </a> -->
+      <div *ngIf="isLoggedIn" ngbDropdown class="d-inline-block">
+        <button type="button" class="btn btn-outline-primary user-profile" id="profile-dropdown" ngbDropdownToggle>
+          <i class="fa-solid fa-user"></i> {{name}}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="profile-dropdown">
+          <button ngbDropdownItem routerLink="/profile">Profile</button>
+          <button ngbDropdownItem>My Giving</button>
+          <button ngbDropdownItem (click)="signOut()">Sign Out</button>
+        </div>
+      </div>
+      <a (click)="expandNav($event)">
         <i *ngIf="!expanded" class="fa-solid fa-bars" style="width:20px"></i>
         <i *ngIf="expanded" class="fa-solid fa-x" style="width:20px"></i>
       </a>
@@ -183,94 +196,94 @@
 <div id="expandedNav" class="expanded-nav"  [@visibilityChanged]="expanded ? 'in' : 'out'"  (blur)="expanded = false" tabindex="-1">
   <div class="nav-container">
     <div class="group">
-      <a href="#" class="parent" (click)="route('visit', $event)">
+      <a class="parent" routerLink="/visit">
         Visit
       </a>
-      <a href="#" class="parent" (click)="route('events', $event)">
+      <a class="parent" routerLink="/events">
         Events
       </a>
-      <a href="#" class="parent">
+      <a class="parent">
         Groups
       </a>
-      <a href="#" class="parent">
+      <a class="parent">
         Give
       </a>
-      <a href="#" class="parent" (click)="route('watch', $event)">
+      <a class="parent" routerLink="/watch">
         Watch
       </a>
     </div>
     <div class="group">
-      <a href="#" class="parent">
+      <a class="parent">
         Regeneration
       </a>
-      <a href="#" class="child">
+      <a class="child">
         staff
       </a>
-      <a href="#" class="child">
+      <a class="child">
         events
       </a>
-      <!-- <a href="#" class="child">
+      <!-- <a class="child">
         Sunday School
       </a> -->
-      <a href="#" class="child">
+      <a class="child">
         Regen Times
       </a>
-      <a href="#" class="parent">
+      <a class="parent">
         Youth
       </a>
-      <a href="#" class="child">
+      <a class="child">
         events
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Friday Night Fellowship
       </a>
-      <!-- <a href="#" class="child">
+      <!-- <a class="child">
         Sunday School
       </a> -->
     </div>
     <div class="group">
-      <a href="#" class="parent">
+      <a class="parent">
         Children
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Events
       </a>
-      <!-- <a href="#" class="child">
+      <!-- <a class="child">
         Sunday School
       </a> -->
-      <a href="#" class="child">
+      <a class="child">
         Friday Night
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Children's Choir
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Regen Kids
       </a>
-      <a href="#" class="parent">
+      <a class="parent">
         Ministries
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Chinese Education
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Missions
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Music Ministry
       </a>
-      <a href="#" class="child">
+      <a class="child">
         Community Outreach
       </a>
     </div>
     <div class="group">
-      <a href="#" class="parent">
+      <a class="parent">
         Volunteer
       </a>
-      <a href="#" class="parent">
+      <a class="parent">
         Give
       </a>
-      <a href="#" class="parent">
+      <a class="parent">
         Contact Us
       </a>
     </div>

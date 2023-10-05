@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,25 +9,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
   animations: [
     trigger('visibilityChanged', [
-      state('in', style({
-        opacity: 1,
-        visibility: 'visible'
-      })),
       state('out',   style({
         opacity: 0,
         visibility: 'hidden'
       })),
+      state('in', style({
+        opacity: 1,
+        visibility: 'visible'
+      })),
+      
       transition('in => out', animate('100ms ease-in')),
       transition('out => in', animate('100ms ease-out'))
     ])
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
   expanded: boolean = false;
-  constructor(private router: Router) {
+  isLoggedIn: boolean = false;
+  name: string;
+  constructor(private router: Router, private authService: AuthService) {
+  }
+  ngOnInit(): void {
+    this.authService.loginEvent.subscribe((user)=> {
+      if(user) {
+        this.isLoggedIn = true;
+        this.name = user.displayName;
+      } else {
+        this.name = '';
+        this.isLoggedIn = false;
+      }
+    });
+  }
+  signOut() {
+    this.authService.logout();
   }
   route(path, event) {
-    event.preventDefault();
+    if(event) {
+      event.preventDefault();
+    }
     this.router.navigate([path]);
   }
   click(test) {
