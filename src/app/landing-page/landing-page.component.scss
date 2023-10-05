@@ -19,6 +19,7 @@
         width: 100%;
     }
     .video-preloader {
+        pointer-events: none;
         z-index: 2;
         background-color: var(--very-dark);
         height:100%;

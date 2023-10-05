@@ -83,7 +83,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     this.eventContainer.insert(tile4.hostView);
   }
   arrowClick() {
-    document.querySelector('.section-1').scrollIntoView({behavior:'smooth'});
+    document.querySelector('.very-dark-bg').scrollIntoView({behavior:'smooth'});
   }
   click(test) {
     console.log(test);

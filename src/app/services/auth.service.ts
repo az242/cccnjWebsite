@@ -14,7 +14,10 @@ export class AuthService {
     this.auth.onAuthStateChanged((event)=>{
       this.user = event;
       this.loginEvent.next(this.user);
-      // console.log(this.user);
+    });
+    this.auth.onIdTokenChanged((event)=> {
+      this.user = event;
+      this.loginEvent.next(this.user);
     });
   }
   async login(email, password, rememberMe?): Promise<any> {
@@ -40,6 +43,15 @@ export class AuthService {
     this.user = undefined;
     this.loginEvent.next(undefined);
     this.auth.signOut();
+  }
+  getUser() {
+    return this.user;
+  }
+  getUID() {
+    return this.user.uid;
+  }
+  reload() {
+    this.auth.currentUser.reload();
   }
   async sendPasswordResetEmail(email) {
     try {

@@ -10,4 +10,7 @@ export class UserService {
   test() {
     return this.http.get<any>(`${environment.serviceEndpoints.cccnj}/testpath`);
   }
+  getUser(userId) {
+    return this.http.get<any>(`${environment.serviceEndpoints.cccnj}/user/${userId}`);
+  }
 }

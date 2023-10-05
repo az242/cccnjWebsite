@@ -1,6 +1,57 @@
 <div class="header-padding">
-    <section>
-        Profile
+    <section class="light-bg">
+        <div class="content profile-flex" *ngIf="userProfile">
+            <div class="profile-container" style="flex:1 0 auto">
+                <div class="flex-container center-all vertical">
+                    <div class="circle m-3">
+                        <img src="assets/default-user.svg" alt="Your Image">
+                    </div>
+                    <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
+                    <div>User since 2023</div>
+                    <a>Edit Profile</a>
+                    <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
+                </div>
+            </div>
+            <div class="profile-container" style="max-width: 75%">
+                <h4 class="m-2 underline pb-2">User Info</h4>
+                <div class="flex-container wrap">
+                    <div class="px-2">
+                        <h5>First Name</h5>
+                        <div>{{userProfile.firstName}}</div>
+                    </div>
+                    <div class="px-2">
+                        <h5>Last Name</h5>
+                        <div>{{userProfile.lastName}}</div>
+                    </div>
+                    <div class="px-2">
+                        <h5>Email</h5>
+                        <div>{{userProfile.email}}</div>
+                    </div>
+                    <div class="px-2">
+                        <h5>Phone</h5>
+                        <div>{{userProfile.phoneNumber ? userProfile.phoneNumber : 'N/A'}}</div>
+                    </div>
+                    <div class="px-2">
+                        <h5>Address</h5>
+                        <div class="flex-container vertical">
+                            <div>{{userProfile.address}}</div>
+                            <div>{{userProfile.city}}, {{userProfile.state}}, {{userProfile.zipcode}}</div>
+                        </div>
+                    </div>
+                    <div class="px-2">
+                        <h5>Created</h5>
+                        <div>{{userProfile.created | date:'fullDate'}}</div>
+                    </div>
+                    <div class="px-2">
+                        <h5>Last Logged In</h5>
+                        <div>{{userProfile.loggedIn | date:'fullDate'}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-container" style="max-width: 50%">
+                My Family
+            </div>
+        </div>
     </section>
     <app-footer></app-footer>
 </div>
