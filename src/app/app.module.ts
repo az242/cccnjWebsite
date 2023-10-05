@@ -16,11 +16,14 @@ import { TileOneComponent } from './common/event-tiles/tile-one/tile-one.compone
 import { TileTwoComponent } from './common/event-tiles/tile-two/tile-two.component';
 import { EventsPageComponent } from './events-page/events-page.component';
 import { WatchPageComponent } from './watch-page/watch-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginPageComponent } from './login/login-page/login-page.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/auth.interceptor';
 import { ProfilePageComponent } from './user/profile-page/profile-page.component';
+import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/forgotten-password-page.component';
+import { SignUpPageComponent } from './login/sign-up-page/sign-up-page.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { ProfilePageComponent } from './user/profile-page/profile-page.component
     EventsPageComponent,
     WatchPageComponent,
     LoginPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    ForgottenPasswordPageComponent,
+    SignUpPageComponent,
+    NotFoundPageComponent
   ],
   imports: [
     BrowserModule,

@@ -4,11 +4,13 @@ import { VisitPageComponent } from './visit-page/visit-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { EventsPageComponent } from './events-page/events-page.component';
 import { WatchPageComponent } from './watch-page/watch-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginPageComponent } from './login/login-page/login-page.component';
 import { ProfilePageComponent } from './user/profile-page/profile-page.component';
 import { Auth } from '@angular/fire/auth';
+import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/forgotten-password-page.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
-const authGuard: CanActivateFn = (route, state) => {
+const loggedInGuard: CanActivateFn = (route, state) => {
   const FirebaseAuth = inject(Auth);
   const router = inject(Router);
   if(FirebaseAuth.currentUser) {
@@ -18,16 +20,28 @@ const authGuard: CanActivateFn = (route, state) => {
     return router.createUrlTree(['login'], { queryParams });
   }
 };
+const loggedOutGuard: CanActivateFn = (route, state) => {
+  const FirebaseAuth = inject(Auth);
+  const router = inject(Router);
+  if(FirebaseAuth.currentUser) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 const routes: Routes = [
-  { path: 'profile', component: ProfilePageComponent, canActivate: [authGuard]},
+  { path: 'profile', component: ProfilePageComponent, canActivate: [loggedInGuard]},
+  { path: 'forgottenpassword', component: ForgottenPasswordPageComponent, canActivate: [loggedOutGuard]},
   { path: 'login', component: LoginPageComponent},
   { path: 'visit', component: VisitPageComponent},
   { path: 'events', component: EventsPageComponent},
   { path: 'watch', component: WatchPageComponent},
   // { path: 'visit', component: VisitPageComponent},
   // { path: '*', component: LandingPageComponent},
-  { path: '**', component: LandingPageComponent}
+  { path: '', component: LandingPageComponent},
+  { path: '**', component: NotFoundPageComponent}
+
 ];
 
 

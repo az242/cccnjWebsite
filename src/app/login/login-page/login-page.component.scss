@@ -35,3 +35,11 @@
 .hide-alert {
     display: none;
 }
+
+.forgotten-password {
+    text-decoration: none !important;
+    transition: all .25s ease !important;
+    &:hover {
+        color: var(--accent-1) !important;
+    }
+}

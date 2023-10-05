@@ -178,6 +178,12 @@ section {
 
 .header-padding {
   padding-top: 66px;
+  height:100%;
+  display:flex;
+  flex-direction: column;
+  section {
+    flex: 1 0 0;
+  }
 }
 
 .parallax {

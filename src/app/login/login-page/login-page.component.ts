@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 @Component({
   selector: 'app-login-page',
@@ -36,6 +36,9 @@ export class LoginPageComponent implements OnInit {
     } else {
       this.rememberMe = false;
     }
+  }
+  route(path) {
+    this.router.navigate([path],{queryParamsHandling: 'merge'});
   }
   async login(event) {
     let results = await this.auth.login(this.email, this.password, this.rememberMe);
