@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VisitPageComponent } from './visit-page/visit-page.component';
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -17,13 +17,14 @@ import { TileTwoComponent } from './common/event-tiles/tile-two/tile-two.compone
 import { EventsPageComponent } from './events-page/events-page.component';
 import { WatchPageComponent } from './watch-page/watch-page.component';
 import { LoginPageComponent } from './login/login-page/login-page.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/auth.interceptor';
 import { ProfilePageComponent } from './user/profile-page/profile-page.component';
 import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/forgotten-password-page.component';
 import { SignUpPageComponent } from './login/sign-up-page/sign-up-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { CustomDateParserFormatter } from './utilities/ngDateParser.util';
 
 @NgModule({
   declarations: [
@@ -46,15 +47,18 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
     NgbModule
   ],
   providers: [
     // Register the AuthInterceptor as an interceptor
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
   ],
   bootstrap: [AppComponent]
 })

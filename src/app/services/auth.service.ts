@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, User, signInWithEmailAndPassword, sendPasswordResetEmail } from '@angular/fire/auth';
+import { Auth, User, signInWithEmailAndPassword, sendPasswordResetEmail, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -38,6 +38,9 @@ export class AuthService {
         console.log(errorCode, errorMessage);
         return {errorCode, errorMessage};
       });
+  }
+  async register(email, password): Promise<any> {
+    return await createUserWithEmailAndPassword(this.auth,email,password).catch((error)=>{console.log(error)});
   }
   logout() {
     this.user = undefined;

@@ -12,19 +12,16 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfilePageComponent {
   userProfile;
   constructor(private auth: AuthService, private user: UserService, private router: Router) {}
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     let temp = this.auth.getUser();
-    console.log(temp);
     this.userProfile = {displayName: temp.displayName, phoneNumber: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime};
-    this.user.getUser(this.auth.getUID()).subscribe((userProfile) => {
-      this.userProfile = {...this.userProfile, ...userProfile.user};
-      console.log(this.userProfile);
-    });
+    let dbUser = await this.user.getUser(this.auth.getUID());
+    this.userProfile = {...this.userProfile, ...dbUser};
     this.auth.loginEvent.subscribe((user)=> {
       if(!user) {
         this.router.navigate(['login'], {queryParams: {path:'profile'}});
       } else {
-        console.log('login-event');
+        // console.log('login-event');
         this.userProfile = {...this.userProfile, displayName: temp.displayName, phoneNumber: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email }
       }
     });

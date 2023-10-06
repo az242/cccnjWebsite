@@ -9,6 +9,7 @@ import { ProfilePageComponent } from './user/profile-page/profile-page.component
 import { Auth } from '@angular/fire/auth';
 import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/forgotten-password-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { SignUpPageComponent } from './login/sign-up-page/sign-up-page.component';
 
 const loggedInGuard: CanActivateFn = (route, state) => {
   const FirebaseAuth = inject(Auth);
@@ -31,6 +32,7 @@ const loggedOutGuard: CanActivateFn = (route, state) => {
 };
 
 const routes: Routes = [
+  { path: 'registration', component: SignUpPageComponent},
   { path: 'profile', component: ProfilePageComponent, canActivate: [loggedInGuard]},
   { path: 'forgottenpassword', component: ForgottenPasswordPageComponent, canActivate: [loggedOutGuard]},
   { path: 'login', component: LoginPageComponent},

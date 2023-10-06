@@ -20,7 +20,9 @@ export class AuthInterceptor implements HttpInterceptor {
   async handle(req: HttpRequest<any>, next: HttpHandler) {
     // if your getAuthToken() function declared as "async getAuthToken() {}"
     let idToken = await this.firebaseAuth.currentUser.getIdToken();
+    console.log(req);
     if(idToken) {
+      console.log('adjusted headers wtih id token: ',idToken);
       const authReq = req.clone({
         setHeaders: {
           Authorization: idToken
