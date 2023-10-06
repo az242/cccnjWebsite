@@ -34,8 +34,8 @@
                     <div class="px-2">
                         <h5>Address</h5>
                         <div class="flex-container vertical">
-                            <div>{{userProfile.address}}</div>
-                            <div>{{userProfile.city}}, {{userProfile.state}}, {{userProfile.zipcode}}</div>
+                            <div>{{userProfile.address.street}}</div>
+                            <div>{{userProfile.address.city}}, {{userProfile.address.state}}, {{userProfile.address.zip}}</div>
                         </div>
                     </div>
                     <div class="px-2">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="px-2">
                         <h5>Date of Birth</h5>
-                        <div>{{userProfile.birthday}}</div>
+                        <div>{{userProfile.dob ? userProfile.dob.month + '/' + userProfile.dob.day + '/' + userProfile.dob.year : 'N/A'}}</div>
                     </div>
                 </div>
             </div>
