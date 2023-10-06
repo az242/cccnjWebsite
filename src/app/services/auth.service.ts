@@ -53,8 +53,9 @@ export class AuthService {
   getUID() {
     return this.user.uid;
   }
-  reload() {
-    this.auth.currentUser.reload();
+  async reload() {
+    await this.auth.currentUser.reload();
+    this.user = this.auth.currentUser;
   }
   async sendPasswordResetEmail(email) {
     try {

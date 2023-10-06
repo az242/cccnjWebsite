@@ -83,7 +83,7 @@ export class SignUpPageComponent {
   }
   async test(event) {
     event.preventDefault();
-    let formValue = this.profileForm.value;
+    let formValue: any = this.profileForm.value;
     delete formValue.password;
     delete formValue.passwordCheck;
     if(this.profileForm.valid) {
@@ -91,7 +91,10 @@ export class SignUpPageComponent {
       console.log('registration results', results);
       
       if(results) {
+        this.auth.reload();
         await updateProfile(this.auth.getUser(), {displayName: formValue.firstName + ' ' + formValue.lastName, photoURL: undefined});
+        this.auth.reload();
+        formValue.uid = this.auth.getUID();
         let userResult = await this.userService.createUser(formValue);
         console.log('saved user profile: ', userResult);
         this.alertMessage = undefined;
