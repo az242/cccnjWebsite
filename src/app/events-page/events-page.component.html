@@ -1,6 +1,30 @@
 <div class="header-padding">
-    <section>
-        Events
+    <section class="p-0 flex-container vertical">
+        <div style="position:relative; width:100%">
+            <div class="header-background"></div>
+            <div class="w-100 flex-container center-all" style="position:fixed; top:0;">
+                <div class="content">
+                    <h2>Events</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="flex-container vertical p-0">
+        <div class="content flex-container center-all">
+            <div ngbDropdown class="d-inline-block" [container]="'body'">
+                <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
+                    Group
+                </button>
+                <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
+                    <button ngbDropdownItem>test</button>
+                    <button ngbDropdownItem>test2</button>
+                    <button ngbDropdownItem>test3</button>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            Events go here
+        </div>
     </section>
     <app-footer></app-footer>
 </div>
