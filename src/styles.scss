@@ -26,7 +26,13 @@ body {
 a {
   cursor: pointer;
 }
-
+p {
+  font-size: 14px;
+  line-height: 24px;
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  color: #292929;
+  font-weight: 400;
+}
 .full-page {
   height: 100vh;
 }
@@ -265,8 +271,9 @@ h1 {
 }
 h2 {
   margin-bottom: 40px !important;
+  letter-spacing: normal !important;
   font-family: 'Poppins', sans-serif !important;
-  font: 700 80px/80px 'Poppins' !important;
+  font: 700 50px/50px 'Poppins' !important;
   text-transform: uppercase !important;
   // border-bottom: 2px solid var(--accent-1);
 }
@@ -279,7 +286,7 @@ h4 {
   font-family: "Poppins", Helvetica, Arial, sans-serif !important;
   line-height: 1 !important;
   text-transform: uppercase !important;
-  letter-spacing: 2pt !important;
+  letter-spacing: 1pt !important;
   font-weight: 700 !important;
   font-size: 16px !important;
   margin: 0 0 12px !important;

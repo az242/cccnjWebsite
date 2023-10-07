@@ -33,7 +33,7 @@
                     </div>
                     <div class="px-2">
                         <h5>Address</h5>
-                        <div class="flex-container vertical">
+                        <div class="flex-container vertical" *ngIf="userProfile.address">
                             <div>{{userProfile.address.street}}</div>
                             <div>{{userProfile.address.city}}, {{userProfile.address.state}}, {{userProfile.address.zip}}</div>
                         </div>

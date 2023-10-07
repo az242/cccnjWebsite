@@ -42,7 +42,8 @@ const routes: Routes = [
   // { path: 'visit', component: VisitPageComponent},
   // { path: '*', component: LandingPageComponent},
   { path: '', component: LandingPageComponent},
-  { path: '**', component: NotFoundPageComponent}
+  { path: 'not-found', component: NotFoundPageComponent},
+  { path: '**', redirectTo: '/not-found'}
 
 ];
 
