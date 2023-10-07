@@ -9,3 +9,18 @@
         height: 350px
     }
 }
+
+.filter-button {
+    text-decoration: none;
+    border: none;
+    color: var(--accent-1);
+    &:hover, &:focus {
+        background-color: var(--accent-1);
+        color: white;
+    }
+    
+}
+
+.expect-bg {
+    background-color: var(--bg-light);
+}

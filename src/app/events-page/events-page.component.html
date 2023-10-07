@@ -11,19 +11,40 @@
     </section>
     <section class="flex-container vertical p-0">
         <div class="content flex-container center-all">
-            <div ngbDropdown class="d-inline-block" [container]="'body'">
+            <div ngbDropdown class="d-inline-block p-3" [container]="'body'">
                 <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
-                    Group
+                    <h4 style="display:inline">Group</h4>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
-                    <button ngbDropdownItem>test</button>
-                    <button ngbDropdownItem>test2</button>
-                    <button ngbDropdownItem>test3</button>
+                    <button ngbDropdownItem>Regeneration</button>
+                    <button ngbDropdownItem>Taiwanese</button>
+                    <button ngbDropdownItem>Mandarin</button>
+                </div>
+            </div>
+            <div ngbDropdown class="d-inline-block p-3" [container]="'body'">
+                <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
+                    <h4 style="display:inline">Age</h4>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
+                    <button ngbDropdownItem>Kids</button>
+                    <button ngbDropdownItem>Youth</button>
+                    <button ngbDropdownItem>Adult</button>
+                </div>
+            </div>
+            <div ngbDropdown class="d-inline-block p-3" [container]="'body'">
+                <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
+                    <h4 style="display:inline">Date</h4>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
+                    <button ngbDropdownItem>This Month</button>
+                    <button ngbDropdownItem>This Week</button>
                 </div>
             </div>
         </div>
+    </section>
+    <section class="expect-bg">
         <div class="content">
-            Events go here
+            events go in here
         </div>
     </section>
     <app-footer></app-footer>
