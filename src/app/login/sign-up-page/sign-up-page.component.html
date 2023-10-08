@@ -8,7 +8,7 @@
                 <h3 class="">
                     Registration
                 </h3>
-                <div [formGroup]="profileForm">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmit($event)">
                     <div class="form-group">
                         <label for="email">Email address</label>
                         <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email">
@@ -31,6 +31,7 @@
                         <label for="lastName">Date of Birth</label>
                         <div class="input-group">
                             <input
+                                onkeydown="event.preventDefault()"
                                 class="form-control"
                                 placeholder="mm/dd/yyyy"
                                 name="dp"
@@ -85,11 +86,10 @@
                         </div>
                         
                       </div>
-                    
-                </div>
-                <div class="flex-container pt-3" style="gap: 20px">
-                    <button type="button" class="color-button" (click)="test($event)">Register</button>
-                </div>
+                    <div class="flex-container pt-3" style="gap: 20px">
+                        <button type="submit" class="color-button">Register</button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>

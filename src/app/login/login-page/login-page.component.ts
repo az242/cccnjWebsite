@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
+import { DbService } from '../../services/user.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 @Component({
   selector: 'app-login-page',
@@ -13,7 +13,7 @@ export class LoginPageComponent implements OnInit {
   rememberMe: boolean;
   alertMessage: string;
   forwardUrl: string;
-  constructor(private auth: AuthService, private user: UserService, private router: Router, private activedRoute: ActivatedRoute) {}
+  constructor(private auth: AuthService, private user: DbService, private router: Router, private activedRoute: ActivatedRoute) {}
   ngOnInit(): void {
     this.activedRoute.queryParams.subscribe((params: Params) => {
       this.forwardUrl = params['path'];

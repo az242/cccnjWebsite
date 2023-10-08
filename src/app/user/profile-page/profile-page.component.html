@@ -1,59 +1,91 @@
 <div class="header-padding">
     <section class="light-bg">
         <div class="content profile-flex" *ngIf="userProfile">
-            <div class="profile-container" style="flex:1 0 auto">
-                <div class="flex-container center-all vertical">
-                    <div class="circle m-3">
-                        <img src="assets/default-user.svg" alt="Your Image">
+            <div class="flex-container w-100 gap-25">
+                <div class="profile-container " style="flex: 1 0 0">
+                    <div class="flex-container center-all vertical">
+                        <div class="circle m-3">
+                            <img src="assets/default-user.svg" alt="Your Image">
+                        </div>
+                        <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
+                        <div>User since 2023</div>
+                        <a>Edit Profile</a>
+                        <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
                     </div>
-                    <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
-                    <div>User since 2023</div>
-                    <a>Edit Profile</a>
-                    <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
                 </div>
-            </div>
-            <div class="profile-container" style="max-width: 75%">
-                <h4 class="m-2 underline pb-2">User Info</h4>
-                <div class="flex-container wrap">
-                    <div class="px-2">
-                        <h5>First Name</h5>
-                        <div>{{userProfile.firstName}}</div>
-                    </div>
-                    <div class="px-2">
-                        <h5>Last Name</h5>
-                        <div>{{userProfile.lastName}}</div>
-                    </div>
-                    <div class="px-2">
-                        <h5>Email</h5>
-                        <div>{{userProfile.email}}</div>
-                    </div>
-                    <div class="px-2">
-                        <h5>Phone</h5>
-                        <div>{{userProfile.phoneNumber ? userProfile.phoneNumber : 'N/A'}}</div>
-                    </div>
-                    <div class="px-2">
-                        <h5>Address</h5>
-                        <div class="flex-container vertical" *ngIf="userProfile.address">
-                            <div>{{userProfile.address.street}}</div>
-                            <div>{{userProfile.address.city}}, {{userProfile.address.state}}, {{userProfile.address.zip}}</div>
+                <div class="profile-container" style="max-width: 75%; flex: 4 0 0">
+                    <h4 class="m-2 underline pb-2">User Info</h4>
+                    <div class="flex-container vertical gap-25">
+                        <div class="flex-container user-info">
+                            <div class="px-2">
+                                <h5>First Name</h5>
+                                <div>{{userProfile.firstName}}</div>
+                            </div>
+                            <div class="px-2">
+                                <h5>Last Name</h5>
+                                <div>{{userProfile.lastName}}</div>
+                            </div>
+                            <div class="px-2">
+                                <h5>Date of Birth</h5>
+                                <div>{{userProfile.dob ? userProfile.dob.month + '/' + userProfile.dob.day + '/' + userProfile.dob.year : 'N/A'}}</div>
+                            </div>
+                            <div class="px-2">
+                                <h5>Member Status</h5>
+                                <div>{{userProfile.member ? 'Member since ' + userProfile.member.year : 'N/A'}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-container user-info">
+                            <div class="px-2">
+                                <h5>Email</h5>
+                                <div>{{userProfile.email}}</div>
+                            </div>
+                            <div class="px-2">
+                                <h5>Phone</h5>
+                                <div>{{userProfile.phoneNumber ? userProfile.phoneNumber : 'N/A'}}</div>
+                            </div>
+                            <div class="px-2">
+                                <h5>Address</h5>
+                                <div class="flex-container vertical" *ngIf="userProfile.address">
+                                    <div>{{userProfile.address.street}}</div>
+                                    <div>{{userProfile.address.city}}, {{userProfile.address.state}}, {{userProfile.address.zip}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-container user-info">
+                            <div class="px-2">
+                                <h5>Created</h5>
+                                <div>{{userProfile.created | date:'fullDate'}}</div>
+                            </div>
+                            <div class="px-2">
+                                <h5>Last Logged In</h5>
+                                <div>{{userProfile.loggedIn | date:'fullDate'}}</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="px-2">
-                        <h5>Created</h5>
-                        <div>{{userProfile.created | date:'fullDate'}}</div>
-                    </div>
-                    <div class="px-2">
-                        <h5>Last Logged In</h5>
-                        <div>{{userProfile.loggedIn | date:'fullDate'}}</div>
-                    </div>
-                    <div class="px-2">
-                        <h5>Date of Birth</h5>
-                        <div>{{userProfile.dob ? userProfile.dob.month + '/' + userProfile.dob.day + '/' + userProfile.dob.year : 'N/A'}}</div>
-                    </div>
                 </div>
             </div>
-            <div class="profile-container" style="max-width: 50%">
-                My Family
+            <div class="flex-container w-100  gap-25">
+                <div class="profile-container" style="max-width: 50%">
+                    <h4 class="m-2 underline pb-2">My Family</h4>
+                    <div id="family-container" class="flex-container p-3">
+                        <div>
+                            
+                        </div>
+                        <a id="add-family-button" class="flex-container center-all vertical add-family-button">
+                            <div class="circle m-3">
+                                <img src="assets/default-user.svg" alt="Your Image">
+                            </div>
+                            <h5 class="mb-3">Add Member</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="profile-container" style="max-width: 50%">
+                    <h4 class="m-2 underline pb-2">My Giving</h4>
+                    <div id="giving-container" class="flex-container p-3">
+                        something here
+                    </div>
+                </div>
             </div>
         </div>
     </section>

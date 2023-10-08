@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
+import { DbService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -11,12 +11,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfilePageComponent {
   userProfile;
-  constructor(private auth: AuthService, private user: UserService, private router: Router) {}
+  constructor(private auth: AuthService, private user: DbService, private router: Router) {}
   async ngOnInit(): Promise<void> {
     let temp = this.auth.getUser();
     this.userProfile = {displayName: temp.displayName, phoneNumber: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime};
-    let dbUser = await this.user.getUser(this.auth.getUID());
-    this.userProfile = {...this.userProfile, ...dbUser};
     this.auth.loginEvent.subscribe((user)=> {
       if(!user) {
         this.router.navigate(['login'], {queryParams: {path:'profile'}});
@@ -25,6 +23,9 @@ export class ProfilePageComponent {
         this.userProfile = {...this.userProfile, displayName: temp.displayName, phoneNumber: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email }
       }
     });
+    let dbUser = await this.user.getUser(this.auth.getUID());
+    this.userProfile = {...this.userProfile, ...dbUser};
+    
   }
   async saveProfile() {
     await updateProfile(this.auth.getUser(), {displayName: this.userProfile.firstName + ' ' + this.userProfile.lastName, photoURL: this.userProfile.photoUrl});

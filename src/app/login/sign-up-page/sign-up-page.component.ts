@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
+import { DbService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -12,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SignUpPageComponent {
   alertMessage: string;
+  uhg: boolean = true;
   profileForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     firstName: [''],
@@ -24,8 +26,11 @@ export class SignUpPageComponent {
     }),
     password: ['', Validators.required],
     passwordCheck: [''],
-    dob: [''],
-    phone: ['']
+    dob: [{value: {}}],
+    phone: [''],
+    roles: [[]],
+    groups: [[]],
+    events: [[]],
   }, {validators: passwordValidator});
   americanStates = [
     { abbreviation: 'AL', name: 'Alabama' },
@@ -79,23 +84,20 @@ export class SignUpPageComponent {
     { abbreviation: 'WI', name: 'Wisconsin' },
     { abbreviation: 'WY', name: 'Wyoming' },
   ];
-  constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private userService: UserService) {
+  constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private userService: DbService) {
   }
-  async test(event) {
+  async onSubmit(event) {
     event.preventDefault();
-    let formValue: any = this.profileForm.value;
-    delete formValue.password;
-    delete formValue.passwordCheck;
     if(this.profileForm.valid) {
-      let results = await this.auth.register(this.profileForm.get('email').value, this.profileForm.get('password').value);
+      let { password, passwordCheck, ...user } = this.profileForm.value;
+      let results = await this.auth.register(user.email, password);
       console.log('registration results', results);
       
       if(results) {
-        this.auth.reload();
-        await updateProfile(this.auth.getUser(), {displayName: formValue.firstName + ' ' + formValue.lastName, photoURL: undefined});
-        this.auth.reload();
-        formValue.uid = this.auth.getUID();
-        let userResult = await this.userService.createUser(formValue);
+        await this.auth.reload();
+        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: undefined});
+        await this.auth.reload();
+        let userResult = await this.userService.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);
         this.alertMessage = undefined;
         this.route('/profile');
