@@ -145,6 +145,10 @@
             // fill: none;
             animation: dash-cccnj 1.5s linear .25s forwards,
             fill-logo .75s ease-in 1.25s forwards;
+            -moz-animation: dash-cccnj 1.5s linear .25s forwards,
+            fill-logo .75s ease-in 1.25s forwards;
+            -webkit-animation: dash-cccnj 1.5s linear .25s forwards,
+            fill-logo .75s ease-in 1.25s forwards;
 
             &.c1 {
                 animation-delay: 1s, 2s;
@@ -177,11 +181,17 @@
         // fill: none;
         animation: dash-logo 1.5s linear .25s forwards,
         fill-logo .75s ease-in 1.25s forwards;
+        -moz-animation: dash-logo 1.5s linear .25s forwards,
+        fill-logo .75s ease-in 1.25s forwards;
+        -webkit-animation: dash-logo 1.5s linear .25s forwards,
+        fill-logo .75s ease-in 1.25s forwards;
     }
 
     g.long-cccnj path {
         fill: #fff;
         animation: fill-logo .75s ease-in 1.25s forwards;
+        -moz-animation: fill-logo .75s ease-in 1.25s forwards;
+        -webkit-animation: fill-logo .75s ease-in 1.25s forwards;
     }
 }
 
