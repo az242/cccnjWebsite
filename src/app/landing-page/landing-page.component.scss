@@ -25,6 +25,8 @@
         height:100%;
         width:100%;
         animation: fadeout 1.5s ease-out 1s forwards;
+        -moz-animation: fadeout 1.5s ease-out 1s forwards;
+        -webkit-animation: fadeout 1.5s ease-out 1s forwards;
     }
     .content {
         z-index: 1;
