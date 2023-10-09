@@ -24,9 +24,11 @@ export class SignUpPageComponent {
       state: [''],
       zip: ['']
     }),
+    family: [''],
     password: ['', Validators.required],
     passwordCheck: [''],
     dob: [{value: {}}],
+    photoUrl: [''],
     phone: [''],
     roles: [[]],
     groups: [[]],
@@ -95,7 +97,7 @@ export class SignUpPageComponent {
       
       if(results) {
         await this.auth.reload();
-        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: undefined});
+        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: user.photoUrl ? user.photoUrl : undefined });
         await this.auth.reload();
         let userResult = await this.userService.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);

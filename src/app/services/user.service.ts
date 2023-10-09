@@ -11,21 +11,10 @@ import { User } from '../common/user.model';
 export class DbService {
   firestore: Firestore = inject(Firestore);
   userCollection = collection(this.firestore, 'users');
+  familyCollection = collection(this.firestore, 'families');
+  constructor() { }
 
-  constructor(private http: HttpClient) { }
-  // test() {
-  //   return this.http.get<any>(`${environment.serviceEndpoints.cccnj}/testpath`);
-  // }
   async getUser(userId: string) {
-    // db.collection('users').where('uid', '==', userId).limit(1);
-    // const q = query(this.userCollection, where("uid", "==", userId), limit(1));
-    // let temp;
-    // const querySnapshot = await getDocs(q);
-    // querySnapshot.forEach((doc) => {
-    //   temp = doc.data();
-    // });
-    // return temp;
-
     const docRef = doc(this.userCollection, userId);
     const docSnap = await getDoc(docRef);
 
@@ -34,6 +23,17 @@ export class DbService {
     } else {
       return undefined;
     }
+  }
+  async getAllUsers() {
+    let users = [];
+    const querySnapshot = await getDocs(this.userCollection);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      let user = {uid: doc.id, ... doc.data()}
+      users.push(user);
+    });
+    return users;
   }
   async createUser(userId: string, user) {
     let result = await setDoc(doc(this.userCollection, userId), user);
@@ -44,11 +44,22 @@ export class DbService {
     const q = query(this.userCollection, where(documentId(), "in", userIds));
     
     const productsDocsSnap = await getDocs(q);
-    let users: User[] = [];
+    let users = [];
     productsDocsSnap.forEach((doc) => {
-      users.push(doc.data() as User);
+      users.push(doc.data());
     });
     return users;
+  }
+  async getFamilyMembers(familyId) {
+    const docRef = doc(this.familyCollection, familyId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      let familyData = docSnap.data()
+      return await this.getUsers(familyData.members);
+    } else {
+      return [];
+    }
   }
   async createFamily(userId: string) {
 

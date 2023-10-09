@@ -1,10 +1,12 @@
 export interface User {
+    photoUrl: string;
     firstName: string;
     lastName: string;
     email: string;
     address: Address;
     dob: DateOfBirth;
     phone: string;
+    family: string;
     roles: Array<string>;
     groups: Array<string>;
     events: Array<string>;

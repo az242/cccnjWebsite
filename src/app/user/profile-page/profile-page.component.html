@@ -5,7 +5,8 @@
                 <div class="profile-container " style="flex: 1 0 0">
                     <div class="flex-container center-all vertical">
                         <div class="circle m-3">
-                            <img src="assets/default-user.svg" alt="Your Image">
+                            <img *ngIf="userProfile.photoUrl" src="{{userProfile.photoUrl}}" alt="Your Image">
+                            <img *ngIf="!userProfile.photoUrl" src="assets/default-user.svg" alt="Your Image">
                         </div>
                         <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
                         <div>User since 2023</div>
@@ -69,10 +70,16 @@
                 <div class="profile-container" style="max-width: 50%">
                     <h4 class="m-2 underline pb-2">My Family</h4>
                     <div id="family-container" class="flex-container p-3">
-                        <div>
-                            
+                        <div class="flex-container center-all vertical">
+                            <div class="circle m-3">
+                                <img *ngIf="userProfile.photoUrl" src="{{userProfile.photoUrl}}" alt="Your Image">
+                                <img *ngIf="!userProfile.photoUrl" src="assets/default-user.svg" alt="Your Image">
+                            </div>
+                            <h5 class="mb-3">{{userProfile.firstName}} {{userProfile.lastName}}</h5>
                         </div>
-                        <a id="add-family-button" class="flex-container center-all vertical add-family-button">
+                        <div *ngFor="let user of family">
+                        </div>
+                        <a id="add-family-button" class="flex-container center-all vertical add-family-button" data-toggle="modal" data-target="#exampleModal">
                             <div class="circle m-3">
                                 <img src="assets/default-user.svg" alt="Your Image">
                             </div>
@@ -90,4 +97,26 @@
         </div>
     </section>
     <app-footer></app-footer>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Add Family Member</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="p-2">
+                    Find member by entering first/last name or email
+                </div>
+                <input id="typeahead-basic" type="text" class="form-control w-100" [(ngModel)]="member" [ngbTypeahead]="search" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addFamilyMember()">Add</button>
+            </div>
+        </div>
+    </div>
 </div>
