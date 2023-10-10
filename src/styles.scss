@@ -435,19 +435,19 @@ footer {
 }
 
 @keyframes fill-logo {
-  0% {
+  to {
     fill:#fff;
   }
-  25% {
-    fill:#c5c5c5;
-  }
-  50% {
-    fill:#858585;
-  }
-  70% {
-    fill:#424242;
-  }
-  100% {
+  // 25% {
+  //   fill:#c5c5c5;
+  // }
+  // 50% {
+  //   fill:#858585;
+  // }
+  // 70% {
+  //   fill:#424242;
+  // }
+  from {
     fill: black;
   }
 }
