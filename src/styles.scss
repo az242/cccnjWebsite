@@ -435,12 +435,20 @@ footer {
 }
 
 @keyframes fill-logo {
-  from {
-      fill: white;
+  0% {
+    fill:#fff;
   }
-
-  to {
-      fill: black;
+  25% {
+    fill:#c5c5c5;
+  }
+  50% {
+    fill:#858585;
+  }
+  70% {
+    fill:#424242;
+  }
+  100% {
+    fill: black;
   }
 }
 

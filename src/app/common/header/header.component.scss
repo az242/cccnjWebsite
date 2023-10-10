@@ -137,7 +137,7 @@
 .run-animation {
     g.cccnj {
         & path {
-            fill: #fff;
+            fill: transparent;
             stroke: black;
             stroke-width: .75px;
             stroke-dasharray: 250;
@@ -146,8 +146,13 @@
             /* @keyframes duration | timing-function | delay | 
 iteration-count | direction | fill-mode | play-state | name 
                 3s ease-in 1s 2 reverse both paused slidein;*/
-            animation: 1.5s linear .25s 1 normal forwards running dash-cccnj,
-             .75s ease-in 1.25s 1 normal forwards running fill-logo;
+            animation: dash-cccnj 1.5s linear .25s forwards,
+            fill-logo .75s ease-in 1.25s forwards;
+            // animation-name: dash-cccnj, fill-logo;
+            // animation-duration: 1.5s,.75s;
+            // animation-timing-function: linear,ease-in;
+            // animation-delay: .25s,.75s;
+            // animation-fill-mode: forwards,forwards;
 
             &.c1 {
                 animation-delay: 1s, 2s;
@@ -172,21 +177,29 @@ iteration-count | direction | fill-mode | play-state | name
     }
 
     path.logo {
-        fill: #fff;
+        fill: transparent;
         stroke: black;
         stroke-width: .75px;
         stroke-dasharray: 550;
         stroke-dashoffset: 550;
         // fill: none;
-        /* @keyframes duration | easing-function | delay |
-iteration-count | direction | fill-mode | play-state | name */
-        animation:  1.5s linear .25s 1 normal forwards running dash-logo,
-        .75s ease-in 1.25s 1 normal forwards running fill-logo;
+        animation: dash-logo 1.5s linear .25s forwards,
+        fill-logo .75s ease-in 1.25s forwards;
+        // animation-name: dash-cccnj, fill-logo;
+        //     animation-duration: 1.5s,.75s;
+        //     animation-timing-function: linear,ease-in;
+        //     animation-delay: .25s,.75s;
+        //     animation-fill-mode: forwards,forwards;
     }
 
     g.long-cccnj path {
-        fill: #fff;
-        animation:  .75s ease-in 1.25s 1 normal forwards running fill-logo;
+        fill: transparent;
+        animation: fill-logo .75s ease-in 1.25s forwards;
+        // animation-name: fill-logo;
+        // animation-duration: .75s;
+        // animation-timing-function: ease-in;
+        // animation-delay: 1.25s;
+        // animation-fill-mode: forwards;
     }
 }
 
