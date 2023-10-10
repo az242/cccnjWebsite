@@ -1,56 +1,107 @@
-.form-group {
-    label {
+.family-container {
+  flex: 1 1 auto;
+}
 
-    }
-}
 .profile-flex {
-    display: flex;
-    gap:25px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
 }
+
 .profile-container {
-    background-color: white;
-    border: 1px solid #dbdbdb;
-    border-radius: 10px;
-    box-shadow: rgba(0,0,0,.4) 0 10px 25px;
-    padding:20px;
-}
-.underline {
-    border-bottom: 2px solid var(--accent-1);
-}
-a {
-    // color: #fff;
-    text-decoration: none;
-    transition: all .25s ease;
-    &:hover {
-        color: var(--accent-1) !important;
+  background-color: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, .4) 0 10px 25px;
+  padding: 20px;
+  &.family {
+    flex: 1 1 auto;
+    max-width: 50%;
+    @media only screen and (max-width: 850px) {
+      max-width: 100%;
     }
+  }
+  &.giving {
+    flex: 1 1 auto;
+    max-width: 50%;
+    .subtitle {
+      font-size: 12px;
+    }
+    @media only screen and (max-width: 850px) {
+      max-width: 100%;
+    }
+  }
+  &.profile {
+    flex: 1 1 auto;
+    max-width: 25%;
+    @media only screen and (max-width: 850px) {
+      max-width: 100%;
+    }
+  }
+  &.info {
+    flex: 4 1 auto;
+    max-width: 75%;
+    @media only screen and (max-width: 850px) {
+      max-width: 100%;
+    }
+  }
+  &.admin {
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+}
+.flex-container {
+  @media only screen and (max-width: 850px) {
+    flex-direction: column;
+  }
+}
+
+.underline {
+  border-bottom: 2px solid var(--accent-1);
+}
+
+a {
+  // color: #fff;
+  text-decoration: none;
+  transition: all .25s ease;
+
+  &:hover {
+    color: var(--accent-1) !important;
+  }
 }
 
 .circle {
-    width: 128px; /* Adjust the width and height as needed */
-    height: 128px;
-    aspect-ratio: 1;
-    border-radius: 50%; /* Creates a circular clipping mask */
-    overflow: hidden; /* Ensures that the image stays within the circle */
+  width: 128px;
+  /* Adjust the width and height as needed */
+  height: 128px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  /* Creates a circular clipping mask */
+  overflow: hidden;
+  /* Ensures that the image stays within the circle */
+}
+
+.circle img {
+  width: 100%;
+  /* Make the image cover the entire circle */
+  height: 100%;
+  /* Maintain the aspect ratio of the image */
+}
+
+.gap-25 {
+  gap: 25px;
+}
+
+.user-info {
+  gap: 30px;
+}
+
+.add-family-button {
+  // border: 2px solid #f3f3f3;
+  border-radius: 10px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, .4) 0 10px 15px;
+    background-color: #dbdbdb;
   }
-  
-  .circle img {
-    width: 100%; /* Make the image cover the entire circle */
-    height: 100%; /* Maintain the aspect ratio of the image */
-  }
-  .gap-25 {
-    gap: 25px;
-  }
-  .user-info {
-    gap: 30px;
-  }
-  .add-family-button {
-    // border: 2px solid #f3f3f3;
-    border-radius: 10px;
-    
-    &:hover {
-        box-shadow: rgba(0,0,0,.4) 0 10px 15px;
-        background-color: #dbdbdb;
-    }
-  }
+}

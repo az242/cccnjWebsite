@@ -60,6 +60,8 @@ export class ProfilePageComponent {
         await this.user.deleteFamily(this.userProfile.familyId);
       }
       //update family on user
+      this.familyMembers = [];
+      this.userProfile.familyId = '';
       await this.user.updateUser(this.userProfile.uid,{familyId: ''});
     }
   }

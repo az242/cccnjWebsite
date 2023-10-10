@@ -25,6 +25,7 @@ import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/
 import { SignUpPageComponent } from './login/sign-up-page/sign-up-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { CustomDateParserFormatter } from './utilities/ngDateParser.util';
+import { GroupsPageComponent } from './groups-page/groups-page.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CustomDateParserFormatter } from './utilities/ngDateParser.util';
     ProfilePageComponent,
     ForgottenPasswordPageComponent,
     SignUpPageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    GroupsPageComponent
   ],
   imports: [
     BrowserModule,

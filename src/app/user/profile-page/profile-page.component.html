@@ -1,8 +1,8 @@
 <div class="header-padding">
     <section class="light-bg">
-        <div class="content profile-flex" *ngIf="userProfile">
+        <div class="content flex-container vertical gap-25" *ngIf="userProfile">
             <div class="flex-container w-100 gap-25">
-                <div class="profile-container " style="flex: 1 0 0">
+                <div class="profile-container profile">
                     <div class="flex-container center-all vertical">
                         <div class="circle m-3">
                             <img *ngIf="userProfile.photoUrl" src="{{userProfile.photoUrl}}" alt="Your Image">
@@ -14,7 +14,7 @@
                         <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
                     </div>
                 </div>
-                <div class="profile-container" style="max-width: 75%; flex: 4 0 0">
+                <div class="profile-container info">
                     <h4 class="m-2 underline pb-2">User Info</h4>
                     <div class="flex-container vertical gap-25">
                         <div class="flex-container user-info">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="flex-container w-100 gap-25">
-                <div class="profile-container" style="max-width: 60%;flex: 4 0 0">
+                <div class="profile-container family">
                     <h4 class="m-2 underline pb-2">My Family</h4>
                     <div id="family-container" class="flex-container p-3" style="overflow-x:auto">
                         <div class="flex-container center-all vertical">
@@ -95,15 +95,16 @@
                         </a>
                     </div>
                 </div>
-                <div class="profile-container" style="max-width: 40%; flex: 1 0 0">
+                <div class="profile-container giving">
                     <h4 class="m-2 underline pb-2">My Giving</h4>
+                    <div class="subtitle pl-2">The following list of Donations is informational and should not be used for tax purposes.</div>
                     <div id="giving-container" class="flex-container p-3">
-                        something here
+                        Giving History is currently under construction!
                     </div>
                 </div>
             </div>
             <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('admin')">
-                <div class="profile-container" style="max-width: 100%; flex: 1 0 0">
+                <div class="profile-container admin">
                     <h4 class="m-2 underline pb-2">Admin Control Panel</h4>
                     <div id="giving-container" class="flex-container p-3">
                         something here
