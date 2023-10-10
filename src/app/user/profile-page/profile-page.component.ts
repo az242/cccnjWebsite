@@ -24,7 +24,8 @@ export class ProfilePageComponent {
     this.userProfile = {displayName: temp.displayName, phone: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
     this.auth.loginEvent.subscribe((user)=> {
       if(!user) {
-        this.router.navigate(['login'], {queryParams: {path:'profile'}});
+        this.router.navigate(['']);
+        // this.router.navigate(['login'], {queryParams: {path:'profile'}});
       } else {
         // console.log('login-event');
         this.userProfile = {...this.userProfile, displayName: temp.displayName, phone: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email }
