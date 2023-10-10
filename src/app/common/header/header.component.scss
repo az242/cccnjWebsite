@@ -146,8 +146,8 @@
             /* @keyframes duration | timing-function | delay | 
 iteration-count | direction | fill-mode | play-state | name 
                 3s ease-in 1s 2 reverse both paused slidein;*/
-            animation: 1.5s linear .25s forwards dash-cccnj,
-             .75s ease-in 1.25s forwards fill-logo;
+            animation: 1.5s linear .25s 1 normal forwards running dash-cccnj,
+             .75s ease-in 1.25s 1 normal forwards running fill-logo;
 
             &.c1 {
                 animation-delay: 1s, 2s;
@@ -178,13 +178,15 @@ iteration-count | direction | fill-mode | play-state | name
         stroke-dasharray: 550;
         stroke-dashoffset: 550;
         // fill: none;
-        animation:  1.5s linear .25s forwards dash-logo,
-        .75s ease-in 1.25s forwards fill-logo;
+        /* @keyframes duration | easing-function | delay |
+iteration-count | direction | fill-mode | play-state | name */
+        animation:  1.5s linear .25s 1 normal forwards running dash-logo,
+        .75s ease-in 1.25s 1 normal forwards running fill-logo;
     }
 
     g.long-cccnj path {
         fill: #fff;
-        animation:  .75s ease-in 1.25s forwards fill-logo;
+        animation:  .75s ease-in 1.25s 1 normal forwards running fill-logo;
     }
 }
 
