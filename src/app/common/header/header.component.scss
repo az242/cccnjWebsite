@@ -143,12 +143,11 @@
             stroke-dasharray: 250;
             stroke-dashoffset: 250;
             // fill: none;
-            animation: dash-cccnj 1.5s linear .25s forwards,
-            fill-logo .75s ease-in 1.25s forwards;
-            -moz-animation: dash-cccnj 1.5s linear .25s forwards,
-            fill-logo .75s ease-in 1.25s forwards;
-            -webkit-animation: dash-cccnj 1.5s linear .25s forwards,
-            fill-logo .75s ease-in 1.25s forwards;
+            /* @keyframes duration | timing-function | delay | 
+iteration-count | direction | fill-mode | play-state | name 
+                3s ease-in 1s 2 reverse both paused slidein;*/
+            animation: 1.5s linear .25s forwards dash-cccnj,
+             .75s ease-in 1.25s forwards fill-logo;
 
             &.c1 {
                 animation-delay: 1s, 2s;
@@ -179,19 +178,13 @@
         stroke-dasharray: 550;
         stroke-dashoffset: 550;
         // fill: none;
-        animation: dash-logo 1.5s linear .25s forwards,
-        fill-logo .75s ease-in 1.25s forwards;
-        -moz-animation: dash-logo 1.5s linear .25s forwards,
-        fill-logo .75s ease-in 1.25s forwards;
-        -webkit-animation: dash-logo 1.5s linear .25s forwards,
-        fill-logo .75s ease-in 1.25s forwards;
+        animation:  1.5s linear .25s forwards dash-logo,
+        .75s ease-in 1.25s forwards fill-logo;
     }
 
     g.long-cccnj path {
         fill: #fff;
-        animation: fill-logo .75s ease-in 1.25s forwards;
-        -moz-animation: fill-logo .75s ease-in 1.25s forwards;
-        -webkit-animation: fill-logo .75s ease-in 1.25s forwards;
+        animation:  .75s ease-in 1.25s forwards fill-logo;
     }
 }
 
