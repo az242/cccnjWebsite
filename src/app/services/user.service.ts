@@ -1,8 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId} from '@angular/fire/firestore';
-import { User } from '../common/user.model';
+import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion} from '@angular/fire/firestore';
 // import { where } from "firebase/firestore";
 
 @Injectable({
@@ -19,7 +16,9 @@ export class DbService {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data();
+      let user = docSnap.data();
+      user.uid = userId;
+      return user;
     } else {
       return undefined;
     }
@@ -28,8 +27,6 @@ export class DbService {
     let users = [];
     const querySnapshot = await getDocs(this.userCollection);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
       let user = {uid: doc.id, ... doc.data()}
       users.push(user);
     });
@@ -37,7 +34,11 @@ export class DbService {
   }
   async createUser(userId: string, user) {
     let result = await setDoc(doc(this.userCollection, userId), user);
-    // const docRef = await addDoc(this.userCollection, user);
+    return result;
+  }
+  async updateUser(userId: string, fieldsToUpdate) {
+    const userRef = doc(this.firestore, "users", userId);
+    let result = await updateDoc(userRef, fieldsToUpdate);
     return result;
   }
   async getUsers(userIds: string[]) {
@@ -46,7 +47,8 @@ export class DbService {
     const productsDocsSnap = await getDocs(q);
     let users = [];
     productsDocsSnap.forEach((doc) => {
-      users.push(doc.data());
+      let user = {uid: doc.id, ... doc.data()};
+      users.push(user);
     });
     return users;
   }
@@ -61,7 +63,16 @@ export class DbService {
       return [];
     }
   }
-  async createFamily(userId: string) {
-
+  async createFamily(family) {
+    // let result = await setDoc(doc(this.familyCollection, familyId), family);
+    const result = await addDoc(this.userCollection, family);
+    return result;
+  }
+  async addFamilyMember(familyId, memberId) {
+    const familyRef = doc(this.firestore, "families", familyId);
+    let result = await updateDoc(familyRef, {
+      members: arrayUnion(memberId)
+    });
+    return result;
   }
 }

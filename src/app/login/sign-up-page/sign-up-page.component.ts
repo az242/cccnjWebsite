@@ -24,7 +24,7 @@ export class SignUpPageComponent {
       state: [''],
       zip: ['']
     }),
-    family: [''],
+    familyId: [''],
     password: ['', Validators.required],
     passwordCheck: [''],
     dob: [{value: {}}],

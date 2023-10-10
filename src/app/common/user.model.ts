@@ -1,15 +1,20 @@
 export interface User {
     photoUrl: string;
+    displayName: string;
     firstName: string;
     lastName: string;
     email: string;
     address: Address;
-    dob: DateOfBirth;
+    dob: dateObject;
     phone: string;
-    family: string;
+    familyId: string;
     roles: Array<string>;
     groups: Array<string>;
     events: Array<string>;
+    created: string;
+    loggedIn: string;
+    member: dateObject;
+    uid: string;
 }
 
 export interface Address {
@@ -19,8 +24,12 @@ export interface Address {
     zip: string;
 }
 
-export interface DateOfBirth {
+export interface dateObject {
     month: number;
     day: number;
     year: number;
+}
+
+export interface Family {
+    members: string[];
 }
