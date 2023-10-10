@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion} from '@angular/fire/firestore';
+import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc} from '@angular/fire/firestore';
 // import { where } from "firebase/firestore";
 
 @Injectable({
@@ -36,6 +36,14 @@ export class DbService {
     let result = await setDoc(doc(this.userCollection, userId), user);
     return result;
   }
+  async batchUpdateUser(updates: {uid:string, updates:any}[]) {
+    const batch = writeBatch(this.firestore);
+    for(let update of updates) {
+      const updateRef = doc(this.firestore, "users", update.uid);
+      batch.update(updateRef, update.updates);
+    }
+    await batch.commit();
+  }
   async updateUser(userId: string, fieldsToUpdate) {
     const userRef = doc(this.firestore, "users", userId);
     let result = await updateDoc(userRef, fieldsToUpdate);
@@ -65,7 +73,18 @@ export class DbService {
   }
   async createFamily(family) {
     // let result = await setDoc(doc(this.familyCollection, familyId), family);
-    const result = await addDoc(this.userCollection, family);
+    const result = await addDoc(this.familyCollection, family);
+    return result.id;
+  }
+  async removeFamilyMember(familyId, memberId) {
+    const familyRef = doc(this.firestore, "families", familyId);
+    let result = await updateDoc(familyRef, {
+      members: arrayRemove(memberId)
+    });
+    return result;
+  }
+  async deleteFamily(familyId) {
+    let result = await deleteDoc(doc(this.firestore, "families", familyId));
     return result;
   }
   async addFamilyMember(familyId, memberId) {

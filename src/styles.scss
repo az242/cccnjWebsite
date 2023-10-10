@@ -326,6 +326,12 @@ h5 {
   }
 }
 
+//modal bug fix
+body:not(.modal-open){
+  padding-right: 0px !important;
+}
+
+
 .content {
   max-width: 1100px;
   width:100%;
