@@ -1,4 +1,6 @@
-export interface Event {
+import { FirestoreDataConverter } from "@angular/fire/firestore";
+
+export class Event {
     name: string;
     location: string;
     photoUrl: string;
@@ -10,7 +12,7 @@ export interface Event {
     shortDesc: string;
 }
 
-export interface RecurranceRule {
+export class RecurranceRule {
     recurringDay: boolean;
     frequency: string;
     interval: number;
@@ -18,3 +20,15 @@ export interface RecurranceRule {
     endAfterOccurances: number;
     exceptionDates: string[];
 }
+
+export const eventConverter: FirestoreDataConverter<Event> = {
+    toFirestore: (event) => {
+        return {
+            };
+    },
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        let family: Event = new Event();
+        return family;
+    }
+};

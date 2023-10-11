@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators
 import { Router } from '@angular/router';
 import { User } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { DbService } from 'src/app/services/user.service';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -86,7 +86,7 @@ export class SignUpPageComponent {
     { abbreviation: 'WI', name: 'Wisconsin' },
     { abbreviation: 'WY', name: 'Wyoming' },
   ];
-  constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private userService: DbService) {
+  constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private db: DbService) {
   }
   async onSubmit(event) {
     event.preventDefault();
@@ -99,7 +99,7 @@ export class SignUpPageComponent {
         await this.auth.reload();
         await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: photoUrl ? photoUrl : undefined });
         await this.auth.reload();
-        let userResult = await this.userService.createUser(this.auth.getUID(), user);
+        let userResult = await this.db.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);
         this.alertMessage = undefined;
         this.route('/profile');

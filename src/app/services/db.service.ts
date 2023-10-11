@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc} from '@angular/fire/firestore';
 import { User, userConverter } from '../common/user.model';
 import { Family, familyConverter } from '../common/family.model';
+import { Event, eventConverter } from '../common/event.model';
 // import { where } from "firebase/firestore";
 
 @Injectable({
@@ -11,6 +12,7 @@ export class DbService {
   firestore: Firestore = inject(Firestore);
   userCollection = collection(this.firestore, 'users').withConverter(userConverter);
   familyCollection = collection(this.firestore, 'families').withConverter(familyConverter);
+  eventCollection = collection(this.firestore, 'events').withConverter(eventConverter);
   constructor() { }
 
   async getUser(userId: string): Promise<User> {
@@ -68,14 +70,13 @@ export class DbService {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      let familyData = docSnap.data()
+      let familyData = docSnap.data();
       return await this.getUsers(familyData.members);
     } else {
       return [];
     }
   }
-  async createFamily(family) {
-    // let result = await setDoc(doc(this.familyCollection, familyId), family);
+  async createFamily(family: Family) {
     const result = await addDoc(this.familyCollection, family);
     return result.id;
   }
@@ -96,5 +97,9 @@ export class DbService {
       members: arrayUnion(memberId)
     });
     return result;
+  }
+  async createEvent(event: Event) {
+    const result = await addDoc(this.eventCollection, event);
+    return result.id;
   }
 }

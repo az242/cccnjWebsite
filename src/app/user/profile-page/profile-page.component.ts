@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, OperatorFunction, Subject, debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs';
 import { Roles, User } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { DbService } from 'src/app/services/user.service';
+import { DbService } from 'src/app/services/db.service';
 import * as bootstrap from 'bootstrap';
 import { Family } from 'src/app/common/family.model';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -28,34 +28,34 @@ export class ProfilePageComponent implements OnDestroy{
     ])
   });
   destroy: Subject<void> = new Subject();
-  constructor(private auth: AuthService, private user: DbService, private router: Router, private fb: FormBuilder) {}
+  constructor(private auth: AuthService, private db: DbService, private router: Router, private fb: FormBuilder) {}
   ngOnDestroy(): void {
     this.destroy.next();
     // Don't forget to unsubscribe from subject itself
     this.destroy.unsubscribe();
   }
   async ngOnInit(): Promise<void> {
-    this.userList = await this.user.getAllUsers();
+    this.userList = await this.db.getAllUsers();
     console.log('Userlist: ',this.userList);
     let temp = this.auth.getUser();
+    console.log(temp);
     this.userProfile = {displayName: temp.displayName, phone: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
     this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe((user)=> {
       if(!user) {
         this.router.navigate(['']);
-        // this.router.navigate(['login'], {queryParams: {path:'profile'}});
       } else {
-        // console.log('login-event');
-        this.userProfile = {...this.userProfile, displayName: temp.displayName, phone: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email }
+        this.userProfile = {...this.userProfile, displayName: temp.displayName, phone: temp.phoneNumber, photoUrl: temp.photoURL, email: temp.email };
       }
     });
-    let dbUser = await this.user.getUser(this.auth.getUID());
+    let dbUser = await this.db.getUser(this.auth.getUID());
     this.userProfile = {...dbUser,...this.userProfile};
+    
     if(dbUser.photoUrl && !this.userProfile.photoUrl) {
       this.userProfile.photoUrl = dbUser.photoUrl;
     }
-    // console.log(this.userProfile);
+    console.log(this.userProfile);
     if(this.userProfile.familyId) {
-      this.familyMembers = await this.user.getFamilyMembers(this.userProfile.familyId);
+      this.familyMembers = await this.db.getFamilyMembers(this.userProfile.familyId);
       this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);
     }
   }
@@ -97,13 +97,13 @@ export class ProfilePageComponent implements OnDestroy{
         value.roles = [...new Set(value.roles.filter((role) => Roles.includes(role) && value.user.roles.includes(role)))];
         if(value.roles.length !== 0 ) {
           this.userProfile.roles = this.userProfile.roles.filter((role) => !value.roles.includes(role));
-          this.user.updateUser(value.user.uid, {roles: arrayRemove(...value.roles)})
+          this.db.updateUser(value.user.uid, {roles: arrayRemove(...value.roles)})
         }
       } else {
         value.roles = [...new Set(value.roles.filter((role) => Roles.includes(role) && !value.user.roles.includes(role)))];
         if(value.roles.length !== 0 ) {
           this.userProfile.roles.push(...value.roles);
-          this.user.updateUser(value.user.uid, {roles: arrayUnion(...value.roles)})
+          this.db.updateUser(value.user.uid, {roles: arrayUnion(...value.roles)})
         }
       }
       this.alertMessage = undefined;
@@ -118,15 +118,15 @@ export class ProfilePageComponent implements OnDestroy{
     if(this.userProfile.familyId) {
       if(this.familyMembers.length > 0) {
         //remove from family
-        await this.user.removeFamilyMember(this.userProfile.familyId,this.userProfile.uid);
+        await this.db.removeFamilyMember(this.userProfile.familyId,this.userProfile.uid);
       } else {
         //no one else in family, delete it
-        await this.user.deleteFamily(this.userProfile.familyId);
+        await this.db.deleteFamily(this.userProfile.familyId);
       }
       //update family on user
       this.familyMembers = [];
       this.userProfile.familyId = '';
-      await this.user.updateUser(this.userProfile.uid,{familyId: ''});
+      await this.db.updateUser(this.userProfile.uid,{familyId: ''});
     }
   }
   async addFamilyMember() {
@@ -140,21 +140,21 @@ export class ProfilePageComponent implements OnDestroy{
       // member has no family, just add'em to yours!
     if(this.userProfile.familyId) {
       //if family already exists
-      await this.user.addFamilyMember(this.userProfile.familyId, this.member.uid);
-      await this.user.updateUser(this.member.uid, {familyId:this.userProfile.familyId});
+      await this.db.addFamilyMember(this.userProfile.familyId, this.member.uid);
+      await this.db.updateUser(this.member.uid, {familyId:this.userProfile.familyId});
     } else {
       //create new family
       let family: Family = {members: [this.userProfile.uid,this.member.uid]};
-      let familyId = await this.user.createFamily(family);
+      let familyId = await this.db.createFamily(family);
       this.userProfile.familyId = familyId;
       let updates = [
         {uid: this.userProfile.uid, updates: {familyId: familyId}},
         {uid: this.member.uid, updates: {familyId: familyId}},
       ]
-      await this.user.batchUpdateUser(updates);
+      await this.db.batchUpdateUser(updates);
     }
     //update UI
-    this.familyMembers = await this.user.getFamilyMembers(this.userProfile.familyId);
+    this.familyMembers = await this.db.getFamilyMembers(this.userProfile.familyId);
     this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);
     this.member = undefined;
   }

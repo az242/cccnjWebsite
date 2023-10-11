@@ -49,9 +49,6 @@ export class HeaderComponent implements OnInit{
     }
     this.router.navigate([path]);
   }
-  click(test) {
-    console.log(test);
-  }
   expandNav(event) {
     event.preventDefault();
     this.expanded = !this.expanded;

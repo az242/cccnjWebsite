@@ -249,8 +249,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetRoleForm()"> Cancel</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onRoleSubmit()">Add</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onRoleSubmit(true)">Remove</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!rolesForm.valid" (click)="onRoleSubmit()">Add</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!rolesForm.valid" (click)="onRoleSubmit(true)">Remove</button>
                 </div>
             </form>
         </div>
