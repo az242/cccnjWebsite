@@ -1,5 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc} from '@angular/fire/firestore';
+import { User, userConverter } from '../common/user.model';
+import { Family, familyConverter } from '../common/family.model';
 // import { where } from "firebase/firestore";
 
 @Injectable({
@@ -7,11 +9,11 @@ import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,w
 })
 export class DbService {
   firestore: Firestore = inject(Firestore);
-  userCollection = collection(this.firestore, 'users');
-  familyCollection = collection(this.firestore, 'families');
+  userCollection = collection(this.firestore, 'users').withConverter(userConverter);
+  familyCollection = collection(this.firestore, 'families').withConverter(familyConverter);
   constructor() { }
 
-  async getUser(userId: string) {
+  async getUser(userId: string): Promise<User> {
     const docRef = doc(this.userCollection, userId);
     const docSnap = await getDoc(docRef);
 
@@ -23,7 +25,7 @@ export class DbService {
       return undefined;
     }
   }
-  async getAllUsers() {
+  async getAllUsers(): Promise<User[]> {
     let users = [];
     const querySnapshot = await getDocs(this.userCollection);
     querySnapshot.forEach((doc) => {
@@ -33,7 +35,8 @@ export class DbService {
     return users;
   }
   async createUser(userId: string, user) {
-    let result = await setDoc(doc(this.userCollection, userId), user);
+    let docRef = doc(this.userCollection, userId);
+    let result = await setDoc(docRef, user);
     return result;
   }
   async batchUpdateUser(updates: {uid:string, updates:any}[]) {
@@ -49,7 +52,7 @@ export class DbService {
     let result = await updateDoc(userRef, fieldsToUpdate);
     return result;
   }
-  async getUsers(userIds: string[]) {
+  async getUsers(userIds: string[]): Promise<User[]> {
     const q = query(this.userCollection, where(documentId(), "in", userIds));
     
     const productsDocsSnap = await getDocs(q);
@@ -60,7 +63,7 @@ export class DbService {
     });
     return users;
   }
-  async getFamilyMembers(familyId) {
+  async getFamilyMembers(familyId): Promise<User[]> {
     const docRef = doc(this.familyCollection, familyId);
     const docSnap = await getDoc(docRef);
 

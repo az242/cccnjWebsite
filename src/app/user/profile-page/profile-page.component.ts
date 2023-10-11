@@ -2,10 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
-import { Family, User } from 'src/app/common/user.model';
+import { User } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/user.service';
 import * as bootstrap from 'bootstrap';
+import { Family } from 'src/app/common/family.model';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -32,8 +33,11 @@ export class ProfilePageComponent {
       }
     });
     let dbUser = await this.user.getUser(this.auth.getUID());
-    this.userProfile = {...this.userProfile, ...dbUser};
-    console.log(this.userProfile);
+    this.userProfile = {...dbUser,...this.userProfile};
+    if(dbUser.photoUrl && !this.userProfile.photoUrl) {
+      this.userProfile.photoUrl = dbUser.photoUrl;
+    }
+    // console.log(this.userProfile);
     if(this.userProfile.familyId) {
       this.familyMembers = await this.user.getFamilyMembers(this.userProfile.familyId);
       this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);

@@ -1,3 +1,5 @@
+import { FirestoreDataConverter } from "@angular/fire/firestore";
+
 export class User {
     photoUrl: string;
     displayName: string;
@@ -34,7 +36,38 @@ export class User {
         this.uid = '';
     }
 }
-
+export const userConverter: FirestoreDataConverter<User> = {
+    toFirestore: (user) => {
+        return {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            photoUrl: user.photoUrl,
+            address: user.address,
+            dob: user.dob,
+            phone: user.phone,
+            familyId: user.familyId,
+            roles: user.roles,
+            groups: user.groups,
+            events: user.events,
+            member: user.member
+            };
+    },
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        let user: User = new User(data.firstName, data.lastName, data.email);
+        user.address = data.address;
+        user.dob = data.dob;
+        user.phone = data.phone;
+        user.familyId = data.familyId;
+        user.roles = data.roles;
+        user.groups = data.groups;
+        user.events = data.events;
+        user.member = data.member;
+        user.uid = snapshot.id;
+        return user;
+    }
+};
 export class Address {
     street: string;
     city: string;
@@ -47,19 +80,3 @@ export class dateObject {
     day: number;
     year: number;
 }
-
-export class Family {
-    members: string[];
-}
-
-const userConverter = {
-    toFirestore: (user) => {
-        return {
-            
-            };
-    },
-    fromFirestore: (snapshot, options) => {
-        const data = snapshot.data(options);
-        return new User(data.name, data.state, data.country);
-    }
-};
