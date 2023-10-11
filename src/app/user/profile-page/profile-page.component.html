@@ -1,6 +1,9 @@
 <div class="header-padding">
     <section class="light-bg">
         <div class="content flex-container vertical gap-25" *ngIf="userProfile">
+            <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
+                {{alertMessage}}
+            </div>
             <div class="flex-container w-100 gap-25">
                 <div class="profile-container profile">
                     <div class="flex-container center-all vertical">
@@ -9,7 +12,7 @@
                             <img *ngIf="!userProfile.photoUrl" src="assets/default-user.svg" alt="Your Image">
                         </div>
                         <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
-                        <div>User since 2023</div>
+                        <div>User since {{userProfile.created | date:'yyyy'}}</div>
                         <a>Edit Profile</a>
                         <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
                     </div>
@@ -103,11 +106,50 @@
                     </div>
                 </div>
             </div>
+            <div class="flex-container w-100 gap-25">
+                <div class="profile-container groups">
+                    <h4 class="m-2 underline pb-2">My Groups</h4>
+                    <div class="flex-container p-3">
+                        something here
+                    </div>
+                </div>
+                <div class="profile-container events">
+                    <h4 class="m-2 underline pb-2">My Past Events</h4>
+                    <div class="flex-container p-3">
+                        something here
+                    </div>
+                </div>
+                <div class="profile-container events">
+                    <h4 class="m-2 underline pb-2">My Future Events</h4>
+                    <div class="flex-container p-3">
+                        something here
+                    </div>
+                </div>
+            </div>
             <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('admin')">
                 <div class="profile-container admin">
                     <h4 class="m-2 underline pb-2">Admin Control Panel</h4>
-                    <div id="giving-container" class="flex-container p-3">
-                        something here
+                    <div class="flex-container p-3">
+                        <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-toggle="modal" data-target="#userRolesModal">
+                            <i class="fa-solid fa-user-gear mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">Add User Roles</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('event')">
+                <div class="profile-container admin">
+                    <h4 class="m-2 underline pb-2">Event Control Panel</h4>
+                    <div class="flex-container p-3">
+                        something here for events you made
+                    </div>
+                </div>
+            </div>
+            <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('group')">
+                <div class="profile-container admin">
+                    <h4 class="m-2 underline pb-2">Group Control Panel</h4>
+                    <div class="flex-container p-3">
+                        something here for controlling groups you are in charge of
                     </div>
                 </div>
             </div>
@@ -178,6 +220,39 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="leaveFamily()">Leave</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" #userRolesModal id="userRolesModal" tabindex="-1" role="dialog" aria-labelledby="userRolesModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form [formGroup]="rolesForm">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="userRolesModal">Edit User Roles</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetRoleForm()">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3">
+                        <p>Search who you would like to add/remove roles to and type in the roles which you would like to edit.</p>
+                        <input id="typeahead-basic" type="text" class="form-control w-100 my-3" placeholder="Name, Email, or UID" formControlName="user" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
+                        <div formArrayName="roles">
+                            <label>Roles:</label>
+                            <div *ngFor="let role of roles.controls; let i=index">
+                                <input id="roles-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i">
+                            </div>
+                            <button type="button" class="color-button" (click)="addRole()">Add role</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetRoleForm()"> Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onRoleSubmit()">Add</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onRoleSubmit(true)">Remove</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

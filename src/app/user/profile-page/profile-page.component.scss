@@ -7,13 +7,29 @@
   gap: 25px;
   flex-wrap: wrap;
 }
-
+.hide-alert {
+  display: none;
+}
 .profile-container {
   background-color: white;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, .4) 0 10px 25px;
   padding: 20px;
+  &.groups {
+    flex: 2 1 auto;
+    max-width: 50%;
+    @media only screen and (max-width: 850px) {
+      max-width: 100%;
+    }
+  }
+  &.events {
+    flex: 1 1 auto;
+    max-width: 25%;
+    @media only screen and (max-width: 850px) {
+      max-width: 100%;
+    }
+  }
   &.family {
     flex: 1 1 auto;
     max-width: 50%;

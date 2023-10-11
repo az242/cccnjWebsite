@@ -36,6 +36,7 @@ export class User {
         this.uid = '';
     }
 }
+export const Roles = ['admin', 'event', 'group'];
 export const userConverter: FirestoreDataConverter<User> = {
     toFirestore: (user) => {
         return {
