@@ -11,6 +11,7 @@ import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { SignUpPageComponent } from './login/sign-up-page/sign-up-page.component';
 import { GroupsPageComponent } from './groups-page/groups-page.component';
+import { GivePageComponent } from './give-page/give-page.component';
 
 const loggedInGuard: CanActivateFn = (route, state) => {
   const FirebaseAuth = inject(Auth);
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'events', component: EventsPageComponent},
   { path: 'watch', component: WatchPageComponent},
   { path: 'groups', component: GroupsPageComponent},
+  { path: 'give', component: GivePageComponent},
   // { path: 'visit', component: VisitPageComponent},
   // { path: '*', component: LandingPageComponent},
   { path: '', component: LandingPageComponent},

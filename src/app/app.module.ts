@@ -26,6 +26,7 @@ import { SignUpPageComponent } from './login/sign-up-page/sign-up-page.component
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { CustomDateParserFormatter } from './utilities/ngDateParser.util';
 import { GroupsPageComponent } from './groups-page/groups-page.component';
+import { GivePageComponent } from './give-page/give-page.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { GroupsPageComponent } from './groups-page/groups-page.component';
     ForgottenPasswordPageComponent,
     SignUpPageComponent,
     NotFoundPageComponent,
-    GroupsPageComponent
+    GroupsPageComponent,
+    GivePageComponent
   ],
   imports: [
     BrowserModule,
