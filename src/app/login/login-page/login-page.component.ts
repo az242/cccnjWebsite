@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { DbService } from '../../services/db.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, combineLatest, debounceTime, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -22,19 +22,19 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.destroy.unsubscribe();
   }
   ngOnInit(): void {
-    
-    this.activedRoute.queryParams.pipe(takeUntil(this.destroy.asObservable())).subscribe((params: Params) => {
-      this.forwardUrl = params['path'];
-      this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe((user)=> {
-        if(user) {
-          console.log('trying to route');
-          if(this.forwardUrl) {
-            this.router.navigate([this.forwardUrl]);
-          } else {
-            this.router.navigate(['profile']);
-          }
+    combineLatest([this.activedRoute.queryParams, this.auth.loginEvent]).pipe(takeUntil(this.destroy.asObservable()), debounceTime(200)).subscribe((result)=> {
+      if(result[0]) {
+        this.forwardUrl = result[0]['path'];
+      }
+      if(result[1]) {
+        if(this.forwardUrl) {
+          console.log('Routing from Login to ' + this.forwardUrl);
+          this.router.navigate([this.forwardUrl]);
+        } else {
+          console.log('Routing from Login to Profile');
+          this.router.navigate(['profile']);
         }
-      });
+      }
     });
     
     let rememberMeStorage = localStorage.getItem('cccnj-login-email');

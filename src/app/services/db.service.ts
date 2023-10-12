@@ -102,4 +102,25 @@ export class DbService {
     const result = await addDoc(this.eventCollection, event);
     return result.id;
   }
+  async getEventById(eventId) {
+    const docRef = doc(this.eventCollection, eventId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      let eventData = docSnap.data();
+      return eventData;
+    } else {
+      return undefined;
+    }
+  }
+  async getEventByDateRange(startDate, endDate) {
+    const q = query(this.eventCollection, where('startDate', ">=", startDate), where('startDate', "<=", endDate));
+    
+    const productsDocsSnap = await getDocs(q);
+    let events = [];
+    productsDocsSnap.forEach((doc) => {
+      let event = {uid: doc.id, ... doc.data()};
+      events.push(event);
+    });
+    return events;
+  }
 }

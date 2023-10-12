@@ -70,15 +70,15 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     tile1.location.nativeElement.className="slidein-container-short";
     this.eventContainer.insert(tile1.hostView);
     let tile2 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile2.instance.event = {date: new Date()};
+    tile2.instance.event = {date: new Date(), title:'TEST EVENT'};
     tile2.location.nativeElement.className="slidein-container-short";
     this.eventContainer.insert(tile2.hostView);
     let tile3 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile3.instance.event = {date: new Date()};
+    tile3.instance.event = {date: new Date(), title:'TEST EVENT'};
     tile3.location.nativeElement.className="slidein-container-short";
     this.eventContainer.insert(tile3.hostView);
     let tile4 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile4.instance.event = {date: new Date()};
+    tile4.instance.event = {date: new Date(), title:'TEST EVENT'};
     tile4.location.nativeElement.className="slidein-container-short";
     this.eventContainer.insert(tile4.hostView);
   }

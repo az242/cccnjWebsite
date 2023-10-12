@@ -4,31 +4,46 @@ export class Event {
     name: string;
     location: string;
     photoUrl: string;
-    startDate: string;
-    endDate: string;
+    startDate: number;
     recurrence:RecurranceRule;
     forWho: string;
     desc: string;
     shortDesc: string;
+    public: boolean;
 }
 
 export class RecurranceRule {
-    recurringDay: boolean;
-    frequency: string;
-    interval: number;
-    weekdays: string[];
-    endAfterOccurances: number;
-    exceptionDates: string[];
+    interval: number;// how many days till this event occurs again
+    endDate: number;// when we should stop this event 
+    exceptionDates: number[]; //dates it should not repeat
 }
 
 export const eventConverter: FirestoreDataConverter<Event> = {
     toFirestore: (event) => {
         return {
+            name: event.name,
+            location: event.location,
+            photoUrl: event.photoUrl,
+            startDate: event.startDate,
+            recurrence: event.recurrence,
+            forWho: event.forWho,
+            desc: event.desc,
+            shortDesc: event.shortDesc,
+            public: event.public
             };
     },
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
-        let family: Event = new Event();
-        return family;
+        let event: Event = new Event();
+        event.name = data.name;
+        event.location = data.location;
+        event.photoUrl = data.photoUrl;
+        event.startDate = data.startDate;
+        event.recurrence = data.recurrence;
+        event.forWho = data.forWho;
+        event.desc = data.desc;
+        event.shortDesc = data.shortDesc;
+        event.public = data.public;
+        return event;
     }
 };

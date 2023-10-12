@@ -91,13 +91,13 @@ export class SignUpPageComponent {
   async onSubmit(event) {
     event.preventDefault();
     if(this.profileForm.valid) {
-      let { password, passwordCheck, photoUrl, ...user } = this.profileForm.value;
+      let { password, passwordCheck, ...user } = this.profileForm.value;
       let results = await this.auth.register(user.email, password);
       console.log('registration results', results);
       
       if(results) {
         await this.auth.reload();
-        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: photoUrl ? photoUrl : undefined });
+        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: user.photoUrl ? user.photoUrl : undefined });
         await this.auth.reload();
         let userResult = await this.db.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);

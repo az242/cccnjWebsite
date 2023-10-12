@@ -66,6 +66,7 @@ export const userConverter: FirestoreDataConverter<User> = {
         user.events = data.events;
         user.member = data.member;
         user.uid = snapshot.id;
+        user.photoUrl = data.photoUrl;
         return user;
     }
 };

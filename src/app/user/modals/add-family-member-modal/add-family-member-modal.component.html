@@ -1,0 +1,42 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title m-0" id="exampleModalLabel">Add Family Member</h3>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" (click)="member = undefined;">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="p-2">
+                    Find member by entering first/last name or email
+                </div>
+                <input id="typeahead-basic" type="text" class="form-control w-100" [(ngModel)]="member" [ngbTypeahead]="search" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="member = undefined;"> Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addFamilyMember()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" #familyExistsModal id="familyExistsModal" tabindex="-1" role="dialog" aria-labelledby="familyExistsModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="familyExistsModalTitle">Family Exists Already!</h3>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="p-2">
+                    The person you attempted to add as a family member is already part of a family! They must leave their family before you can add them to your family!
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
