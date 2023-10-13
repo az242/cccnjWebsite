@@ -31,6 +31,8 @@ import { CreateEventModalComponent } from './user/modals/create-event-modal/crea
 import { EditUserRolesModalComponent } from './user/modals/edit-user-roles-modal/edit-user-roles-modal.component';
 import { AddFamilyMemberModalComponent } from './user/modals/add-family-member-modal/add-family-member-modal.component';
 import { LeaveFamilyModalComponent } from './user/modals/leave-family-modal/leave-family-modal.component';
+import { EventPageComponent } from './events-page/event-page/event-page.component';
+import { GroupPageComponent } from './groups-page/group-page/group-page.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { LeaveFamilyModalComponent } from './user/modals/leave-family-modal/leav
     CreateEventModalComponent,
     EditUserRolesModalComponent,
     AddFamilyMemberModalComponent,
-    LeaveFamilyModalComponent
+    LeaveFamilyModalComponent,
+    EventPageComponent,
+    GroupPageComponent
   ],
   imports: [
     BrowserModule,

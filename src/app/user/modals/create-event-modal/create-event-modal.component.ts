@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
 import * as bootstrap from 'bootstrap';
-import { Roles } from 'src/app/common/user.model';
+import { Ages, Roles } from 'src/app/common/user.model';
 @Component({
   selector: 'create-event-modal',
   templateUrl: './create-event-modal.component.html',
@@ -91,7 +91,7 @@ export class CreateEventModalComponent implements OnInit {
       event.forWho = value.forWho;
       event.desc = value.desc;
       event.shortDesc = value.shortDesc;
-      event.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role)))];
+      event.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role) || Ages.includes(role)))];
       event.attendees = [];
       this.onSubmit.emit(event);
     } else {

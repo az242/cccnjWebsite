@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc, FieldPath, Query} from '@angular/fire/firestore';
-import { User, userConverter } from '../common/user.model';
+import { Roles, User, userConverter } from '../common/user.model';
 import { Family, familyConverter } from '../common/family.model';
 import { Event, eventConverter } from '../common/event.model';
 import { AuthService } from './auth.service';
@@ -142,10 +142,23 @@ export class DbService {
       let roles = this.auth.getUserRoles();
       events = events.filter((event)=>{
         if(event.visibility.length > 0) {
-          return event.visibility.some(visiblityTag => roles.includes(visiblityTag));
+          let hiddenVisiblity = event.visibility.filter(visTag => Roles.includes(visTag));
+          return hiddenVisiblity.some(visiblityTag => roles.includes(visiblityTag));
         } else {
           return true;
         }
+      });
+    } else {
+      events.filter(event => {
+        if(event.visibility.length > 0) {
+          let hiddenVisiblity = event.visibility.filter(visTag => Roles.includes(visTag));
+          if(hiddenVisiblity.length > 0) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        return true;
       });
     }
     events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});
@@ -191,10 +204,23 @@ export class DbService {
       let roles = this.auth.getUserRoles();
       events = events.filter((event)=>{
         if(event.visibility.length > 0) {
-          return event.visibility.some(visiblityTag => roles.includes(visiblityTag));
+          let hiddenVisiblity = event.visibility.filter(visTag => Roles.includes(visTag));
+          return hiddenVisiblity.some(visiblityTag => roles.includes(visiblityTag));
         } else {
           return true;
         }
+      });
+    } else {
+      events.filter(event => {
+        if(event.visibility.length > 0) {
+          let hiddenVisiblity = event.visibility.filter(visTag => Roles.includes(visTag));
+          if(hiddenVisiblity.length > 0) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        return true;
       });
     }
     events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});

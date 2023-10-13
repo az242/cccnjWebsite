@@ -36,7 +36,27 @@ export class User {
         this.uid = '';
     }
 }
-export const Roles = ['admin', 'event', 'group'];
+export const Roles = Object.freeze(['admin', 'event', 'group']);
+export const Groups = Object.freeze(['english','taiwanese','mandarin']);
+export const Ages = Object.freeze(['adult','college', 'youth', 'child', 'infant']);
+export const getAgeTag = (user: User) => {
+    const today = new Date();
+    let age = today.getFullYear() - user.dob.getFullYear();
+    if (today.getMonth() < user.dob.getMonth() || (today.getMonth() === user.dob.getMonth() && today.getDate() < user.dob.getDate())) {
+        age--;
+    }
+    if(age > 21) {
+        return Ages[0];
+    } else if(age <= 21 && age >18) {
+        return Ages[1];
+    } else if(age < 18 && age >=11) {
+        return Ages[2];
+    } else if(age < 11 && age >=5) {
+        return Ages[3]
+    } else {
+        return Ages[4];
+    }
+};
 export const userConverter: FirestoreDataConverter<User> = {
     toFirestore: (user: User) => {
         return {

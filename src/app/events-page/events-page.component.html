@@ -11,40 +11,88 @@
     </section>
     <section class="flex-container vertical p-0">
         <div class="content flex-container center-all">
-            <div ngbDropdown class="d-inline-block p-3" [container]="'body'">
-                <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
-                    <h4 style="display:inline">Group</h4>
-                </button>
-                <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
-                    <button ngbDropdownItem>Regeneration</button>
-                    <button ngbDropdownItem>Taiwanese</button>
-                    <button ngbDropdownItem>Mandarin</button>
+            <form  [formGroup]="filterForm">
+                <div ngbDropdown class="d-inline-block p-3" [container]="'body'" formGroupName="group">
+                    <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
+                        <h4 style="display:inline">Group</h4>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="adult" name="adult" formControlName="mandarin">
+                            <label class="form-check-label" for="adult">
+                                Mandarin
+                            </label>
+                        </div>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="college" name="college" formControlName="english">
+                            <label class="form-check-label" for="college">
+                                English
+                            </label>
+                        </div>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="youth" name="youth" formControlName="taiwanese">
+                            <label class="form-check-label" for="youth">
+                                Taiwanese
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div ngbDropdown class="d-inline-block p-3" [container]="'body'">
-                <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
-                    <h4 style="display:inline">Age</h4>
-                </button>
-                <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
-                    <button ngbDropdownItem>Kids</button>
-                    <button ngbDropdownItem>Youth</button>
-                    <button ngbDropdownItem>Adult</button>
+                <div ngbDropdown class="d-inline-block p-3" [container]="'body'" formGroupName="age">
+                    <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
+                        <h4 style="display:inline">Age</h4>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="adult" name="adult" formControlName="adult">
+                            <label class="form-check-label" for="adult">
+                            Adult
+                            </label>
+                        </div>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="college" name="college" formControlName="college">
+                            <label class="form-check-label" for="college">
+                            College
+                            </label>
+                        </div>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="youth" name="youth" formControlName="youth">
+                            <label class="form-check-label" for="youth">
+                            Youth
+                            </label>
+                        </div>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="children" name="children" formControlName="children">
+                            <label class="form-check-label" for="children">
+                            Kids
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div ngbDropdown class="d-inline-block p-3" [container]="'body'">
-                <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
-                    <h4 style="display:inline">Date</h4>
-                </button>
-                <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
-                    <button ngbDropdownItem>This Month</button>
-                    <button ngbDropdownItem>This Week</button>
+                <div ngbDropdown class="d-inline-block p-3" [container]="'body'" formGroupName="date">
+                    <button type="button" class="btn btn-outline-primary filter-button" id="group-filter-dropdown" ngbDropdownToggle>
+                        <h4 style="display:inline">Date</h4>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="group-filter-dropdown">
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="month" name="month" formControlName="month">
+                            <label class="form-check-label" for="month">
+                            Month
+                            </label>
+                        </div>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" id="week" name="week" formControlName="week">
+                            <label class="form-check-label" for="week">
+                            Week
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
     <section class="expect-bg">
         <div class="content flex-container g-25" >
-            <ng-container *ngFor="let event of events">
+            <ng-container *ngFor="let event of displayEvents">
                 <app-tile-two [event]="event"></app-tile-two>
             </ng-container>
         </div>

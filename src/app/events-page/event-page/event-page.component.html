@@ -1,0 +1,42 @@
+<div class="header-padding">
+    <section class="p-0 flex-container vertical">
+        <div style="position:relative; width:100%">
+            <div class="header-background" [style.background-color]="color">
+                <img *ngIf="event?.photoUrl && event?.photoUrl !== ''" src="{{event.photoUrl}}" style="width:100%; height:100%" class="image-frame">
+            </div>
+            <div class="w-100 flex-container center-all" style="position:fixed; top:0;">
+                <div class="content" *ngIf="!event?.photoUrl || event?.photoUrl === ''">
+                    <h2>{{event.name}}</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="content flex-container vertical">
+            <div class="flex-container">
+                <div class="date-info flex-container vertical center-all">
+                    <div>{{event.startDate | date:'LLL'}}</div>
+                    <div class="day">{{event.startDate | date:'dd'}}</div>
+                    <div>{{event.startDate | date:'yyyy'}}</div>
+                </div>
+                <div class="px-3 flex-container align-end">
+                    <h1 class=" font black m-0">{{event.name}}</h1>
+                </div>
+            </div>
+            <hr class="m-3">
+            <div>
+                <h4>Who:</h4> <p>{{event.forWho}}</p>
+            </div>
+            <div>
+                <h4>What:</h4> <p>{{event.desc}}</p>
+            </div>
+            <div>
+                <h4>Where:</h4> <p>{{event.location}}</p>
+            </div>
+            <div>
+                <h4>When:</h4> <p>{{event.startDate | date:'full':'est'}}</p>
+            </div>
+        </div>
+    </section>
+    <app-footer></app-footer>
+</div>

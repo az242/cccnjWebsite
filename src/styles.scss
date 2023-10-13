@@ -79,6 +79,9 @@ p {
   &.align-center {
     align-items: center;
   }
+  &.align-end {
+    align-items: end;
+  }
   &.right-align {
     justify-content: right;
   }
@@ -212,7 +215,14 @@ section {
 .parallax-container {
   perspective: 2px;
 }
-
+hr {
+  width: 154px;
+  height: 4px;
+  margin: 10px 0 0 0;
+  background: var(--accent-1);
+  border:none;
+  opacity: 1;
+}
 .header-padding {
   padding-top: 66px;
   height:100%;
