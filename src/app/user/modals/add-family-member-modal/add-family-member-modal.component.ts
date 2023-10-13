@@ -12,6 +12,13 @@ export class AddFamilyMemberModalComponent {
   @Input() familyMembers;
   @Input() uid;
   member;
+
+  ngOnInit() {
+    const myModalEl = document.getElementById('exampleModal')
+    myModalEl.addEventListener('hidden.bs.modal', event => {
+      this.member = undefined;
+    })
+  }
   formatter = (result) => result.firstName + ' ' + result.lastName + ' ' + result.email;
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
   text$.pipe(

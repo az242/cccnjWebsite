@@ -10,12 +10,101 @@
                 </div>
                 <div class="modal-body">
                     <div class="p-3">
-
+                        <p>Fill out the fields to create a new event.</p>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location">
+                        </div>
+                        <div class="form-group">
+                            <label for="photoUrl">Photo URL</label>
+                            <input name="photoUrl" type="text" class="form-control" id="photoUrl" placeholder="Photo URL" formControlName="photoUrl">
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Event Date</label>
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    placeholder="mm/dd/yyyy"
+                                    name="startDate"
+                                    formControlName="startDate"
+                                    ngbDatepicker
+                                    [minDate]="minDate"
+                                    #startDate="ngbDatepicker"
+                                />
+                                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="startDate.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventTime">Event Time</label>
+                            <ngb-timepicker [(ngModel)]="time" [spinners]="false" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+                        </div>
+                        <div class="form-group">
+                            <label for="forWho">Who is the event for?</label>
+                            <input name="forWho" type="text" class="form-control" id="forWho" placeholder="(optional)" formControlName="forWho">
+                        </div>
+                        <div class="form-group">
+                            <label for="shortDesc">Short Description (max: 100 characters)</label>
+                            <input name="shortDesc" type="text" class="form-control" maxlength="175" id="shortDesc" placeholder="Short Description" formControlName="shortDesc">
+                        </div>
+                        <div class="form-group">
+                            <label for="desc">Description</label>
+                            <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc"></textarea>
+                        </div>
+                        <div formArrayName="visibility">
+                            <label>Visibility:</label>
+                            <div *ngFor="let role of visibility.controls; let i=index">
+                                <input id="visiblity-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i">
+                            </div>
+                            <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addVisibility()">Add role</button>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="recurranceEnabled" [ngModelOptions]="{standalone: true}" id="recurringCheckbox" name="recurringCheckbox">
+                            <label class="form-check-label" for="recurringCheckbox">
+                              Recurring Event
+                            </label>
+                        </div>
+                        <div formGroupName="recurrence" *ngIf="recurranceEnabled">
+                            <h4>Recurrance Rules</h4>
+                            
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <div class="input-group">
+                                    <input
+                                        class="form-control"
+                                        placeholder="mm/dd/yyyy"
+                                        name="endDate"
+                                        formControlName="endDate"
+                                        ngbDatepicker
+                                        [minDate]="minDate"
+                                        #endDate="ngbDatepicker"
+                                    />
+                                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="endDate.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="interval">Interval Between Each Occurance </label>
+                                <input name="interval" type="number" class="form-control" id="interval" placeholder="1" min="1" formControlName="interval">
+                            </div>
+                            <div class="form-group">
+                                <label for="exceptionDates">Exception Dates</label>
+                                <div class="input-group">
+                                    <ngb-datepicker [showWeekNumbers]="true" [dayTemplate]="customDay" (dateSelect)="selectOne($event)"></ngb-datepicker>
+                                    <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected" let-focused="focused">
+                                        <span class="custom-day" [class.focused]="focused" [class.bg-primary]="isSelected(date)">{{ date.day }}</span>
+                                    </ng-template>
+                                </div>
+                                <div *ngFor="let exception of exceptionDates">{{exception | date:'fullDate'}}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()"> Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!eventForm.valid" (click)="_onSubmit()">Add</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  (click)="_onSubmit()">Add</button>
                 </div>
             </form>
         </div>

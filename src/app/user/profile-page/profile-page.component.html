@@ -31,11 +31,11 @@
                             </div>
                             <div class="px-2">
                                 <h5>Date of Birth</h5>
-                                <div>{{userProfile.dob ? userProfile.dob.month + '/' + userProfile.dob.day + '/' + userProfile.dob.year : 'N/A'}}</div>
+                                <div>{{userProfile.dob ? (userProfile.dob | date:'longDate') : 'N/A'}}</div>
                             </div>
                             <div class="px-2">
                                 <h5>Member Status</h5>
-                                <div>{{userProfile.member ? 'Member since ' + userProfile.member.year : 'N/A'}}</div>
+                                <div>{{userProfile.member ? 'Member since ' + (userProfile.member | date:'longDate') : 'N/A'}}</div>
                             </div>
                         </div>
                         

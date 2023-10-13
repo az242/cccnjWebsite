@@ -9,6 +9,7 @@ import * as bootstrap from 'bootstrap';
 import { Family } from 'src/app/common/family.model';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
+import { Event } from 'src/app/common/event.model';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -26,7 +27,6 @@ export class ProfilePageComponent implements OnDestroy{
     this.destroy.unsubscribe();
   }
   async ngOnInit(): Promise<void> {
-    this.userList = await this.db.getAllUsers();
     let temp = this.auth.getUser();
     this.userProfile = {displayName: temp.displayName, phone: temp.phoneNumber, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
     this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe((user)=> {
@@ -39,6 +39,9 @@ export class ProfilePageComponent implements OnDestroy{
     if(this.userProfile.familyId) {
       this.familyMembers = await this.db.getFamilyMembers(this.userProfile.familyId);
       this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);
+    }
+    if(this.userProfile.roles.some(str => Roles.includes(str))) {
+      this.userList = await this.db.getAllUsers();
     }
   }
   onRoleSubmit(value) {
@@ -59,8 +62,16 @@ export class ProfilePageComponent implements OnDestroy{
     }
     this.alertMessage = undefined;
   }
-  onEventSubmit(output) {
-    console.log(output);
+  async onEventSubmit(output: Event) {
+    console.log('profiule page got this',output);
+    if(output) {
+      let id = await this.db.createEvent(output);
+      if(!id) {
+        this.alertMessage = 'Failed to create event';
+      } else {
+        this.alertMessage = undefined;
+      }
+    }
   }
   async leaveFamily() {
     if(this.userProfile.familyId) {

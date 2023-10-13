@@ -27,12 +27,13 @@ export class SignUpPageComponent {
     familyId: [''],
     password: ['', Validators.required],
     passwordCheck: [''],
-    dob: [{value: {}}],
+    dob: [undefined],
     photoUrl: [''],
     phone: [''],
     roles: [[]],
     groups: [[]],
     events: [[]],
+    member: ['']
   }, {validators: passwordValidator});
   americanStates = [
     { abbreviation: 'AL', name: 'Alabama' },
@@ -94,10 +95,10 @@ export class SignUpPageComponent {
       let { password, passwordCheck, ...user } = this.profileForm.value;
       let results = await this.auth.register(user.email, password);
       console.log('registration results', results);
-      
+      console.log(user);
       if(results) {
         await this.auth.reload();
-        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: user.photoUrl ? user.photoUrl : undefined });
+        await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: user.photoUrl ? user.photoUrl : '' });
         await this.auth.reload();
         let userResult = await this.db.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);

@@ -1,7 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, User, signInWithEmailAndPassword, sendPasswordResetEmail, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
+import { userConverter } from '../common/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +11,27 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private auth: Auth = inject(Auth);
   private user: User;
+  private userProfile;
+  firestore: Firestore = inject(Firestore);
+  userCollection = collection(this.firestore, 'users').withConverter(userConverter);
   loginEvent: BehaviorSubject<User> = new BehaviorSubject<User>(undefined);
   constructor(private cookieService: CookieService) {
-    this.auth.onAuthStateChanged((event)=>{
+    this.auth.onAuthStateChanged(async(event)=> {
+      if(event) {
+        const docRef = doc(this.userCollection, event.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          this.userProfile = docSnap.data();
+        }
+      }
       this.user = event;
       this.loginEvent.next(this.user);
     });
-    this.auth.onIdTokenChanged((event)=> {
-      this.user = event;
-      this.loginEvent.next(this.user);
-    });
+    // this.auth.onIdTokenChanged((event)=> {
+    //   this.user = event;
+    //   this.loginEvent.next(this.user);
+    // });
   }
   async login(email, password, rememberMe?): Promise<any> {
     if(rememberMe) {
@@ -46,6 +59,12 @@ export class AuthService {
     this.user = undefined;
     this.loginEvent.next(undefined);
     this.auth.signOut();
+  }
+  getUserProfile() {
+    return this.userProfile;
+  }
+  getUserRoles() {
+    return this.userProfile.roles;
   }
   getUser() {
     return this.user;

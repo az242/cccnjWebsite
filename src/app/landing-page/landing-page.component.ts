@@ -2,7 +2,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AfterViewInit, Component, EnvironmentInjector, OnInit, ViewChild, ViewContainerRef, createComponent } from '@angular/core';
 import { Router } from '@angular/router';
 import { TileOneComponent } from '../common/event-tiles/tile-one/tile-one.component';
-
+import { Event } from '../common/event.model';
+import { DbService } from '../services/db.service';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -10,14 +11,14 @@ import { TileOneComponent } from '../common/event-tiles/tile-one/tile-one.compon
 })
 export class LandingPageComponent implements OnInit, AfterViewInit {
   @ViewChild('eventContainer',{ read: ViewContainerRef }) eventContainer: ViewContainerRef;
-  constructor(private environmentInjector: EnvironmentInjector,private router: Router) { 
+  constructor(private environmentInjector: EnvironmentInjector,private router: Router, private db: DbService) { 
   }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
   }
 
-  ngAfterViewInit(): void {
-    this.addTiles();
+  async ngAfterViewInit(): Promise<void> {
+    await this.addTiles();
     const observer = new IntersectionObserver(entries => {
       // Loop over the entries
       entries.forEach((entry, index) => {
@@ -56,31 +57,15 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     
   }
 
-  addTiles() {
-    let event = {
-      date: new Date(),
-      displayPhoto: 'https://granger.wpenginepowered.com/wp-content/uploads/2023/08/youngadults_OTbiblestudy_520x520.jpg',
-      shortDescription: 'Short description!',
-      title: 'Young Adult Small Group',
-      location: 'CCCNJ',
-      tags: []
+  async addTiles() {
+    let events: Event[] = await this.db.getEventsByStartDate(new Date(), 4);
+    for(let event of events) {
+      let temp = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
+      temp.instance.event = event;
+      temp.location.nativeElement.className="slidein-container-short";
+      this.eventContainer.insert(temp.hostView);
     }
-    let tile1 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile1.instance.event = event;
-    tile1.location.nativeElement.className="slidein-container-short";
-    this.eventContainer.insert(tile1.hostView);
-    let tile2 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile2.instance.event = {date: new Date(), title:'TEST EVENT'};
-    tile2.location.nativeElement.className="slidein-container-short";
-    this.eventContainer.insert(tile2.hostView);
-    let tile3 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile3.instance.event = {date: new Date(), title:'TEST EVENT'};
-    tile3.location.nativeElement.className="slidein-container-short";
-    this.eventContainer.insert(tile3.hostView);
-    let tile4 = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
-    tile4.instance.event = {date: new Date(), title:'TEST EVENT'};
-    tile4.location.nativeElement.className="slidein-container-short";
-    this.eventContainer.insert(tile4.hostView);
+    
   }
   arrowClick() {
     document.querySelector('.very-dark-bg').scrollIntoView({behavior:'smooth'});

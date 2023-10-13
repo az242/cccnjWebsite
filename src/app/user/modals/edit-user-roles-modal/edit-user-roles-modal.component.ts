@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Roles, User } from '../../../common/user.model';
@@ -8,7 +8,7 @@ import { Roles, User } from '../../../common/user.model';
   templateUrl: './edit-user-roles-modal.component.html',
   styleUrls: ['./edit-user-roles-modal.component.scss']
 })
-export class EditUserRolesModalComponent {
+export class EditUserRolesModalComponent implements OnInit{
   @Input() userList;
   @Output() onSubmit = new EventEmitter<any>();
   rolesForm = this.fb.group({
@@ -18,6 +18,12 @@ export class EditUserRolesModalComponent {
     ])
   });
   constructor(private fb: FormBuilder) {}
+  ngOnInit() {
+    const myModalEl = document.getElementById('userRolesModal')
+    myModalEl.addEventListener('hidden.bs.modal', event => {
+      this.resetRoleForm();
+    })
+  }
   nameEmailUidSearch:OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
   text$.pipe(
     debounceTime(200),

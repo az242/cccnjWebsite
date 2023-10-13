@@ -1,21 +1,24 @@
-<div class="font black flex-container vertical" style="height:300px; width: 260px;">
-    <h3 class="font white">{{event.date.toLocaleDateString('en-us', {month: 'short', day: 'numeric'})}}</h3>
+<a class="font black flex-container vertical" style="height:300px; width: 260px;">
+    <h3 class="font white">{{event.startDate.toLocaleDateString('en-us', {month: 'short', day: 'numeric'})}}</h3>
     <div class="font black tile-content">
-        <a href="#">
-            <div>
-                <img src="{{event.displayPhoto}}" style="width:100%" class="image-frame">
+        <a>
+            <div style="height:100%;" [style.background-color]="color">
+                <img *ngIf="event.photoUrl && event.photoUrl !== ''" src="{{event.photoUrl}}" style="width:100%; height:100%" class="image-frame">
+                <div *ngIf="!event.photoUrl" class="h-100 w-100 flex-container center-all">
+                    {{event.name}}
+                </div>
             </div>
             <div class="hover flex-container vertical center-all">
                 <div class="title">
-                    {{event.title}}
+                    {{event.name}}
                 </div>
                 <div class="txt-container">
-                    {{event.shortDescription}}
+                    {{event.shortDesc}}
                 </div>
-                <div class="color-button">
+                <div class="color-button" (click)="routeToEvent()">
                     MORE DETAILS
                 </div>
             </div>
         </a>
     </div>
-</div>
+</a>

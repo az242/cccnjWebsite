@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc} from '@angular/fire/firestore';
+import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc, FieldPath, Query} from '@angular/fire/firestore';
 import { User, userConverter } from '../common/user.model';
 import { Family, familyConverter } from '../common/family.model';
 import { Event, eventConverter } from '../common/event.model';
+import { AuthService } from './auth.service';
 // import { where } from "firebase/firestore";
 
 @Injectable({
@@ -13,7 +14,7 @@ export class DbService {
   userCollection = collection(this.firestore, 'users').withConverter(userConverter);
   familyCollection = collection(this.firestore, 'families').withConverter(familyConverter);
   eventCollection = collection(this.firestore, 'events').withConverter(eventConverter);
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   async getUser(userId: string): Promise<User> {
     const docRef = doc(this.userCollection, userId);
@@ -112,15 +113,95 @@ export class DbService {
       return undefined;
     }
   }
-  async getEventByDateRange(startDate, endDate) {
-    const q = query(this.eventCollection, where('startDate', ">=", startDate), where('startDate', "<=", endDate));
-    
-    const productsDocsSnap = await getDocs(q);
-    let events = [];
-    productsDocsSnap.forEach((doc) => {
-      let event = {uid: doc.id, ... doc.data()};
-      events.push(event);
+  async getEventsByStartDate(startDate: Date, numLimit: number) {
+    const q1 = query(this.eventCollection, where('startDate', ">=", startDate), where('recurrence', '==', null));
+    const q2 = query(this.eventCollection, where(new FieldPath('recurrence','endDate'), '>=', startDate));
+    const nonrecurringsDocsSnap = await getDocs(q1);
+    const recurringDocsSnap = await getDocs(q2);
+    let events:Event[] = [];
+    nonrecurringsDocsSnap.forEach((doc) => {
+      events.push(doc.data());
     });
-    return events;
+    recurringDocsSnap.forEach(element => {
+      let now = new Date();
+      let event = element.data();
+      if(event.recurrence && event.startDate.getTime() < now.getTime()) {
+        let startDate: Date = event.startDate;
+        while(startDate.getTime()<now.getTime()) {
+          startDate.setDate(startDate.getDate() + event.recurrence.interval);
+        }
+        if(startDate.getTime() <= event.recurrence.endDate.getTime()) {
+          events.push(event);
+        }
+      } else {
+        events.push(event);
+      }
+      
+    });
+    if(this.auth.isLoggedIn()) {
+      let roles = this.auth.getUserRoles();
+      events = events.filter((event)=>{
+        if(event.visibility.length > 0) {
+          return event.visibility.some(visiblityTag => roles.includes(visiblityTag));
+        } else {
+          return true;
+        }
+      });
+    }
+    events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});
+    if(events.length > numLimit) {
+      return events.slice(0,numLimit-1);
+    } else {
+      return events;
+    }
+  }
+  async getEventsByDateRange(startDate: Date, endDate: Date, numLimit?: number) {
+    let q1:Query<Event>;
+    let q2:Query<Event>;
+    
+    if(numLimit) {
+      q1 = query(this.eventCollection, where('startDate', ">=", startDate), where('startDate', "<=", endDate), where('recurrence', '==', null), limit(numLimit));
+      q2 = query(this.eventCollection, where(new FieldPath('recurrence','endDate'), '>=', startDate), limit(numLimit));
+    } else {
+      q1 = query(this.eventCollection, where('startDate', ">=", startDate), where('startDate', "<=", endDate), where('recurrence', '==', null));
+      q2 = query(this.eventCollection, where(new FieldPath('recurrence','endDate'), '>=', startDate));
+    }
+    const nonrecurringsDocsSnap = await getDocs(q1);
+    const recurringDocsSnap = await getDocs(q2);
+    let events:Event[] = [];
+    nonrecurringsDocsSnap.forEach((doc) => {
+      events.push(doc.data());
+    });
+    recurringDocsSnap.forEach(element => {
+      let now = new Date();
+      let event = element.data();
+      if(event.recurrence && event.startDate.getTime() < now.getTime()) {
+        let startDate: Date = event.startDate;
+        while(startDate.getTime()<now.getTime()) {
+          startDate.setDate(startDate.getDate() + event.recurrence.interval);
+        }
+        if(startDate.getTime() <= event.recurrence.endDate.getTime()) {
+          events.push(event);
+        }
+      } else {
+        events.push(event);
+      }
+    });
+    if(this.auth.isLoggedIn()) {
+      let roles = this.auth.getUserRoles();
+      events = events.filter((event)=>{
+        if(event.visibility.length > 0) {
+          return event.visibility.some(visiblityTag => roles.includes(visiblityTag));
+        } else {
+          return true;
+        }
+      });
+    }
+    events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});
+    if(numLimit && events.length > numLimit) {
+      return events.slice(0,numLimit-1);
+    } else {
+      return events;
+    }
   }
 }

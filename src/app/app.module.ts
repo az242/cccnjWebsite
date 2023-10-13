@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VisitPageComponent } from './visit-page/visit-page.component';
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -71,6 +71,7 @@ import { LeaveFamilyModalComponent } from './user/modals/leave-family-modal/leav
     // Register the AuthInterceptor as an interceptor
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+    [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
   ],
   bootstrap: [AppComponent]
 })

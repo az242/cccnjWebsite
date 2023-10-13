@@ -43,8 +43,10 @@
         </div>
     </section>
     <section class="expect-bg">
-        <div class="content">
-            events go in here
+        <div class="content flex-container g-25" >
+            <ng-container *ngFor="let event of events">
+                <app-tile-two [event]="event"></app-tile-two>
+            </ng-container>
         </div>
     </section>
     <app-footer></app-footer>

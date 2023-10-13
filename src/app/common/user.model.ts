@@ -7,7 +7,7 @@ export class User {
     lastName: string;
     email: string;
     address: Address;
-    dob: dateObject;
+    dob: Date;
     phone: string;
     familyId: string;
     roles: Array<string>;
@@ -15,7 +15,7 @@ export class User {
     events: Array<string>;
     created: string;
     loggedIn: string;
-    member: dateObject;
+    member: Date;
     uid: string;
     constructor (firstName, lastName, email ) {
         this.firstName = firstName;
@@ -38,7 +38,7 @@ export class User {
 }
 export const Roles = ['admin', 'event', 'group'];
 export const userConverter: FirestoreDataConverter<User> = {
-    toFirestore: (user) => {
+    toFirestore: (user: User) => {
         return {
             firstName: user.firstName,
             lastName: user.lastName,
@@ -58,13 +58,13 @@ export const userConverter: FirestoreDataConverter<User> = {
         const data = snapshot.data(options);
         let user: User = new User(data.firstName, data.lastName, data.email);
         user.address = data.address;
-        user.dob = data.dob;
+        user.dob = data.dob && data.dob !== '' ? data.dob.toDate() : undefined;
         user.phone = data.phone;
         user.familyId = data.familyId;
         user.roles = data.roles;
         user.groups = data.groups;
         user.events = data.events;
-        user.member = data.member;
+        user.member = data.member && data.member !== '' ? data.member.toDate() : undefined;
         user.uid = snapshot.id;
         user.photoUrl = data.photoUrl;
         return user;
@@ -75,10 +75,4 @@ export class Address {
     city: string;
     state: string;
     zip: string;
-}
-
-export class dateObject {
-    month: number;
-    day: number;
-    year: number;
 }

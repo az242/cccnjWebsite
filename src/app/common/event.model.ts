@@ -4,18 +4,20 @@ export class Event {
     name: string;
     location: string;
     photoUrl: string;
-    startDate: number;
+    startDate: Date;
+    attendees: string[];
     recurrence:RecurranceRule;
     forWho: string;
     desc: string;
     shortDesc: string;
-    public: boolean;
+    visibility: string[];
+    uid: string;
 }
 
 export class RecurranceRule {
     interval: number;// how many days till this event occurs again
-    endDate: number;// when we should stop this event 
-    exceptionDates: number[]; //dates it should not repeat
+    endDate: Date;// when we should stop this event 
+    exceptionDates: Date[]; //dates it should not repeat
 }
 
 export const eventConverter: FirestoreDataConverter<Event> = {
@@ -25,11 +27,12 @@ export const eventConverter: FirestoreDataConverter<Event> = {
             location: event.location,
             photoUrl: event.photoUrl,
             startDate: event.startDate,
-            recurrence: event.recurrence,
+            recurrence: event.recurrence ? event.recurrence : null,
             forWho: event.forWho,
             desc: event.desc,
             shortDesc: event.shortDesc,
-            public: event.public
+            visibility: event.visibility,
+            attendees: event.attendees
             };
     },
     fromFirestore: (snapshot, options) => {
@@ -38,12 +41,22 @@ export const eventConverter: FirestoreDataConverter<Event> = {
         event.name = data.name;
         event.location = data.location;
         event.photoUrl = data.photoUrl;
-        event.startDate = data.startDate;
-        event.recurrence = data.recurrence;
+        event.startDate = data.startDate && data.startDate !== '' ? data.startDate.toDate() : undefined;
+        if(data.recurrence) {
+            event.recurrence = {
+                interval: data.recurrence.interval,
+                endDate: data.recurrence.endDate && data.recurrence.endDate !== '' ? data.recurrence.endDate.toDate() : undefined,
+                exceptionDates: data.recurrence.exceptionDates.map(date => date.toDate())
+            };
+        } else {
+            event.recurrence = undefined;
+        }
+        event.uid = snapshot.id;
         event.forWho = data.forWho;
         event.desc = data.desc;
         event.shortDesc = data.shortDesc;
-        event.public = data.public;
+        event.visibility = data.visibility;
+        event.attendees = data.attendees;
         return event;
     }
 };
