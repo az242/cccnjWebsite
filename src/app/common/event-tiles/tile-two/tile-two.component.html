@@ -7,7 +7,7 @@
         </span>
         <img *ngIf="event.photoUrl && event.photoUrl !== ''" src="{{event.photoUrl}}" style="width:100%" class="image-frame">
         <div *ngIf="!event.photoUrl" class="h-100 w-100 flex-container center-all font white">
-            <h4>{{event.name}}</h4>
+            <h4>[{{event.name}}]</h4>
         </div>
     </div>
     <div class="txt">

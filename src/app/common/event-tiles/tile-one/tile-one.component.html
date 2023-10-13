@@ -2,10 +2,10 @@
     <h3 class="font white">{{event.startDate.toLocaleDateString('en-us', {month: 'short', day: 'numeric'})}}</h3>
     <div class="font black tile-content">
         <a>
-            <div style="height:100%;" [style.background-color]="color">
+            <div style="height:100%;" [style.background]="'linear-gradient(to right,' + color + ',' + color2 + ')'">
                 <img *ngIf="event.photoUrl && event.photoUrl !== ''" src="{{event.photoUrl}}" style="width:100%; height:100%" class="image-frame">
-                <div *ngIf="!event.photoUrl" class="h-100 w-100 flex-container center-all">
-                    {{event.name}}
+                <div *ngIf="!event.photoUrl" class="h-100 w-100 flex-container center-all font white">
+                    <h4>[{{event.name}}]</h4>
                 </div>
             </div>
             <div class="hover flex-container vertical center-all">

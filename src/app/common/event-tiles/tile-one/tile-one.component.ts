@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
 export class TileOneComponent implements OnInit {
   @Input() event;
   color;
+  color2;
   constructor(private router: Router) { }
   ngOnInit(): void {
     this.color = this.stringToColour(this.event.uid);
+    this.color2 = this.stringToColour(this.event.uid.split('').reverse().join(''));
   }
   routeToEvent() {
     this.router.navigate(['event/' + this.event.uid]);
@@ -27,5 +29,5 @@ export class TileOneComponent implements OnInit {
         colour += ('00' + value.toString(16)).substr(-2);
     }
     return colour;
-}
+  }
 }
