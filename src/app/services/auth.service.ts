@@ -32,6 +32,7 @@ export class AuthService {
     //   this.user = event;
     //   this.loginEvent.next(this.user);
     // });
+    
   }
   async login(email, password, rememberMe?): Promise<any> {
     if(rememberMe) {
@@ -64,7 +65,7 @@ export class AuthService {
     return this.userProfile;
   }
   getUserRoles() {
-    return this.userProfile.roles;
+    return this.userProfile?.roles ? this.userProfile.roles : [];
   }
   getUser() {
     return this.user;
