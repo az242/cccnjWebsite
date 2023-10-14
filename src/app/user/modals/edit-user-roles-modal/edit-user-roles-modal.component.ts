@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
-import { Roles, User } from '../../../common/user.model';
+import { Ages, Groups, Roles, User } from '../../../common/user.model';
 
 @Component({
   selector: 'edit-user-roles-modal',
@@ -50,14 +50,14 @@ export class EditUserRolesModalComponent implements OnInit{
     value.remove = remove;
     if(this.rolesForm.valid) {
       if(remove) {
-        value.roles = [...new Set(value.roles.filter((role) => Roles.includes(role) && value.user.roles.includes(role)))];
+        value.roles = [...new Set(value.roles.filter((role) => this.roleExists(role) && value.user.roles.includes(role)))];
         if(value.roles.length !== 0 ) {
           this.onSubmit.next(value);
         } else {
           this.onSubmit.next(undefined);
         }
       } else {
-        value.roles = [...new Set(value.roles.filter((role) => Roles.includes(role) && !value.user.roles.includes(role)))];
+        value.roles = [...new Set(value.roles.filter((role) => this.roleExists(role) && !value.user.roles.includes(role)))];
         if(value.roles.length !== 0 ) {
           this.onSubmit.next(value);
         } else {
@@ -66,5 +66,8 @@ export class EditUserRolesModalComponent implements OnInit{
       }
     }
     this.resetRoleForm();
+  }
+  roleExists(role) {
+    return Roles.includes(role) || Ages.includes(role) || Groups.includes(role);
   }
 }

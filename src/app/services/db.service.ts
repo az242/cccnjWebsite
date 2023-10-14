@@ -103,6 +103,28 @@ export class DbService {
     const result = await addDoc(this.eventCollection, event);
     return result.id;
   }
+  async getEventByIds(eventIds: string[]): Promise<Event[]> {
+    const q = query(this.eventCollection, where(documentId(), "in", eventIds));
+    
+    const productsDocsSnap = await getDocs(q);
+    let events = [];
+    let now = new Date();
+    productsDocsSnap.forEach((doc) => {
+      let event = doc.data();
+      if(event.recurrence && event.startDate.getTime() < now.getTime()) {
+        let startDate: Date = new Date(event.startDate);
+        while(startDate.getTime()<now.getTime() || event.recurrence.exceptionDates.some(date => date.getDate() === startDate.getDate() && date.getMonth() === startDate.getMonth())) {
+          startDate.setDate(startDate.getDate() + event.recurrence.interval);
+        }
+        if(startDate.getTime() <= event.recurrence.endDate.getTime()) {
+          event.startDate = startDate;
+        }
+      }
+      events.push(event);
+    });
+    events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});
+    return events;
+  }
   async getEventById(eventId) {
     const docRef = doc(this.eventCollection, eventId);
     const docSnap = await getDoc(docRef);
@@ -113,9 +135,16 @@ export class DbService {
       return undefined;
     }
   }
+  async addEventAttendee(eventId, attendeeId) {
+    const eventRef = doc(this.firestore, "events", eventId);
+    let result = await updateDoc(eventRef, {
+      attendees: arrayUnion(attendeeId)
+    });
+    return result;
+  }
   async getEventsByStartDate(startDate: Date, numLimit: number) {
-    const q1 = query(this.eventCollection, where('startDate', ">=", startDate), where('recurrence', '==', null));
-    const q2 = query(this.eventCollection, where(new FieldPath('recurrence','endDate'), '>=', startDate));
+    const q1 = query(this.eventCollection, where('startDate', ">=", startDate), where('recurrence', '==', null), limit(numLimit));
+    const q2 = query(this.eventCollection, where(new FieldPath('recurrence','endDate'), '>=', startDate), limit(numLimit));
     const nonrecurringsDocsSnap = await getDocs(q1);
     const recurringDocsSnap = await getDocs(q2);
     let events:Event[] = [];
@@ -127,7 +156,7 @@ export class DbService {
       let event = element.data();
       if(event.recurrence && event.startDate.getTime() < now.getTime()) {
         let startDate: Date = event.startDate;
-        while(startDate.getTime()<now.getTime()) {
+        while(startDate.getTime()<now.getTime() || event.recurrence.exceptionDates.some(date => date.getDate() === startDate.getDate() && date.getMonth() === startDate.getMonth())) {
           startDate.setDate(startDate.getDate() + event.recurrence.interval);
         }
         if(startDate.getTime() <= event.recurrence.endDate.getTime()) {
@@ -163,7 +192,7 @@ export class DbService {
     }
     events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});
     if(events.length > numLimit) {
-      return events.slice(0,numLimit-1);
+      return events.slice(0,numLimit);
     } else {
       return events;
     }
@@ -190,14 +219,16 @@ export class DbService {
       let event = element.data();
       if(event.recurrence && event.startDate.getTime() < now.getTime()) {
         let startDate: Date = event.startDate;
-        while(startDate.getTime()<now.getTime()) {
+        while(startDate.getTime()<now.getTime() || event.recurrence.exceptionDates.some(date => date.getDate() === startDate.getDate() && date.getMonth() === startDate.getMonth())) {
           startDate.setDate(startDate.getDate() + event.recurrence.interval);
         }
-        if(startDate.getTime() <= event.recurrence.endDate.getTime()) {
+        if(startDate.getTime() <= event.recurrence.endDate.getTime() && startDate.getTime() <= endDate.getTime()) {
           events.push(event);
         }
       } else {
-        events.push(event);
+        if(event.startDate.getTime() <= endDate.getTime()) {
+          events.push(event); 
+        }
       }
     });
     if(this.auth.isLoggedIn()) {

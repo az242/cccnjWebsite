@@ -36,17 +36,6 @@ export class EventsPageComponent implements OnInit{
   async ngOnInit(): Promise<void> {
     this.events = await this.db.getEventsByDateRange(new Date(), new Date(Date.now() + this.defaultDateRange));
     this.displayEvents = this.events;
-    // this.filterForm.valueChanges.pipe(pairwise(), map(([oldState, newState]) => {
-    //   let changes = {};
-    //   for (const key in newState) {
-    //     if (oldState[key] !== newState[key] && 
-    //         oldState[key] !== undefined) {
-    //       changes[key] = newState[key];
-    //     }
-    //   }
-    //   return changes;
-    // }));
-    //export const Ages = Object.freeze(['adult','college', 'youth', 'child', 'infant']);
     this.filterForm.valueChanges.pipe(
       startWith(this.filterForm.value),
       pairwise(),
@@ -76,6 +65,7 @@ export class EventsPageComponent implements OnInit{
           const currentDate = new Date();
           const startOfWeek = this.getStartOfWeek(currentDate);
           const endOfWeek = this.getEndOfWeek(currentDate);
+          console.log(startOfWeek, endOfWeek);
           this.events = await this.db.getEventsByDateRange(startOfWeek, endOfWeek);
         } else {
           this.events = await this.db.getEventsByDateRange(new Date(), new Date(Date.now() + this.defaultDateRange));

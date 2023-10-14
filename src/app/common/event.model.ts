@@ -12,6 +12,7 @@ export class Event {
     shortDesc: string;
     visibility: string[];
     uid: string;
+    owners: string[];
 }
 
 export class RecurranceRule {
@@ -32,7 +33,8 @@ export const eventConverter: FirestoreDataConverter<Event> = {
             desc: event.desc,
             shortDesc: event.shortDesc,
             visibility: event.visibility,
-            attendees: event.attendees
+            attendees: event.attendees,
+            owners: event.owners
             };
     },
     fromFirestore: (snapshot, options) => {
@@ -57,6 +59,7 @@ export const eventConverter: FirestoreDataConverter<Event> = {
         event.shortDesc = data.shortDesc;
         event.visibility = data.visibility;
         event.attendees = data.attendees;
+        event.owners = data.owners;
         return event;
     }
 };

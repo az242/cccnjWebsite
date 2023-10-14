@@ -13,6 +13,7 @@ body {
   --white: #faf0e6;
   --accent-1: #d43c3c;
   --accent-1-dark: #aa2f2f;
+  --accent-1-very-dark: #441515;
 }
 ::selection {
   background: var(--accent-1);
@@ -335,8 +336,8 @@ h5 {
   text-decoration: none;
   transition: all .25s ease;
   &:hover {
-      background-color: black;
-      color: white;
+      background-color: var(--accent-1-very-dark);
+      color: white !important;
   }
 }
 

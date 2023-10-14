@@ -21,6 +21,8 @@ export class ProfilePageComponent implements OnDestroy{
   userList = [];
   alertMessage: string;
   destroy: Subject<void> = new Subject();
+  pastEvents: Event[] = [];
+  futureEvents: Event[] = [];
   constructor(private auth: AuthService, private db: DbService, private router: Router, private fb: FormBuilder) {}
   ngOnDestroy(): void {
     this.destroy.next();
@@ -43,6 +45,18 @@ export class ProfilePageComponent implements OnDestroy{
     if(this.userProfile.roles.some(str => Roles.includes(str))) {
       this.userList = await this.db.getAllUsers();
     }
+    if(this.userProfile.events.length > 0) {
+      let events = await this.db.getEventByIds(this.userProfile.events);
+      console.log(events);
+      let now = new Date();
+      events.forEach(event => {
+        if(event.startDate.getTime() <= now.getTime()) {
+          this.pastEvents.push(event);
+        } else {
+          this.futureEvents.push(event);
+        }
+      });
+    }
   }
   onRoleSubmit(value) {
     if(!value) {
@@ -63,7 +77,7 @@ export class ProfilePageComponent implements OnDestroy{
     this.alertMessage = undefined;
   }
   async onEventSubmit(output: Event) {
-    console.log('profiule page got this',output);
+    console.log('Event returned: ',output);
     if(output) {
       let id = await this.db.createEvent(output);
       if(!id) {

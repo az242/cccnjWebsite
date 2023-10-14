@@ -12,12 +12,12 @@
                 <form (ngSubmit)="login($event)" #loginForm="ngForm">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input name="exampleInputEmail1" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email">
+                        <input name="exampleInputEmail1" type="email" class="form-control" id="exampleInputEmail1" autocomplete="username" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="email">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input name="exampleInputPassword1" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"  [(ngModel)]="password">
+                        <input name="exampleInputPassword1" type="password" class="form-control" id="exampleInputPassword1" autocomplete="current-password" placeholder="Password"  [(ngModel)]="password">
                     </div>
                     <div class="flex-container space-between">
                         <div class="form-check">

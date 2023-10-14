@@ -24,3 +24,10 @@
         padding: 4px 0 6px;
     }
 }
+.info-container {
+    border-left: 2px var(--accent-1) solid;
+    padding: 15px;
+}
+.what-container {
+    flex: 1 1 auto;
+}

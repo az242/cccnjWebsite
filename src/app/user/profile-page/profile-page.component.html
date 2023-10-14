@@ -115,14 +115,34 @@
                 </div>
                 <div class="profile-container events">
                     <h4 class="m-2 underline pb-2">My Past Events</h4>
-                    <div class="flex-container p-3">
-                        something here
+                    <div class="flex-container vertical p-3 event-container">
+                        <div *ngFor="let event of pastEvents">
+                            <a class="font black event-item" routerLink="/event/{{event.uid}}">
+                                <h5>{{event.name}}</h5>
+                                <div class="event-detail">
+                                    {{event.startDate | date:'shortDate'}}
+                                </div>
+                            </a>
+                        </div>
+                        <div *ngIf="pastEvents.length === 0">
+                            <p>No past events</p>
+                        </div>
                     </div>
                 </div>
                 <div class="profile-container events">
                     <h4 class="m-2 underline pb-2">My Future Events</h4>
-                    <div class="flex-container p-3">
-                        something here
+                    <div class="flex-container vertical p-3 event-container">
+                        <div *ngFor="let event of futureEvents">
+                            <a class="font black event-item" routerLink="/event/{{event.uid}}">
+                                <h5>{{event.name}}</h5>
+                                <div class="event-detail">
+                                    {{event.startDate | date:'shortDate'}}
+                                </div>
+                            </a>
+                        </div>
+                        <div *ngIf="futureEvents.length === 0">
+                            <p>No future events</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -142,7 +162,7 @@
                     <h4 class="m-2 underline pb-2">Event Control Panel</h4>
                     <div class="flex-container p-3">
                         <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#createEventModal">
-                            <i class="fa-solid fa-user-gear mt-3" style="font-size: 60px;"></i>
+                            <i class="fa-regular fa-calendar-plus mt-3" style="font-size: 60px;"></i>
                             <h5 class="m-3">Add Event</h5>
                         </a>
                     </div>
@@ -153,7 +173,7 @@
                     <h4 class="m-2 underline pb-2">Group Control Panel</h4>
                     <div class="flex-container p-3">
                         <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#userRolesModal">
-                            <i class="fa-solid fa-user-gear mt-3" style="font-size: 60px;"></i>
+                            <i class="fa-solid fa-people-group mt-3" style="font-size: 60px;"></i>
                             <h5 class="m-3">Add Group</h5>
                         </a>
                     </div>
@@ -166,4 +186,4 @@
 <leave-family-modal (onSubmit)="leaveFamily()"></leave-family-modal>
 <add-family-member-modal [userList]="userList" [familyMembers]="familyMembers" [uid]="userProfile.uid" (onSubmit)="addFamilyMember($event)"></add-family-member-modal>
 <edit-user-roles-modal [userList]="userList" (onSubmit)="onRoleSubmit($event)"></edit-user-roles-modal>
-<create-event-modal (onSubmit)="onEventSubmit($event)"></create-event-modal>
+<create-event-modal [user]="userProfile" [userList]="userList" (onSubmit)="onEventSubmit($event)"></create-event-modal>

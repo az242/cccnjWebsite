@@ -26,8 +26,24 @@
   &.events {
     flex: 1 1 auto;
     max-width: 25%;
+    max-height: 300px;
     @media only screen and (max-width: 850px) {
       max-width: 100%;
+    }
+    .event-container {
+      overflow-y:auto;
+      height:100%;
+      .event-item {
+        transition: all .25s ease;
+        .event-detail {
+          display:none;
+        }
+        &:hover {
+          .event-detail {
+            display:block;
+          }
+        }
+      }
     }
   }
   &.family {

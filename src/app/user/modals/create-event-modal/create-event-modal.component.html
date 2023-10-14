@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="eventTime">Event Time</label>
-                            <ngb-timepicker [(ngModel)]="time" [spinners]="false" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+                            <ngb-timepicker [(ngModel)]="time" [spinners]="false" [meridian]="true" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
                         </div>
                         <div class="form-group">
                             <label for="forWho">Who is the event for?</label>
@@ -54,10 +54,17 @@
                             <label for="desc">Description</label>
                             <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc"></textarea>
                         </div>
+                        <div formArrayName="owner">
+                            <div *ngFor="let role of owner.controls; let i=index" class="flex-container center-all">
+                                <input id="owner-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
+                                <i class="fa-solid fa-x p-2" (click)="removeOwner(i)"></i>
+                            </div>
+                            <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addOwner()">Add User</button>
+                        </div>
                         <div formArrayName="visibility">
                             <label>Visibility:</label>
-                            <div *ngFor="let role of visibility.controls; let i=index">
-                                <input id="visiblity-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i">
+                            <div *ngFor="let role of visibility.controls; let i=index" class="flex-container center-all">
+                                <input id="visiblity-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i"><i class="fa-solid fa-x p-2" (click)="removeVis(i)"></i>
                             </div>
                             <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addVisibility()">Add role</button>
                         </div>

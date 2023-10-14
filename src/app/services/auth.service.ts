@@ -71,7 +71,7 @@ export class AuthService {
     return this.user;
   }
   getUID() {
-    return this.user.uid;
+    return this.user?.uid;
   }
   async reload() {
     await this.auth.currentUser.reload();
