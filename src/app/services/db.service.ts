@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc, FieldPath, Query} from '@angular/fire/firestore';
+import { Firestore, addDoc, setDoc, collection, getDocs, getDoc, limit, query ,where, doc, documentId, updateDoc, arrayUnion, writeBatch, arrayRemove, deleteDoc, FieldPath, Query, orderBy} from '@angular/fire/firestore';
 import { Roles, User, userConverter } from '../common/user.model';
 import { Family, familyConverter } from '../common/family.model';
 import { Event, eventConverter } from '../common/event.model';
 import { AuthService } from './auth.service';
+import { Group, groupConverter } from '../common/group.model';
 // import { where } from "firebase/firestore";
 
 @Injectable({
@@ -14,6 +15,8 @@ export class DbService {
   userCollection = collection(this.firestore, 'users').withConverter(userConverter);
   familyCollection = collection(this.firestore, 'families').withConverter(familyConverter);
   eventCollection = collection(this.firestore, 'events').withConverter(eventConverter);
+  groupCollection = collection(this.firestore, 'groups').withConverter(groupConverter);
+  
   constructor(private auth: AuthService) { }
 
   async getUser(userId: string): Promise<User> {
@@ -260,5 +263,51 @@ export class DbService {
     } else {
       return events;
     }
+  }
+  async deleteEvent(eventId) {
+    let result = await deleteDoc(doc(this.firestore, "events", eventId));
+    return result;
+  }
+  async createGroup(group: Group) {
+    const result = await addDoc(this.groupCollection, group);
+    return result.id;
+  }
+  async addGroupAttendee(groupId, attendeeId) {
+    const eventRef = doc(this.firestore, "groups", groupId);
+    let result = await updateDoc(eventRef, {
+      attendees: arrayUnion(attendeeId)
+    });
+    return result;
+  }
+  async getGroups(lim): Promise<Group[]> {
+    let groups = [];
+    const q = query(this.groupCollection, limit(lim));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      groups.push(doc.data());
+    });
+    return groups;
+  }
+  async getGroupByIds(groupIds: string[]): Promise<Group[]> {
+    const q = query(this.groupCollection, where(documentId(), "in", groupIds));
+    const productsDocsSnap = await getDocs(q);
+    let groups = [];
+    productsDocsSnap.forEach((doc) => {
+      groups.push(doc.data());
+    });
+    return groups;
+  }
+  async getGroupById(groupId) {
+    const docRef = doc(this.groupCollection, groupId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return undefined;
+    }
+  }
+  async deleteGroup(groupId) {
+    let result = await deleteDoc(doc(this.firestore, "groups", groupId));
+    return result;
   }
 }

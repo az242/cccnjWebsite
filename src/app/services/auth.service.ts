@@ -58,6 +58,7 @@ export class AuthService {
   }
   logout() {
     this.user = undefined;
+    this.userProfile = undefined;
     this.loginEvent.next(undefined);
     this.auth.signOut();
   }

@@ -110,7 +110,12 @@
                 <div class="profile-container groups">
                     <h4 class="m-2 underline pb-2">My Groups</h4>
                     <div class="flex-container p-3">
-                        something here
+                        <ng-container *ngFor="let group of groups">
+                            <tile-four></tile-four>
+                        </ng-container>
+                        <div *ngIf="groups.length === 0">
+                            <p>No groups!</p>
+                        </div>
                     </div>
                 </div>
                 <div class="profile-container events">
@@ -172,7 +177,7 @@
                 <div class="profile-container admin">
                     <h4 class="m-2 underline pb-2">Group Control Panel</h4>
                     <div class="flex-container p-3">
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#userRolesModal">
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#createGroupModal">
                             <i class="fa-solid fa-people-group mt-3" style="font-size: 60px;"></i>
                             <h5 class="m-3">Add Group</h5>
                         </a>
@@ -187,3 +192,4 @@
 <add-family-member-modal [userList]="userList" [familyMembers]="familyMembers" [uid]="userProfile.uid" (onSubmit)="addFamilyMember($event)"></add-family-member-modal>
 <edit-user-roles-modal [userList]="userList" (onSubmit)="onRoleSubmit($event)"></edit-user-roles-modal>
 <create-event-modal [user]="userProfile" [userList]="userList" (onSubmit)="onEventSubmit($event)"></create-event-modal>
+<create-group-modal  [user]="userProfile" [userList]="userList" (onSubmit)="onGroupSubmit($event)"></create-group-modal>

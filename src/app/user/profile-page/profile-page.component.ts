@@ -10,6 +10,7 @@ import { Family } from 'src/app/common/family.model';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 import { Event } from 'src/app/common/event.model';
+import { Group } from 'src/app/common/group.model';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -21,6 +22,7 @@ export class ProfilePageComponent implements OnDestroy{
   userList = [];
   alertMessage: string;
   destroy: Subject<void> = new Subject();
+  groups: Group[] = [];
   pastEvents: Event[] = [];
   futureEvents: Event[] = [];
   constructor(private auth: AuthService, private db: DbService, private router: Router, private fb: FormBuilder) {}
@@ -47,7 +49,6 @@ export class ProfilePageComponent implements OnDestroy{
     }
     if(this.userProfile.events.length > 0) {
       let events = await this.db.getEventByIds(this.userProfile.events);
-      console.log(events);
       let now = new Date();
       events.forEach(event => {
         if(event.startDate.getTime() <= now.getTime()) {
@@ -56,6 +57,9 @@ export class ProfilePageComponent implements OnDestroy{
           this.futureEvents.push(event);
         }
       });
+    }
+    if(this.userProfile.groups.length > 0) {
+      this.groups = await this.db.getGroupByIds(this.userProfile.groups);
     }
   }
   onRoleSubmit(value) {
@@ -82,6 +86,17 @@ export class ProfilePageComponent implements OnDestroy{
       let id = await this.db.createEvent(output);
       if(!id) {
         this.alertMessage = 'Failed to create event';
+      } else {
+        this.alertMessage = undefined;
+      }
+    }
+  }
+  async onGroupSubmit(output: Group) {
+    console.log('Group returned: ',output);
+    if(output) {
+      let id = await this.db.createGroup(output);
+      if(!id) {
+        this.alertMessage = 'Failed to create group';
       } else {
         this.alertMessage = undefined;
       }

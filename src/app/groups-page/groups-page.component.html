@@ -9,8 +9,12 @@
             </div>
         </div>
     </section>
-    <section>
-        new section for groups
+    <section class="expect-bg">
+        <div class="content flex-container g-25 wrap" >
+            <ng-container *ngFor="let group of displayGroups">
+                <app-tile-three [group]="group"></app-tile-three>
+            </ng-container>
+        </div>
     </section>
     <app-footer></app-footer>
 </div>

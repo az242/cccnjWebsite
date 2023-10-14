@@ -5,6 +5,7 @@ import { Event, RecurranceRule } from 'src/app/common/event.model';
 import * as bootstrap from 'bootstrap';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { requireAtLeastOne } from 'src/app/utilities/modal-tools.util';
 @Component({
   selector: 'create-event-modal',
   templateUrl: './create-event-modal.component.html',
@@ -36,7 +37,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
     ]),
     owner: this.fb.array([
       this.fb.control(undefined)
-    ])
+    ], requireAtLeastOne)
   });
   constructor(private fb: FormBuilder) {
   }

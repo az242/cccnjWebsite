@@ -65,7 +65,6 @@ export class EventsPageComponent implements OnInit{
           const currentDate = new Date();
           const startOfWeek = this.getStartOfWeek(currentDate);
           const endOfWeek = this.getEndOfWeek(currentDate);
-          console.log(startOfWeek, endOfWeek);
           this.events = await this.db.getEventsByDateRange(startOfWeek, endOfWeek);
         } else {
           this.events = await this.db.getEventsByDateRange(new Date(), new Date(Date.now() + this.defaultDateRange));

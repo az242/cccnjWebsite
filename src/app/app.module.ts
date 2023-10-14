@@ -12,8 +12,8 @@ import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbModule
 import { VisitPageComponent } from './visit-page/visit-page.component';
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
-import { TileOneComponent } from './common/event-tiles/tile-one/tile-one.component';
-import { TileTwoComponent } from './common/event-tiles/tile-two/tile-two.component';
+import { TileOneComponent } from './common/tiles/tile-one/tile-one.component';
+import { TileTwoComponent } from './common/tiles/tile-two/tile-two.component';
 import { EventsPageComponent } from './events-page/events-page.component';
 import { WatchPageComponent } from './watch-page/watch-page.component';
 import { LoginPageComponent } from './login/login-page/login-page.component';
@@ -33,6 +33,9 @@ import { AddFamilyMemberModalComponent } from './user/modals/add-family-member-m
 import { LeaveFamilyModalComponent } from './user/modals/leave-family-modal/leave-family-modal.component';
 import { EventPageComponent } from './events-page/event-page/event-page.component';
 import { GroupPageComponent } from './groups-page/group-page/group-page.component';
+import { CreateGroupModalComponent } from './user/modals/create-group-modal/create-group-modal.component';
+import { TileThreeComponent } from './common/tiles/tile-three/tile-three.component';
+import { TileFourComponent } from './common/tiles/tile-four/tile-four.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,10 @@ import { GroupPageComponent } from './groups-page/group-page/group-page.componen
     AddFamilyMemberModalComponent,
     LeaveFamilyModalComponent,
     EventPageComponent,
-    GroupPageComponent
+    GroupPageComponent,
+    CreateGroupModalComponent,
+    TileThreeComponent,
+    TileFourComponent
   ],
   imports: [
     BrowserModule,

@@ -39,10 +39,10 @@ export class User {
 export const Roles = Object.freeze(['admin', 'event', 'group']);
 export const Groups = Object.freeze(['english','taiwanese','mandarin']);
 export const Ages = Object.freeze(['adult','college', 'youth', 'child', 'infant']);
-export const getAgeTag = (user: User) => {
+export const getAgeTag = (dob: Date) => {
     const today = new Date();
-    let age = today.getFullYear() - user.dob.getFullYear();
-    if (today.getMonth() < user.dob.getMonth() || (today.getMonth() === user.dob.getMonth() && today.getDate() < user.dob.getDate())) {
+    let age = today.getFullYear() - dob.getFullYear();
+    if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
         age--;
     }
     if(age > 21) {

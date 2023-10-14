@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, EnvironmentInjector, OnInit, ViewChild, ViewContainerRef, createComponent } from '@angular/core';
 import { Router } from '@angular/router';
-import { TileOneComponent } from '../common/event-tiles/tile-one/tile-one.component';
+import { TileOneComponent } from '../common/tiles/tile-one/tile-one.component';
 import { Event } from '../common/event.model';
 import { DbService } from '../services/db.service';
 @Component({

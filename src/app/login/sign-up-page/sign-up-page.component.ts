@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/common/user.model';
+import { User, getAgeTag } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 
@@ -27,12 +27,12 @@ export class SignUpPageComponent {
     familyId: [''],
     password: ['', Validators.required],
     passwordCheck: [''],
-    dob: [undefined],
+    dob: [undefined, Validators.required],
     photoUrl: [''],
     phone: [''],
-    roles: [[]],
-    groups: [[]],
-    events: [[]],
+    roles: [[] as string[]],
+    groups: [[] as string[]],
+    events: [[] as string[]],
     member: ['']
   }, {validators: passwordValidator});
   americanStates = [
@@ -100,6 +100,8 @@ export class SignUpPageComponent {
         await this.auth.reload();
         await updateProfile(this.auth.getUser(), {displayName: user.firstName + ' ' + user.lastName, photoURL: user.photoUrl ? user.photoUrl : '' });
         await this.auth.reload();
+        user.roles = [];
+        user.roles.push(getAgeTag(user.dob));
         let userResult = await this.db.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);
         this.alertMessage = undefined;
