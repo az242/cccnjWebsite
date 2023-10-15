@@ -106,6 +106,11 @@ export class DbService {
     const result = await addDoc(this.eventCollection, event);
     return result.id;
   }
+  async updateEvent(eventId: string, updates) {
+    const userRef = doc(this.firestore, "events", eventId);
+    let result = await updateDoc(userRef, updates);
+    return result;
+  }
   async getEventByIds(eventIds: string[]): Promise<Event[]> {
     const q = query(this.eventCollection, where(documentId(), "in", eventIds));
     
@@ -175,7 +180,11 @@ export class DbService {
       events = events.filter((event)=>{
         if(event.visibility.length > 0) {
           let hiddenVisiblity = event.visibility.filter(visTag => Roles.includes(visTag));
-          return hiddenVisiblity.some(visiblityTag => roles.includes(visiblityTag));
+          if(hiddenVisiblity.length > 0) {
+            return hiddenVisiblity.some(visiblityTag => roles.includes(visiblityTag));
+          } else {
+            return true;
+          }
         } else {
           return true;
         }
@@ -239,7 +248,11 @@ export class DbService {
       events = events.filter((event)=>{
         if(event.visibility.length > 0) {
           let hiddenVisiblity = event.visibility.filter(visTag => Roles.includes(visTag));
-          return hiddenVisiblity.some(visiblityTag => roles.includes(visiblityTag));
+          if(hiddenVisiblity.length > 0) {
+            return hiddenVisiblity.some(visiblityTag => roles.includes(visiblityTag));
+          } else {
+            return true;
+          }
         } else {
           return true;
         }
@@ -271,6 +284,11 @@ export class DbService {
   async createGroup(group: Group) {
     const result = await addDoc(this.groupCollection, group);
     return result.id;
+  }
+  async updateGroup(groupId: string, updates) {
+    const userRef = doc(this.firestore, "groups", groupId);
+    let result = await updateDoc(userRef, updates);
+    return result;
   }
   async addGroupAttendee(groupId, attendeeId) {
     const eventRef = doc(this.firestore, "groups", groupId);

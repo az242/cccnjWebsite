@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,6 +37,7 @@ import { GroupPageComponent } from './groups-page/group-page/group-page.componen
 import { CreateGroupModalComponent } from './user/modals/create-group-modal/create-group-modal.component';
 import { TileThreeComponent } from './common/tiles/tile-three/tile-three.component';
 import { TileFourComponent } from './common/tiles/tile-four/tile-four.component';
+import { UploadProfilePhotoModalComponent } from './user/modals/upload-profile-photo-modal/upload-profile-photo-modal.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { TileFourComponent } from './common/tiles/tile-four/tile-four.component'
     GroupPageComponent,
     CreateGroupModalComponent,
     TileThreeComponent,
-    TileFourComponent
+    TileFourComponent,
+    UploadProfilePhotoModalComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +78,7 @@ import { TileFourComponent } from './common/tiles/tile-four/tile-four.component'
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     NgbModule
   ],
   providers: [

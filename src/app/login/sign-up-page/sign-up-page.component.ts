@@ -4,6 +4,7 @@ import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators
 import { Router } from '@angular/router';
 import { User, getAgeTag } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -87,7 +88,11 @@ export class SignUpPageComponent {
     { abbreviation: 'WI', name: 'Wisconsin' },
     { abbreviation: 'WY', name: 'Wyoming' },
   ];
-  constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private db: DbService) {
+  selectedFile: File | null = null;
+  constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private db: DbService, private cloud: CloudService) {
+  }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
   async onSubmit(event) {
     event.preventDefault();
@@ -102,6 +107,10 @@ export class SignUpPageComponent {
         await this.auth.reload();
         user.roles = [];
         user.roles.push(getAgeTag(user.dob));
+        if(this.selectedFile) {
+          let photoUrl = await this.cloud.uploadPhotoPic('users',this.auth.getUID(),this.selectedFile);
+          user.photoUrl = photoUrl;
+        }
         let userResult = await this.db.createUser(this.auth.getUID(), user);
         console.log('saved user profile: ', userResult);
         this.alertMessage = undefined;

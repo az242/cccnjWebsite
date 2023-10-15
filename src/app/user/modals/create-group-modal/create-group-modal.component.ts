@@ -3,6 +3,8 @@ import { AbstractControl, FormArray, FormBuilder, ValidationErrors, Validators }
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Group } from 'src/app/common/group.model';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
+import { CloudService } from 'src/app/services/cloud.service';
+import { DbService } from 'src/app/services/db.service';
 import { requireAtLeastOne } from 'src/app/utilities/modal-tools.util';
 
 @Component({
@@ -11,9 +13,10 @@ import { requireAtLeastOne } from 'src/app/utilities/modal-tools.util';
   styleUrls: ['./create-group-modal.component.scss']
 })
 export class CreateGroupModalComponent implements OnInit, OnChanges{
-  @Output() onSubmit = new EventEmitter<Group>();
+  // @Output() onSubmit = new EventEmitter<Group>();
   @Input() user: User;
   @Input() userList;
+  selectedFile: File | null = null;
   groupForm = this.fb.group({
     name: ['', Validators.required],
     location: ['', Validators.required],
@@ -29,7 +32,7 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
       this.fb.control(undefined)
     ], requireAtLeastOne)
   });
-  constructor(private fb: FormBuilder) {
+  constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService) {
   }
   ngOnChanges(changes) {
     if(this.user.roles) {
@@ -74,6 +77,7 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
     this.groupForm.reset();
     this.visibility.clear();
     let roles = this.user.roles.filter(role => !Roles.includes(role));
+    this.selectedFile = null;
     if(roles.some(role => {return Ages.includes(role) || Groups.includes(role)})) {
       for(let role of roles) {
         this.visibility.push(this.fb.control(role));
@@ -84,7 +88,10 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
     this.owner.clear();
     this.owner.push(this.fb.control(this.user));
   }
-  _onSubmit() {
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+  async _onSubmit() {
     if (this.groupForm.valid) {
       let group = new Group();
       let value = this.groupForm.value;
@@ -98,9 +105,9 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
       group.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role) || Ages.includes(role)))];
       group.attendees = [];
       group.owners = value.owner.map(user=> {return user.uid});
-      this.onSubmit.emit(group);
-    } else {
-      this.onSubmit.emit(undefined);
+      let id = await this.db.createGroup(group);
+      let photoUrl = await this.cloud.uploadPhotoPic('groups',id,this.selectedFile);
+      await this.db.updateGroup(id, {photoUrl: photoUrl});
     }
   }
 }

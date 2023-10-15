@@ -29,6 +29,11 @@
     max-height: 300px;
     @media only screen and (max-width: 850px) {
       max-width: 100%;
+      max-height:none;
+      .event-container {
+        overflow: auto;
+        height: auto;
+      }
     }
     .event-container {
       overflow-y:auto;

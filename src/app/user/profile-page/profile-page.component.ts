@@ -11,6 +11,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 import { Event } from 'src/app/common/event.model';
 import { Group } from 'src/app/common/group.model';
+import { CloudService } from 'src/app/services/cloud.service';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -25,7 +26,7 @@ export class ProfilePageComponent implements OnDestroy{
   groups: Group[] = [];
   pastEvents: Event[] = [];
   futureEvents: Event[] = [];
-  constructor(private auth: AuthService, private db: DbService, private router: Router, private fb: FormBuilder) {}
+  constructor(private auth: AuthService, private db: DbService, private router: Router, private cloud: CloudService) {}
   ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.unsubscribe();
@@ -134,5 +135,9 @@ export class ProfilePageComponent implements OnDestroy{
   async saveProfile() {
     await updateProfile(this.auth.getUser(), {displayName: this.userProfile.firstName + ' ' + this.userProfile.lastName, photoURL: this.userProfile.photoUrl});
     this.auth.reload();
+  }
+  async uploadPhoto(file: File) {
+    let photoUrl = await this.cloud.uploadPhotoPic('users',this.userProfile.uid,file);
+    await this.db.updateUser(this.userProfile.uid, {photoUrl: photoUrl});
   }
 }

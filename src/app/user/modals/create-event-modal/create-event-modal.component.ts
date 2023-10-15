@@ -6,15 +6,17 @@ import * as bootstrap from 'bootstrap';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { requireAtLeastOne } from 'src/app/utilities/modal-tools.util';
+import { DbService } from 'src/app/services/db.service';
+import { CloudService } from 'src/app/services/cloud.service';
 @Component({
   selector: 'create-event-modal',
   templateUrl: './create-event-modal.component.html',
   styleUrls: ['./create-event-modal.component.scss']
 })
 export class CreateEventModalComponent implements OnInit, OnChanges {
-  @Output() onSubmit = new EventEmitter<Event>();
   @Input() user: User;
   @Input() userList;
+  selectedFile: File | null = null;
   now = new Date();
   time;
   recurranceEnabled: boolean = false;
@@ -39,7 +41,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       this.fb.control(undefined)
     ], requireAtLeastOne)
   });
-  constructor(private fb: FormBuilder) {
+  constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService) {
   }
   ngOnChanges(changes) {
     if(this.user.roles) {
@@ -51,6 +53,9 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
     myModalEl.addEventListener('hidden.bs.modal', event => {
       this.resetForm();
     })
+  }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
   nameEmailUidSearch:OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
   text$.pipe(
@@ -92,6 +97,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
     } else {
       this.visibility.push(this.fb.control(''));
     }
+    this.selectedFile = null;
     this.owner.clear();
     this.owner.push(this.fb.control(this.user));
   }
@@ -115,7 +121,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       this.exceptionDates = array;
     }
   }
-  _onSubmit() {
+  async _onSubmit() {
     if (this.eventForm.valid) {
       let event = new Event();
       let value = this.eventForm.value;
@@ -137,9 +143,9 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       event.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role) || Ages.includes(role)))];
       event.attendees = [];
       event.owners = value.owner.map(user=> {return user.uid});
-      this.onSubmit.emit(event);
-    } else {
-      this.onSubmit.emit(undefined);
+      let id = await this.db.createEvent(event);
+      let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);
+      await this.db.updateEvent(id, {photoUrl: photoUrl});
     }
   }
 }

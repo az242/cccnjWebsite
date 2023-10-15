@@ -12,9 +12,6 @@ export const environment = {
     messagingSenderId: "569912102638",
     appId: "1:569912102638:web:9629053c1e51321b6fadff",
     measurementId: "G-BNJS34CWM0"
-  },
-  serviceEndpoints: {
-    cccnj: 'http://localhost:8080'
   }
 };
 
