@@ -26,7 +26,7 @@ export class SignUpPageComponent {
       zip: ['']
     }),
     familyId: [''],
-    password: ['', Validators.required],
+    password: ['', Validators.required, passwordComplexityValidator],
     passwordCheck: [''],
     dob: [undefined, Validators.required],
     photoUrl: [''],
@@ -130,8 +130,3 @@ export class SignUpPageComponent {
   }
 }
 
-export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const pass1 = control.get('password');
-  const pass2 = control.get('passwordCheck');
-  return pass1 && pass2 && pass1.value !== pass2.value ? { passwordMismatch: true } : null;
-};
