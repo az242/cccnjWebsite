@@ -219,7 +219,7 @@
       <a class="child">
         staff
       </a>
-      <a class="child" routerLink="/events?tag=regeneration">
+      <a class="child" routerLink="/events" [queryParams]="{tag: 'adult'}">
         events
       </a>
       <!-- <a class="child">
@@ -231,7 +231,7 @@
       <a class="parent">
         Youth
       </a>
-      <a class="child" routerLink="/events?tag=youth">
+      <a class="child" routerLink="/events" [queryParams]="{tag: 'youth'}">
         events
       </a>
       <a class="child">
@@ -245,7 +245,7 @@
       <a class="parent">
         Children
       </a>
-      <a class="child" routerLink="/events?tag=children">
+      <a class="child" routerLink="/events" [queryParams]="{tag: 'child'}">
         Events
       </a>
       <!-- <a class="child">

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DbService } from '../services/db.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../common/event.model';
 import { FormBuilder } from '@angular/forms';
 import { filter, map, pairwise, startWith } from 'rxjs';
@@ -32,8 +32,25 @@ export class EventsPageComponent implements OnInit{
     })
   });
   filters = {age: [], group: []};
-  constructor(private db: DbService, private router: Router, private fb: FormBuilder) {}
+  constructor(private db: DbService, private router: Router, private fb: FormBuilder, private activedRoute: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {
+    this.activedRoute.queryParams.subscribe(params =>{
+      console.log('params', params);
+      if(params.tag) {
+        let tag = params.tag;
+        switch(tag) {
+          case Ages[0]:
+            this.filterForm.get('age').get('adult').setValue(true);
+            break;
+          case Ages[2]:
+            this.filterForm.get('age').get('youth').setValue(true);
+            break;
+          case Ages[3]:
+            this.filterForm.get('age').get('children').setValue(true);
+            break;
+        }
+      }
+    });
     this.events = await this.db.getEventsByDateRange(new Date(), new Date(Date.now() + this.defaultDateRange));
     this.displayEvents = this.events;
     this.filterForm.valueChanges.pipe(

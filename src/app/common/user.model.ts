@@ -36,8 +36,17 @@ export class User {
         this.uid = '';
     }
 }
+/**
+ * Roles admin, event group
+ */
 export const Roles = Object.freeze(['admin', 'event', 'group']);
+/**
+ *  Groups english taiwanese mandarin
+ */
 export const Groups = Object.freeze(['english','taiwanese','mandarin']);
+/**
+ * adult college youth child infant
+ */
 export const Ages = Object.freeze(['adult','college', 'youth', 'child', 'infant']);
 export const getAgeTag = (dob: Date) => {
     const today = new Date();

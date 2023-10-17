@@ -16,7 +16,7 @@ export class EventPageComponent implements OnInit {
   isLoggedIn: boolean = false;
   registered: boolean = false;
   userId: string = '';
-  constructor(private db: DbService,private auth: AuthService, private user: DbService, private activedRoute: ActivatedRoute) {}
+  constructor(private db: DbService,private auth: AuthService, private activedRoute: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {
     const id = this.activedRoute.snapshot.paramMap.get('id')!;
     this.event = await this.db.getEventById(id);
