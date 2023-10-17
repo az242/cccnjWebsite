@@ -11,8 +11,15 @@
                 <div class="modal-body">
                     <div class="p-3">
                         <p>Search who you would like to add/remove roles to and type in the roles which you would like to edit.</p>
-                        <input id="typeahead-basic" type="text" class="form-control w-100 my-3" placeholder="Name, Email, or UID" formControlName="user" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
-                        <div formArrayName="roles">
+                        <div formArrayName="users" class="p-2">
+                            <label>Users:</label>
+                            <div *ngFor="let user of users.controls; let i=index">
+                                <input id="users-{{ i }}" type="text" class="form-control w-100 my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
+                            </div>
+                            <button type="button" class="color-button" (click)="addUser()">Add User</button>
+                        </div>
+                        
+                        <div formArrayName="roles" class="p-2">
                             <label>Roles:</label>
                             <div *ngFor="let role of roles.controls; let i=index">
                                 <input id="roles-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i">

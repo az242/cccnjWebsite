@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Ages, Groups, Roles, User } from '../../../common/user.model';
+import { DbService } from 'src/app/services/db.service';
+import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 
 @Component({
   selector: 'edit-user-roles-modal',
@@ -10,14 +12,15 @@ import { Ages, Groups, Roles, User } from '../../../common/user.model';
 })
 export class EditUserRolesModalComponent implements OnInit{
   @Input() userList;
-  @Output() onSubmit = new EventEmitter<any>();
   rolesForm = this.fb.group({
-    user: [undefined as User, Validators.required],
+    users: this.fb.array([
+      this.fb.control(undefined as User,Validators.required)
+    ]),
     roles: this.fb.array([
       this.fb.control('',Validators.required)
     ])
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(private db: DbService,private fb: FormBuilder) {}
   ngOnInit() {
     const myModalEl = document.getElementById('userRolesModal')
     myModalEl.addEventListener('hidden.bs.modal', event => {
@@ -37,12 +40,20 @@ export class EditUserRolesModalComponent implements OnInit{
   get roles() {
     return this.rolesForm.get('roles') as FormArray;
   }
+  get users() {
+    return this.rolesForm.get('users') as FormArray;
+  }
+  addUser() {
+    this.users.push(this.fb.control(undefined as User));
+  }
   addRole() {
     this.roles.push(this.fb.control(''));
   }
   resetRoleForm() {
     this.roles.clear();
     this.roles.push(this.fb.control(''));
+    this.users.clear();
+    this.users.push(this.fb.control(''));
     this.rolesForm.reset();
   }
   onRoleSubmit(remove?: boolean) {
@@ -51,19 +62,23 @@ export class EditUserRolesModalComponent implements OnInit{
     if(this.rolesForm.valid) {
       if(remove) {
         value.roles = [...new Set(value.roles.filter((role) => this.roleExists(role) && value.user.roles.includes(role)))];
-        if(value.roles.length !== 0 ) {
-          this.onSubmit.next(value);
-        } else {
-          this.onSubmit.next(undefined);
-        }
       } else {
         value.roles = [...new Set(value.roles.filter((role) => this.roleExists(role) && !value.user.roles.includes(role)))];
-        if(value.roles.length !== 0 ) {
-          this.onSubmit.next(value);
-        } else {
-          this.onSubmit.next(undefined);
+      }
+      for(let user of value.users) {
+        if(user && user.uid) {
+          if(remove) {
+            if(value.roles.length !== 0 ) {
+              this.db.updateUser(user.uid, {roles: arrayRemove(...value.roles)})
+            }
+          } else {
+            if(value.roles.length !== 0 ) {
+              this.db.updateUser(user.uid, {roles: arrayUnion(...value.roles)})
+            }
+          }
         }
       }
+      
     }
     this.resetRoleForm();
   }

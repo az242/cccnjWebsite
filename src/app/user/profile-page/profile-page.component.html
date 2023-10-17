@@ -170,6 +170,18 @@
                             <i class="fa-regular fa-calendar-plus mt-3" style="font-size: 60px;"></i>
                             <h5 class="m-3">Add Event</h5>
                         </a>
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                            <i class="fa-regular fa-calendar-check mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">Edit Event</h5>
+                        </a>
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                            <i class="fa-regular fa-calendar-xmark mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">Delete Event</h5>
+                        </a>
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                            <i class="fa-regular fa-calendar-minus mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">View Event Info</h5>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -181,6 +193,18 @@
                             <i class="fa-solid fa-people-group mt-3" style="font-size: 60px;"></i>
                             <h5 class="m-3">Add Group</h5>
                         </a>
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                            <i class="fa-solid fa-users-viewfinder mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">Edit Group</h5>
+                        </a>
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                            <i class="fa-solid fa-users-rays mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">Delete Group</h5>
+                        </a>
+                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                            <i class="fa-solid fa-users-between-lines mt-3" style="font-size: 60px;"></i>
+                            <h5 class="m-3">View Group Info</h5>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -190,7 +214,7 @@
 </div>
 <leave-family-modal (onSubmit)="leaveFamily()"></leave-family-modal>
 <add-family-member-modal [userList]="userList" [familyMembers]="familyMembers" [uid]="userProfile?.uid" (onSubmit)="addFamilyMember($event)"></add-family-member-modal>
-<edit-user-roles-modal [userList]="userList" (onSubmit)="onRoleSubmit($event)"></edit-user-roles-modal>
+<edit-user-roles-modal [userList]="userList"></edit-user-roles-modal>
 <create-event-modal [user]="userProfile" [userList]="userList"></create-event-modal>
 <create-group-modal  [user]="userProfile" [userList]="userList"></create-group-modal>
 <edit-profile-modal [user]="userProfile" (onSubmit)="updateUserProfile($event)"></edit-profile-modal>
