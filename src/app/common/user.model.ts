@@ -37,17 +37,37 @@ export class User {
     }
 }
 /**
- * Roles admin, event group
+ * Available Admin Roles for user power roles
+ * Indexes:
+ * 0 admin
+ * 1 event
+ * 2 group
  */
 export const Roles = Object.freeze(['admin', 'event', 'group']);
 /**
- *  Groups english taiwanese mandarin
+ *  Available group roles for users/events/groups
+ *  Indexes:
+ *  0 english
+ *  1 taiwanese
+ *  2 mandarin
  */
 export const Groups = Object.freeze(['english','taiwanese','mandarin']);
 /**
- * adult college youth child infant
+ * Available Age Roles for users/events/groups
+ * 
+ * Indexes: 
+ * 0 adult
+ * 1 college
+ * 2 youth
+ * 3 child
+ * 4 infant
  */
 export const Ages = Object.freeze(['adult','college', 'youth', 'child', 'infant']);
+/**
+ * Get user age role by JS Date object
+ * @param dob Date used to calculate current age
+ * @returns string Age Role
+ */
 export const getAgeTag = (dob: Date) => {
     const today = new Date();
     let age = today.getFullYear() - dob.getFullYear();

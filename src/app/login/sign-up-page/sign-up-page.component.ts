@@ -6,7 +6,7 @@ import { User, getAgeTag } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
-import { americanStates, passwordComplexityValidator, passwordValidator, validateUSZipCode } from 'src/app/utilities/form.validator';
+import { americanStates, passwordComplexityValidator, passwordValidator, validateUSZipCode } from 'src/app/utilities/form.util';
 
 @Component({
   selector: 'app-sign-up-page',

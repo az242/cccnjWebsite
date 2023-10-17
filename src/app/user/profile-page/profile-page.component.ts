@@ -33,7 +33,7 @@ export class ProfilePageComponent implements OnDestroy{
   }
   async ngOnInit(): Promise<void> {
     let temp = this.auth.getUser();
-    let tempUserProf = {displayName: temp.displayName, phone: temp.phoneNumber, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
+    let tempUserProf = {displayName: temp.displayName, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
     this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe((user)=> {
       if(!user) {
         this.router.navigate(['']);

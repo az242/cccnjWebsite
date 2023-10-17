@@ -5,9 +5,9 @@ import { Event, RecurranceRule } from 'src/app/common/event.model';
 import * as bootstrap from 'bootstrap';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
-import { requireAtLeastOne } from 'src/app/utilities/modal-tools.util';
 import { DbService } from 'src/app/services/db.service';
 import { CloudService } from 'src/app/services/cloud.service';
+import { requireAtLeastOne } from 'src/app/utilities/form.util';
 @Component({
   selector: 'create-event-modal',
   templateUrl: './create-event-modal.component.html',

@@ -5,7 +5,7 @@ import { Group } from 'src/app/common/group.model';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
-import { requireAtLeastOne } from 'src/app/utilities/modal-tools.util';
+import { requireAtLeastOne } from 'src/app/utilities/form.util';
 
 @Component({
   selector: 'create-group-modal',

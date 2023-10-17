@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
-import { americanStates, validateUSZipCode } from 'src/app/utilities/form.validator';
+import { americanStates, validateUSZipCode } from 'src/app/utilities/form.util';
 
 @Component({
   selector: 'edit-profile-modal',

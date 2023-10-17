@@ -35,7 +35,6 @@ export class EventsPageComponent implements OnInit{
   constructor(private db: DbService, private router: Router, private fb: FormBuilder, private activedRoute: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {
     this.activedRoute.queryParams.subscribe(params =>{
-      console.log('params', params);
       if(params.tag) {
         let tag = params.tag;
         switch(tag) {

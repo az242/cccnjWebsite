@@ -1,11 +1,20 @@
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const pass1 = control.get('password');
     const pass2 = control.get('passwordCheck');
     return pass1 && pass2 && pass1.value !== pass2.value ? { passwordMismatch: true } : null;
 };
-export const passwordComplexityValidator = (control: FormControl) => {
+/**
+ * Validation function to make sure string meets complexity rules
+ * - one uppercase letter
+ * - one lowercase letter
+ * - one digit
+ * - atleast 6 characters long
+ * @param control 
+ * @returns Validation Error 'complexity'
+ */
+export const passwordComplexityValidator = (control: AbstractControl): ValidationErrors | null => {
     // Define your password complexity rules here
     const password = control.value;
     // Example: Require at least one uppercase letter, one lowercase letter, and one digit
@@ -15,13 +24,33 @@ export const passwordComplexityValidator = (control: FormControl) => {
     }
     return null;
 }
-export const validateUSZipCode = (control: FormControl) => {
+/**
+ * validation function for zip codes
+ * format: XXXXX-ZZZZ
+ * @param control 
+ * @returns Validation Error 'invalidZip'
+ */
+export const validateUSZipCode = (control: AbstractControl): ValidationErrors | null => {
     const zip = control.value;
     // Define a regular expression pattern for U.S. ZIP codes
     var zipCodePattern = /^\d{5}(?:-\d{4})?$/;
     if (!zipCodePattern.test(zip)) {
         return { invalidZip: true };
     }
+    return null;
+}
+/**
+ *  Applies to FormArrays and validates there is atleast one control in the array
+ * @param control 
+ * @returns An error map with the `requireAtLeastOne` property if the validation check fails, otherwise `null`.
+ */
+export const requireAtLeastOne = (control: AbstractControl): ValidationErrors | null => {
+    const items = control as FormArray;
+  
+    if (!items || items.length === 0) {
+      return { requireAtLeastOne: true };
+    }
+  
     return null;
 }
 export const americanStates = [
