@@ -13,7 +13,7 @@
                         </div>
                         <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
                         <div>User since {{userProfile.created | date:'yyyy'}}</div>
-                        <a data-bs-toggle="modal" data-bs-target="#profilePhotoModal">Edit Profile</a>
+                        <a data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</a>
                         <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
                     </div>
                 </div>
@@ -189,8 +189,8 @@
     <app-footer></app-footer>
 </div>
 <leave-family-modal (onSubmit)="leaveFamily()"></leave-family-modal>
-<add-family-member-modal [userList]="userList" [familyMembers]="familyMembers" [uid]="userProfile.uid" (onSubmit)="addFamilyMember($event)"></add-family-member-modal>
+<add-family-member-modal [userList]="userList" [familyMembers]="familyMembers" [uid]="userProfile?.uid" (onSubmit)="addFamilyMember($event)"></add-family-member-modal>
 <edit-user-roles-modal [userList]="userList" (onSubmit)="onRoleSubmit($event)"></edit-user-roles-modal>
 <create-event-modal [user]="userProfile" [userList]="userList"></create-event-modal>
 <create-group-modal  [user]="userProfile" [userList]="userList"></create-group-modal>
-<upload-profile-photo-modal (onSubmit)="uploadPhoto($event)"></upload-profile-photo-modal>
+<edit-profile-modal [user]="userProfile" (onSubmit)="updateUserProfile($event)"></edit-profile-modal>

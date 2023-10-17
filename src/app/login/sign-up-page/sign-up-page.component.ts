@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User, getAgeTag } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
+import { americanStates, passwordComplexityValidator, passwordValidator, validateUSZipCode } from 'src/app/utilities/form.validator';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -17,83 +18,37 @@ export class SignUpPageComponent {
   uhg: boolean = true;
   profileForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    firstName: [''],
-    lastName: [''],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
     address: this.fb.group({
       street: [''],
       city: [''],
       state: [''],
-      zip: ['']
+      zip: ['', validateUSZipCode]
     }),
     familyId: [''],
-    password: ['', Validators.required, passwordComplexityValidator],
-    passwordCheck: [''],
+    password: ['', [Validators.required, passwordComplexityValidator]],
+    passwordCheck: ['', Validators.required],
     dob: [undefined, Validators.required],
     photoUrl: [''],
-    phone: [''],
+    phone: ['', Validators.required],
     roles: [[] as string[]],
     groups: [[] as string[]],
     events: [[] as string[]],
     member: ['']
   }, {validators: passwordValidator});
-  americanStates = [
-    { abbreviation: 'AL', name: 'Alabama' },
-    { abbreviation: 'AK', name: 'Alaska' },
-    { abbreviation: 'AZ', name: 'Arizona' },
-    { abbreviation: 'AR', name: 'Arkansas' },
-    { abbreviation: 'CA', name: 'California' },
-    { abbreviation: 'CO', name: 'Colorado' },
-    { abbreviation: 'CT', name: 'Connecticut' },
-    { abbreviation: 'DE', name: 'Delaware' },
-    { abbreviation: 'FL', name: 'Florida' },
-    { abbreviation: 'GA', name: 'Georgia' },
-    { abbreviation: 'HI', name: 'Hawaii' },
-    { abbreviation: 'ID', name: 'Idaho' },
-    { abbreviation: 'IL', name: 'Illinois' },
-    { abbreviation: 'IN', name: 'Indiana' },
-    { abbreviation: 'IA', name: 'Iowa' },
-    { abbreviation: 'KS', name: 'Kansas' },
-    { abbreviation: 'KY', name: 'Kentucky' },
-    { abbreviation: 'LA', name: 'Louisiana' },
-    { abbreviation: 'ME', name: 'Maine' },
-    { abbreviation: 'MD', name: 'Maryland' },
-    { abbreviation: 'MA', name: 'Massachusetts' },
-    { abbreviation: 'MI', name: 'Michigan' },
-    { abbreviation: 'MN', name: 'Minnesota' },
-    { abbreviation: 'MS', name: 'Mississippi' },
-    { abbreviation: 'MO', name: 'Missouri' },
-    { abbreviation: 'MT', name: 'Montana' },
-    { abbreviation: 'NE', name: 'Nebraska' },
-    { abbreviation: 'NV', name: 'Nevada' },
-    { abbreviation: 'NH', name: 'New Hampshire' },
-    { abbreviation: 'NJ', name: 'New Jersey' },
-    { abbreviation: 'NM', name: 'New Mexico' },
-    { abbreviation: 'NY', name: 'New York' },
-    { abbreviation: 'NC', name: 'North Carolina' },
-    { abbreviation: 'ND', name: 'North Dakota' },
-    { abbreviation: 'OH', name: 'Ohio' },
-    { abbreviation: 'OK', name: 'Oklahoma' },
-    { abbreviation: 'OR', name: 'Oregon' },
-    { abbreviation: 'PA', name: 'Pennsylvania' },
-    { abbreviation: 'RI', name: 'Rhode Island' },
-    { abbreviation: 'SC', name: 'South Carolina' },
-    { abbreviation: 'SD', name: 'South Dakota' },
-    { abbreviation: 'TN', name: 'Tennessee' },
-    { abbreviation: 'TX', name: 'Texas' },
-    { abbreviation: 'UT', name: 'Utah' },
-    { abbreviation: 'VT', name: 'Vermont' },
-    { abbreviation: 'VA', name: 'Virginia' },
-    { abbreviation: 'WA', name: 'Washington' },
-    { abbreviation: 'WV', name: 'West Virginia' },
-    { abbreviation: 'WI', name: 'Wisconsin' },
-    { abbreviation: 'WY', name: 'Wyoming' },
-  ];
+  americanStates = americanStates;
   selectedFile: File | null = null;
   constructor(private router: Router,private fb: FormBuilder, private auth: AuthService, private db: DbService, private cloud: CloudService) {
+  }
+  ngOnInit() {
+    
   }
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
+  get pfc() { return this.profileForm.controls; }
+  get afc() {return this.profileForm.controls.address.controls}
   async onSubmit(event) {
     event.preventDefault();
     if(this.profileForm.valid) {
@@ -116,12 +71,11 @@ export class SignUpPageComponent {
         this.alertMessage = undefined;
         this.route('/profile');
       } else {
-        this.alertMessage = 'Something went wrong with registration';
+        this.alertMessage = 'Something went wrong with registration, Try again later!';
       }
       
     } else {
-      console.log('test');
-      this.alertMessage = 'Something you entered below is wrong!';
+      this.alertMessage = 'Errors exist with form below, fix and re-submit!';
     }
     
   }

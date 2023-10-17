@@ -37,7 +37,7 @@ import { GroupPageComponent } from './groups-page/group-page/group-page.componen
 import { CreateGroupModalComponent } from './user/modals/create-group-modal/create-group-modal.component';
 import { TileThreeComponent } from './common/tiles/tile-three/tile-three.component';
 import { TileFourComponent } from './common/tiles/tile-four/tile-four.component';
-import { UploadProfilePhotoModalComponent } from './user/modals/upload-profile-photo-modal/upload-profile-photo-modal.component';
+import { EditProfileModalComponent } from './user/modals/edit-profile-modal/edit-profile-modal.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +66,7 @@ import { UploadProfilePhotoModalComponent } from './user/modals/upload-profile-p
     CreateGroupModalComponent,
     TileThreeComponent,
     TileFourComponent,
-    UploadProfilePhotoModalComponent
+    EditProfileModalComponent
   ],
   imports: [
     BrowserModule,

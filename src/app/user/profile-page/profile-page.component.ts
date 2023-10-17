@@ -33,14 +33,14 @@ export class ProfilePageComponent implements OnDestroy{
   }
   async ngOnInit(): Promise<void> {
     let temp = this.auth.getUser();
-    this.userProfile = {displayName: temp.displayName, phone: temp.phoneNumber, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
+    let tempUserProf = {displayName: temp.displayName, phone: temp.phoneNumber, email: temp.email, created: temp.metadata.creationTime, loggedIn: temp.metadata.lastSignInTime, uid: temp.uid} as User;
     this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe((user)=> {
       if(!user) {
         this.router.navigate(['']);
       }
     });
     let dbUser = await this.db.getUser(this.auth.getUID());
-    this.userProfile = {...dbUser, ...this.userProfile};
+    this.userProfile = {...dbUser, ...tempUserProf};
     if(this.userProfile.familyId) {
       this.familyMembers = await this.db.getFamilyMembers(this.userProfile.familyId);
       this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);
@@ -132,12 +132,9 @@ export class ProfilePageComponent implements OnDestroy{
     this.familyMembers = await this.db.getFamilyMembers(this.userProfile.familyId);
     this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);
   }
-  async saveProfile() {
-    await updateProfile(this.auth.getUser(), {displayName: this.userProfile.firstName + ' ' + this.userProfile.lastName, photoURL: this.userProfile.photoUrl});
-    this.auth.reload();
-  }
-  async uploadPhoto(file: File) {
-    let photoUrl = await this.cloud.uploadPhotoPic('users',this.userProfile.uid,file);
-    await this.db.updateUser(this.userProfile.uid, {photoUrl: photoUrl});
+  updateUserProfile(updatedValues) {
+    for(let key in updatedValues) {
+      this.userProfile[key] = updatedValues[key];
+    }
   }
 }

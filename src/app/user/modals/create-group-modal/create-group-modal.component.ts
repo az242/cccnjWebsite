@@ -35,7 +35,7 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
   constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService) {
   }
   ngOnChanges(changes) {
-    if(this.user.roles) {
+    if(this.user?.roles) {
       this.resetForm();
     }
   }

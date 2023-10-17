@@ -59,7 +59,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 
   async addTiles() {
     let events: Event[] = await this.db.getEventsByStartDate(new Date(), 4);
-    console.log(events);
     for(let event of events) {
       let temp = createComponent(TileOneComponent, { environmentInjector: this.environmentInjector});
       temp.instance.event = event;
