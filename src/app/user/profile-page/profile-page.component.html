@@ -111,7 +111,7 @@
                     <h4 class="m-2 underline pb-2">My Groups</h4>
                     <div class="flex-container p-3">
                         <ng-container *ngFor="let group of groups">
-                            <tile-four></tile-four>
+                            <tile-four [group]="group"></tile-four>
                         </ng-container>
                         <div *ngIf="groups.length === 0">
                             <p>No groups!</p>
