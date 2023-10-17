@@ -43,7 +43,7 @@
                             <input class="form-control" type="text" id="city" placeholder="City" formControlName="city" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
                         </div>
                         <div class="form-group">
-                            <label for="city">City:</label>
+                            <label for="state">State:</label>
                             <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': afc.state.touched && afc.state.errors, 'is-valid': afc.state.valid }">
                                 <option value="" disabled selected>Select a state</option>
                                 <option *ngFor="let state of americanStates" [value]="state.abbreviation">{{ state.name }}</option>
