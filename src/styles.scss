@@ -52,6 +52,44 @@ p {
   max-height: 500px;
   overflow:auto;
 }
+.header-background {
+  
+  &.group {
+    background: url("https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2Ffurniture.jpeg?alt=media&token=c35f8c1d-090d-47df-9e48-dfa67835fe01");
+    filter: brightness(70%);
+    background-size: cover;
+    background-position: center;
+  }
+  &.event {
+    filter: brightness(60%);
+    background: url("https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2Fhang2.jpg?alt=media&token=8fb07a32-a0ce-47ea-ae42-7e2fa7bb310b");
+    background-size: cover;
+    background-position: center;
+  }
+  &.visit {
+    background: url("https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2Fwheat.jpg?alt=media&token=3e4bd7f4-7c38-43d4-8fb0-7bf64dcb192b");
+    filter: brightness(90%);
+    background-size: cover;
+    background-position: center;
+  }
+  &.give {
+    background: url("https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2Fgiving.png?alt=media&token=89b93065-5dec-4226-8071-86546cc11903");
+    filter: brightness(90%);
+    background-size: cover;
+    background-position: center;
+  }
+  
+  width:100%;
+  height: 350px;
+  + div {
+      height: 350px
+  }
+}
+.location-bg {
+  background: url("https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2Ffrontdoor.png?alt=media&token=6a800e21-9fd5-492a-a8f4-9d859ba1ba15");
+  background-size: cover;
+  background-position: center;
+}
 .small-header {
   margin-bottom: 10px;
   color: var(--accent-1);
@@ -275,7 +313,7 @@ hr {
   // top: 250px;
   transform: translateZ(-1px) scale(3) translateY(80px);
   filter: grayscale(1) brightness(25%);
-  background: url("assets/bg.jpg");
+  background: url("https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2Fbg.jpg?alt=media&token=42ee68e5-2be4-4faa-9802-8790415ef032");
   background-size: contain;
 }
 h1 {
