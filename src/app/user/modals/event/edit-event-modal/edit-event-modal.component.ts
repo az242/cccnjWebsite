@@ -43,7 +43,10 @@ export class EditEventModalComponent {
     this.selectedFile = event.target.files[0];
   }
   selectEvent() {
-    this.initForm(this.event);
+    if(this.event) {
+      this.initForm(this.event);
+    }
+    
   }
   eventNameUidSearch:OperatorFunction<string, readonly Event[]> = (text$: Observable<string>) =>
   text$.pipe(
@@ -167,19 +170,10 @@ export class EditEventModalComponent {
       if(value.startDate.getTime() !== this.event.startDate.getTime()) {
         updates.startDate = value.startDate;
       }
-      if(this.event.recurrence || value.recurrence) {
-        let exceptionDifference = this.event.recurrence?.exceptionDates.filter(date=>{
-          if(value.recurrence.exceptionDates.find(date2=> date.getTime() === date2.getTime()) === undefined) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-        if(this.event.recurrence?.endDate.getTime() !== value.recurrence?.endDate.getTime() || 
-        this.event.recurrence?.interval !== value.recurrence.interval || 
-        exceptionDifference.length > 0) {
-          updates.recurrence = { endDate: value.recurrence.endDate, interval: value.recurrence.interval, exceptionDates: value.recurrence.exceptionDates };
-        }
+      if(this.recurranceEnabled) {
+        updates.recurrence = { endDate: value.recurrence.endDate, interval: value.recurrence.interval, exceptionDates: value.recurrence.exceptionDates };
+      } else {
+        updates.recurrence = null;
       }
       if(value.forWho !== this.event.forWho) {
         updates.forWho = value.forWho;
@@ -212,15 +206,13 @@ export class EditEventModalComponent {
       if(ownerDiff.length > 0) {
         updates.owners = rawowner;
       }
-      event.photoUrl = value.photoUrl;
       event.attendees = [];
       let id = this.event.uid;
       if(this.selectedFile) {
-        
         let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);
         updates.photoUrl = photoUrl;
       }
-      
+      console.log(updates);
       await this.db.updateEvent(id, updates);
     }
   }

@@ -138,7 +138,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       if (value.recurrence && value.recurrence.endDate && value.recurrence.interval > 0) {
         event.recurrence = { endDate: value.recurrence.endDate, interval: value.recurrence.interval, exceptionDates: value.recurrence.exceptionDates };
       } else {
-        event.recurrence = undefined;
+        event.recurrence = null;
       }
       event.forWho = value.forWho;
       event.desc = value.desc;
