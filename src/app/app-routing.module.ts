@@ -14,6 +14,7 @@ import { GroupsPageComponent } from './groups-page/groups-page.component';
 import { GivePageComponent } from './give-page/give-page.component';
 import { EventPageComponent } from './events-page/event-page/event-page.component';
 import { GroupPageComponent } from './groups-page/group-page/group-page.component';
+import { RegenPageComponent } from './groups-page/regen-page/regen-page.component';
 
 const loggedInGuard: CanActivateFn = (route, state) => {
   const FirebaseAuth = inject(Auth);
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'watch', title:'CCCNJ - Watch Live', component: WatchPageComponent},
   { path: 'groups', title:'CCCNJ - Small Groups', component: GroupsPageComponent},
   { path: 'group/:id', title:'CCCNJ - Small Group Details', component: GroupPageComponent},
+  { path: 'regeneration', title: 'CCCNJ - Regeneration', component: RegenPageComponent},
   { path: 'give', title:'CCCNJ - Give', component: GivePageComponent},
   { path: '', title:'CCCNJ', component: LandingPageComponent},
   { path: 'not-found', title:'CCCNJ - Error Not Found', component: NotFoundPageComponent},

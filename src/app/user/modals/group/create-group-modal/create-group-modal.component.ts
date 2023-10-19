@@ -18,13 +18,13 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
   @Input() userList;
   selectedFile: File | null = null;
   groupForm = this.fb.group({
-    name: ['', Validators.required],
-    location: ['', Validators.required],
-    when: ['', Validators.required],
+    name: ['', [Validators.required, Validators.maxLength(50)]],
+    location: ['', [Validators.required, Validators.maxLength(50)]],
+    when: ['', [Validators.required, Validators.maxLength(50)]],
     photoUrl: [''],
-    forWho: [''],
+    forWho: ['', [Validators.required, Validators.maxLength(50)]],
     desc: ['', Validators.required],
-    shortDesc: [''],
+    shortDesc: ['', [Validators.required, Validators.maxLength(150)]],
     visibility: this.fb.array([
       this.fb.control('')
     ]),
@@ -45,6 +45,7 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
       this.resetForm();
     })
   }
+  get gfc() { return this.groupForm.controls; }
   nameEmailUidSearch:OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
   text$.pipe(
     debounceTime(200),

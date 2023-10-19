@@ -11,3 +11,7 @@
   .bg-primary {
     border-radius: 1rem;
   }
+  .custom-invalid {
+    font-size: .875em;
+    color: var(--bs-form-invalid-color);
+  }

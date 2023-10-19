@@ -13,41 +13,64 @@
                         <p>Fill out the fields to create a new group.</p>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name" [ngClass]="{ 'is-invalid': gfc.name.touched && gfc.name.errors, 'is-valid': gfc.name.valid }">
+                            <div *ngIf="gfc.name.touched && gfc.name.errors" class="invalid-feedback">
+                                <div *ngIf="gfc.name.errors.required">Name is required!</div>
+                                <div *ngIf="gfc.name.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location">
+                            <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location" [ngClass]="{ 'is-invalid': gfc.location.touched && gfc.location.errors, 'is-valid': gfc.location.valid }">
+                            <div *ngIf="gfc.location.touched && gfc.location.errors" class="invalid-feedback">
+                                <div *ngIf="gfc.location.errors.required">Location is required!</div>
+                                <div *ngIf="gfc.location.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="when">When</label>
-                            <input name="when" type="text" class="form-control" id="when" placeholder="when" formControlName="when">
+                            <input name="when" type="text" class="form-control" id="when" placeholder="when" formControlName="when" [ngClass]="{ 'is-invalid': gfc.when.touched && gfc.when.errors, 'is-valid': gfc.when.valid }">
+                            <div *ngIf="gfc.when.touched && gfc.when.errors" class="invalid-feedback">
+                                <div *ngIf="gfc.when.errors.required">When is required!</div>
+                                <div *ngIf="gfc.when.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="photoUrl">Photo URL</label>
-                            <input name="photoUrl" type="text" class="form-control" id="photoUrl" placeholder="Photo URL" formControlName="photoUrl">
-                        </div> -->
                         <div class="form-group">
                             <label for="formFile" class="form-label">Upload a photo</label>
                             <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
                         </div>
                         <div class="form-group">
                             <label for="forWho">Who is the group for?</label>
-                            <input name="forWho" type="text" class="form-control" id="forWho" placeholder="Adults, regen, etc" formControlName="forWho">
+                            <input name="forWho" type="text" class="form-control" id="forWho" placeholder="Adults, regen, etc" formControlName="forWho" [ngClass]="{ 'is-invalid': gfc.forWho.touched && gfc.forWho.errors, 'is-valid': gfc.forWho.valid }">
+                            <div *ngIf="gfc.forWho.touched && gfc.forWho.errors" class="invalid-feedback">
+                                <div *ngIf="gfc.forWho.errors.required">This is required!</div>
+                                <div *ngIf="gfc.forWho.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="shortDesc">Short Description (max: 100 characters)</label>
-                            <input name="shortDesc" type="text" class="form-control" maxlength="175" id="shortDesc" placeholder="Short Description" formControlName="shortDesc">
+                            <input name="shortDesc" type="text" class="form-control" maxlength="175" id="shortDesc" placeholder="Short Description" formControlName="shortDesc" [ngClass]="{ 'is-invalid': gfc.shortDesc.touched && gfc.shortDesc.errors, 'is-valid': gfc.shortDesc.valid }">
+                            <div *ngIf="gfc.shortDesc.touched && gfc.shortDesc.errors" class="invalid-feedback">
+                                <div *ngIf="gfc.shortDesc.errors.required">Short description is required!</div>
+                                <div *ngIf="gfc.shortDesc.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc"></textarea>
+                            <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc" [ngClass]="{ 'is-invalid': gfc.desc.touched && gfc.desc.errors, 'is-valid': gfc.desc.valid }"></textarea>
+                            <div *ngIf="gfc.desc.touched && gfc.desc.errors" class="invalid-feedback">
+                                <div *ngIf="gfc.desc.errors.required">Description is required!</div>
+                                <div *ngIf="gfc.desc.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div formArrayName="owner" class="form-group">
                             <label>Owners:</label>
                             <div *ngFor="let role of owner.controls; let i=index" class="flex-container center-all">
                                 <input id="owner-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="userFormatter" [inputFormatter]="userFormatter"/>
                                 <i class="fa-solid fa-x p-2" (click)="removeOwner(i)"></i>
+                            </div>
+                            <div *ngIf="gfc.owner.errors">
+                                <div *ngIf="gfc.owner.errors.requireAtLeastOne" class="custom-invalid">Requires at least 1 owner!</div>
                             </div>
                             <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addOwner()">Add User</button>
                         </div>
@@ -62,7 +85,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()"> Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  (click)="_onSubmit()">Add</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!groupForm.valid" (click)="_onSubmit()">Add</button>
                 </div>
             </form>
         </div>

@@ -7,7 +7,7 @@ import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { DbService } from 'src/app/services/db.service';
 import { CloudService } from 'src/app/services/cloud.service';
-import { requireAtLeastOne } from 'src/app/utilities/form.util';
+import { dateOrderValidator, requireAtLeastOne } from 'src/app/utilities/form.util';
 @Component({
   selector: 'create-event-modal',
   templateUrl: './create-event-modal.component.html',
@@ -22,8 +22,8 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
   recurranceEnabled: boolean = false;
   minDate = { year: this.now.getFullYear(), month: this.now.getMonth() + 1, day: this.now.getDate() };
   eventForm = this.fb.group({
-    name: ['', Validators.required],
-    location: ['', Validators.required],
+    name: ['', [Validators.required, Validators.maxLength(50)]],
+    location: ['', [Validators.required, Validators.maxLength(50)]],
     photoUrl: [''],
     startDate: [undefined as any, Validators.required],
     recurrence: this.fb.group({
@@ -31,16 +31,16 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       interval: [0],
       exceptionDates: [[] as Date[]]
     }),
-    forWho: [''],
+    forWho: ['', [Validators.required, Validators.maxLength(50)]],
     desc: ['', Validators.required],
-    shortDesc: [''],
+    shortDesc: ['', [Validators.required,Validators.maxLength(150)]],
     visibility: this.fb.array([
       this.fb.control('')
     ]),
     owner: this.fb.array([
       this.fb.control(undefined)
-    ], requireAtLeastOne)
-  });
+    ], [requireAtLeastOne])
+  }, {validators: dateOrderValidator});
   constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService) {
   }
   ngOnChanges(changes) {
@@ -86,6 +86,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
     this.owner.removeAt(index);
   }
   resetForm() {
+    this.time = undefined;
     this.recurranceEnabled = false;
     this.eventForm.reset();
     this.visibility.clear();
@@ -121,6 +122,8 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       this.exceptionDates = array;
     }
   }
+  get efc() { return this.eventForm.controls; }
+  get rfc() {return this.eventForm.controls.recurrence.controls}
   async _onSubmit() {
     if (this.eventForm.valid) {
       let event = new Event();

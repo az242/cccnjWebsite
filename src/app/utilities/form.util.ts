@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const pass1 = control.get('password');
@@ -52,7 +52,26 @@ export const requireAtLeastOne = (control: AbstractControl): ValidationErrors | 
     }
   
     return null;
-}
+};
+/**
+ *  Checks form with startDate and recurrence.endDate to make sure their dates are valid
+ * @param control 
+ * @returns An error map with the `invalidDates` property if the validation check fails, otherwise `null`.
+ */
+export const dateOrderValidator = (control: AbstractControl): ValidationErrors | null => {
+    const formGroup = control as FormGroup;
+    if(formGroup && (formGroup.touched || formGroup.dirty)) {
+        let startDatefc = formGroup.get('startDate');
+        let endDatefc = formGroup.get('recurrence').get('endDate');
+        if(endDatefc && (endDatefc.touched || endDatefc.dirty) && startDatefc && (startDatefc.touched || startDatefc.dirty)) {
+            if(startDatefc.value?.getTime() > endDatefc.value?.getTime()) {
+                return { invalidDates: true };
+            }
+        }
+    }
+  
+    return null;
+};
 export const americanStates = [
     { abbreviation: 'AL', name: 'Alabama' },
     { abbreviation: 'AK', name: 'Alaska' },

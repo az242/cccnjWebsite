@@ -38,6 +38,9 @@ import { CreateGroupModalComponent } from './user/modals/group/create-group-moda
 import { TileThreeComponent } from './common/tiles/tile-three/tile-three.component';
 import { TileFourComponent } from './common/tiles/tile-four/tile-four.component';
 import { EditProfileModalComponent } from './user/modals/edit-profile-modal/edit-profile-modal.component';
+import { RegenPageComponent } from './groups-page/regen-page/regen-page.component';
+import { TaiwanesePageComponent } from './groups-page/taiwanese-page/taiwanese-page.component';
+import { MandarinPageComponent } from './groups-page/mandarin-page/mandarin-page.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import { EditProfileModalComponent } from './user/modals/edit-profile-modal/edit
     CreateGroupModalComponent,
     TileThreeComponent,
     TileFourComponent,
-    EditProfileModalComponent
+    EditProfileModalComponent,
+    RegenPageComponent,
+    TaiwanesePageComponent,
+    MandarinPageComponent
   ],
   imports: [
     BrowserModule,

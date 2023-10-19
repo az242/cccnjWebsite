@@ -13,11 +13,19 @@
                         <p>Fill out the fields to create a new event.</p>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name" [ngClass]="{ 'is-invalid': efc.name.touched && efc.name.errors, 'is-valid': efc.name.valid }">
+                            <div *ngIf="efc.name.touched && efc.name.errors" class="invalid-feedback">
+                                <div *ngIf="efc.name.errors.required">Name is required!</div>
+                                <div *ngIf="efc.name.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location">
+                            <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location" [ngClass]="{ 'is-invalid': efc.location.touched && efc.location.errors, 'is-valid': efc.location.valid }">
+                            <div *ngIf="efc.location.touched && efc.location.errors" class="invalid-feedback">
+                                <div *ngIf="efc.location.errors.required">Location is required!</div>
+                                <div *ngIf="efc.location.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="formFile" class="form-label">Upload a photo!</label>
@@ -35,31 +43,49 @@
                                     ngbDatepicker
                                     [minDate]="minDate"
                                     #startDate="ngbDatepicker"
+                                    [ngClass]="{ 'is-invalid': efc.startDate.touched && efc.startDate.errors, 'is-valid': efc.startDate.valid }"
                                 />
                                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="startDate.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+                                <div *ngIf="efc.startDate.touched && efc.startDate.errors" class="invalid-feedback">
+                                    <div *ngIf="efc.startDate.errors.required">Start date is required!</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Event Time</label>
-                            <ngb-timepicker [(ngModel)]="time" [spinners]="false" [meridian]="true" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+                            <ngb-timepicker [(ngModel)]="time" [spinners]="false" [meridian]="true" required [ngModelOptions]="{standalone: true}"></ngb-timepicker>
                         </div>
                         <div class="form-group">
                             <label for="forWho">Who is the event for?</label>
-                            <input name="forWho" type="text" class="form-control" id="forWho" placeholder="(optional)" formControlName="forWho">
+                            <input name="forWho" type="text" class="form-control" id="forWho" placeholder="English Adults, Youth, etc" formControlName="forWho" [ngClass]="{ 'is-invalid': efc.forWho.touched && efc.forWho.errors, 'is-valid': efc.forWho.valid }">
+                            <div *ngIf="efc.forWho.touched && efc.forWho.errors" class="invalid-feedback">
+                                <div *ngIf="efc.forWho.errors.required">This is required!</div>
+                                <div *ngIf="efc.forWho.errors.maxlength">Entered value is too long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="shortDesc">Short Description (max: 100 characters)</label>
-                            <input name="shortDesc" type="text" class="form-control" maxlength="175" id="shortDesc" placeholder="Short Description" formControlName="shortDesc">
+                            <label for="shortDesc">Short Description</label>
+                            <input name="shortDesc" type="text" class="form-control" id="shortDesc" placeholder="Short Description" formControlName="shortDesc" [ngClass]="{ 'is-invalid': efc.shortDesc.touched && efc.shortDesc.errors, 'is-valid': efc.shortDesc.valid }">
+                            <div *ngIf="efc.forWho.touched && efc.forWho.errors" class="invalid-feedback">
+                                <div *ngIf="efc.forWho.errors.required">This is required!</div>
+                                <div *ngIf="efc.forWho.errors.maxlength">This is max 150 characters long!</div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc"></textarea>
+                            <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc" [ngClass]="{ 'is-invalid': efc.desc.touched && efc.desc.errors, 'is-valid': efc.desc.valid }"></textarea>
+                            <div *ngIf="efc.desc.touched && efc.desc.errors" class="invalid-feedback">
+                                <div *ngIf="efc.desc.errors.required">This is required!</div>
+                            </div>
                         </div>
                         <div formArrayName="owner" class="form-group">
                             <label>Owners:</label>
                             <div *ngFor="let role of owner.controls; let i=index" class="flex-container center-all">
                                 <input id="owner-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
                                 <i class="fa-solid fa-x p-2" (click)="removeOwner(i)"></i>
+                            </div>
+                            <div *ngIf="efc.owner.errors">
+                                <div *ngIf="efc.owner.errors.requireAtLeastOne" class="custom-invalid">Requires at least 1 owner!</div>
                             </div>
                             <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addOwner()">Add User</button>
                         </div>
@@ -90,13 +116,20 @@
                                         ngbDatepicker
                                         [minDate]="minDate"
                                         #endDate="ngbDatepicker"
+                                        [ngClass]="{ 'is-invalid': eventForm.hasError('invalidDates'), 'is-valid': !eventForm.hasError('invalidDates') }"
                                     />
                                     <button class="btn btn-outline-secondary bi bi-calendar3" (click)="endDate.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+                                    <div *ngIf="eventForm.hasError('invalidDates')" class="invalid-feedback">
+                                        <div>End Date must be after start date!</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="interval">Interval Between Each Occurance </label>
-                                <input name="interval" type="number" class="form-control" id="interval" placeholder="1" min="1" formControlName="interval">
+                                <input name="interval" type="number" class="form-control" id="interval" placeholder="1" min="1" formControlName="interval" [ngClass]="{ 'is-invalid': rfc.interval.errors, 'is-valid': rfc.interval.valid }">
+                                <div *ngIf="rfc.interval.touched && rfc.interval.errors" class="invalid-feedback">
+                                    <div *ngIf="rfc.interval.errors.required">Minimum value is 1!</div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="exceptionDates">Exception Dates</label>
@@ -113,7 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()"> Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  (click)="_onSubmit()">Add</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!eventForm.valid" (click)="_onSubmit()">Add</button>
                 </div>
             </form>
         </div>
