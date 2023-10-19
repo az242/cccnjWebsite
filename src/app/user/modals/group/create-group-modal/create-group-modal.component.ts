@@ -28,7 +28,7 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
     visibility: this.fb.array([
       this.fb.control('')
     ]),
-    owner: this.fb.array([
+    owners: this.fb.array([
       this.fb.control(undefined)
     ], requireAtLeastOne)
   });
@@ -56,8 +56,8 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
     ),
   );
   userFormatter = (result) => result.firstName + ' ' + result.lastName + ' ' + result.email;
-  get owner() {
-    return this.groupForm.get('owner') as FormArray;
+  get owners() {
+    return this.groupForm.get('owners') as FormArray;
   }
   get visibility() {
     return this.groupForm.get('visibility') as FormArray;
@@ -66,13 +66,13 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
     this.visibility.push(this.fb.control(''));
   }
   addOwner() {
-    this.owner.push(this.fb.control(undefined));
+    this.owners.push(this.fb.control(undefined));
   }
   removeVis(index) {
     this.visibility.removeAt(index);
   }
   removeOwner(index) {
-    this.owner.removeAt(index);
+    this.owners.removeAt(index);
   }
   resetForm() {
     this.groupForm.reset();
@@ -86,8 +86,8 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
     } else {
       this.visibility.push(this.fb.control(''));
     }
-    this.owner.clear();
-    this.owner.push(this.fb.control(this.user));
+    this.owners.clear();
+    this.owners.push(this.fb.control(this.user));
   }
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -105,7 +105,7 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
       group.shortDesc = value.shortDesc;
       group.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role) || Ages.includes(role)))];
       group.attendees = [];
-      group.owners = value.owner.map(user=> {return user.uid});
+      group.owners = value.owners.map(user=> {return user.uid});
       let id = await this.db.createGroup(group);
       let photoUrl = await this.cloud.uploadPhotoPic('groups',id,this.selectedFile);
       await this.db.updateGroup(id, {photoUrl: photoUrl});

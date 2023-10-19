@@ -7,8 +7,9 @@ import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
 import { requireAtLeastOne } from 'src/app/utilities/form.util';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
-  selector: 'app-edit-event-modal',
+  selector: 'edit-event-modal',
   templateUrl: './edit-event-modal.component.html',
   styleUrls: ['./edit-event-modal.component.scss']
 })
@@ -22,11 +23,17 @@ export class EditEventModalComponent {
   recurranceEnabled: boolean = false;
   minDate = { year: this.now.getFullYear(), month: this.now.getMonth() + 1, day: this.now.getDate() };
   eventForm;
-  constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService) {
+  constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService, private auth: AuthService) {
   }
   ngOnChanges(changes) {
   }
-  ngOnInit() {
+  async ngOnInit() {
+    
+    if(this.auth.getUserProfile().roles.includes('event')) {
+      let userId = this.auth.getUID();
+      this.eventList = await this.db.getEventsByOwner(userId);
+      console.log(this.eventList);
+    }
     const myModalEl = document.getElementById('editEventModal');
     myModalEl.addEventListener('hidden.bs.modal', event => {
       this.resetForm();
@@ -34,6 +41,9 @@ export class EditEventModalComponent {
   }
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+  }
+  selectEvent() {
+    this.initForm(this.event);
   }
   eventNameUidSearch:OperatorFunction<string, readonly Event[]> = (text$: Observable<string>) =>
   text$.pipe(
@@ -78,6 +88,8 @@ export class EditEventModalComponent {
     this.recurranceEnabled = false;
     this.selectedFile = null;
   }
+  get efc() { return this.eventForm?.controls; }
+  get rfc() {return this.eventForm?.controls.recurrence.controls}
   initForm(event) {
     let recurranceGroup;
     if(event.recurrence) {
@@ -85,9 +97,15 @@ export class EditEventModalComponent {
         endDate: [event.recurrence.endDate],
         interval: [event.recurrence.interval],
         exceptionDates: [event.recurrence.exceptionDates]
-      })
+      });
+      this.recurranceEnabled = true;
     } else {
-      recurranceGroup = null;
+      recurranceGroup = this.fb.group({
+        endDate: [undefined as any],
+        interval: [0],
+        exceptionDates: [[] as Date[]]
+      });
+      this.recurranceEnabled = false;
     }
     let visibArray = this.fb.array([
     ]);
@@ -95,7 +113,6 @@ export class EditEventModalComponent {
       visibArray.push(this.fb.control(role));
     }
     let ownerArray = this.fb.array([
-      this.fb.control(undefined)
     ]);
     for(let owner of event.owners) {
       ownerArray.push(this.fb.control(this.userList.find((user)=> user.uid === owner)));
@@ -111,6 +128,7 @@ export class EditEventModalComponent {
       visibility: visibArray,
       owner: ownerArray
     });
+    this.time = {hour: event.startDate.getHours(), minute: event.startDate.getMinutes()}
   }
   get exceptionDates() {
     return this.eventForm.get('recurrence').get('exceptionDates').value ? this.eventForm.get('recurrence').get('exceptionDates').value : [];
@@ -134,29 +152,76 @@ export class EditEventModalComponent {
   }
   async _onSubmit() {
     if (this.eventForm.valid) {
+      let updates: any = {};
       let event = new Event();
       let value = this.eventForm.value;
-      event.name = value.name;
-      event.location = value.location;
-      event.photoUrl = value.photoUrl;
-      event.startDate = value.startDate;
-      event.startDate.setHours(this.time.hour);
-      event.startDate.setMinutes(this.time.minute);
-      event.recurrence = value.recurrence as RecurranceRule;
-      if (value.recurrence && value.recurrence.endDate && value.recurrence.interval > 0) {
-        event.recurrence = { endDate: value.recurrence.endDate, interval: value.recurrence.interval, exceptionDates: value.recurrence.exceptionDates };
-      } else {
-        event.recurrence = undefined;
+      if(value.name !== this.event.name) {
+        updates.name = value.name;
       }
-      event.forWho = value.forWho;
-      event.desc = value.desc;
-      event.shortDesc = value.shortDesc;
-      event.visibility = [...new Set(value.visibility.filter((role: string) => Roles.includes(role) || Ages.includes(role)))] as string[];
+      if(value.location !== this.event.location) {
+        updates.location = value.location;
+      }
+      let tempStart = value.startDate;
+      tempStart.setHours(this.time.hour);
+      tempStart.setMinutes(this.time.minute);
+      if(value.startDate.getTime() !== this.event.startDate.getTime()) {
+        updates.startDate = value.startDate;
+      }
+      if(this.event.recurrence || value.recurrence) {
+        let exceptionDifference = this.event.recurrence?.exceptionDates.filter(date=>{
+          if(value.recurrence.exceptionDates.find(date2=> date.getTime() === date2.getTime()) === undefined) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+        if(this.event.recurrence?.endDate.getTime() !== value.recurrence?.endDate.getTime() || 
+        this.event.recurrence?.interval !== value.recurrence.interval || 
+        exceptionDifference.length > 0) {
+          updates.recurrence = { endDate: value.recurrence.endDate, interval: value.recurrence.interval, exceptionDates: value.recurrence.exceptionDates };
+        }
+      }
+      if(value.forWho !== this.event.forWho) {
+        updates.forWho = value.forWho;
+      }
+      if(value.desc !== this.event.desc) {
+        updates.desc = value.desc;
+      }
+      if(value.shortDesc !== this.event.shortDesc) {
+        updates.shortDesc = value.shortDesc;
+      }
+      let rawvisib = [...new Set(value.visibility.filter((role: string) => Roles.includes(role) || Ages.includes(role)))] as string[];
+      let visibilityDiff = this.event.visibility.filter(visib=>{
+        if(rawvisib.includes(visib) === undefined) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      if(visibilityDiff.length > 0) {
+        updates.visibility = rawvisib;
+      }
+      let rawowner = value.owner.map(user=> {return user.uid});
+      let ownerDiff = this.event.owners.filter(ownerId=>{
+        if(rawowner.includes(ownerId) === undefined) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      if(ownerDiff.length > 0) {
+        updates.owners = rawowner;
+      }
+      event.photoUrl = value.photoUrl;
       event.attendees = [];
-      event.owners = value.owner.map(user=> {return user.uid});
-      let id = await this.db.createEvent(event);
-      let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);
-      await this.db.updateEvent(id, {photoUrl: photoUrl});
+      let id = this.event.uid;
+      if(this.selectedFile) {
+        
+        let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);
+        updates.photoUrl = photoUrl;
+      }
+      
+      await this.db.updateEvent(id, updates);
     }
   }
 }

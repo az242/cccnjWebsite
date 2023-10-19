@@ -63,14 +63,14 @@
                                 <div *ngIf="gfc.desc.errors.maxlength">Entered value is too long!</div>
                             </div>
                         </div>
-                        <div formArrayName="owner" class="form-group">
+                        <div formArrayName="owners" class="form-group">
                             <label>Owners:</label>
-                            <div *ngFor="let role of owner.controls; let i=index" class="flex-container center-all">
-                                <input id="owner-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="userFormatter" [inputFormatter]="userFormatter"/>
+                            <div *ngFor="let role of owners.controls; let i=index" class="flex-container center-all">
+                                <input id="owners-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="userFormatter" [inputFormatter]="userFormatter"/>
                                 <i class="fa-solid fa-x p-2" (click)="removeOwner(i)"></i>
                             </div>
-                            <div *ngIf="gfc.owner.errors">
-                                <div *ngIf="gfc.owner.errors.requireAtLeastOne" class="custom-invalid">Requires at least 1 owner!</div>
+                            <div *ngIf="gfc.owners.errors">
+                                <div *ngIf="gfc.owners.errors.requireAtLeastOne" class="custom-invalid">Requires at least 1 owner!</div>
                             </div>
                             <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addOwner()">Add User</button>
                         </div>

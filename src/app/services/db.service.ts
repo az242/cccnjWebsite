@@ -143,6 +143,16 @@ export class DbService {
       return undefined;
     }
   }
+  async getEventsByOwner(userId) {
+    const q = query(this.eventCollection, where('owners','array-contains',userId));
+    const snapshop = await getDocs(q);
+    let events: Event[] = [];
+    snapshop.forEach((doc)=>{
+      events.push(doc.data());
+    });
+    events.sort((e1,e2) => {return e1.startDate.getTime() - e2.startDate.getTime()});
+    return events;
+  }
   async addEventAttendee(eventId, attendeeId) {
     const eventRef = doc(this.firestore, "events", eventId);
     let result = await updateDoc(eventRef, {
