@@ -271,7 +271,9 @@ hr {
     flex: 1 0 0;
   }
 }
-
+.hide-alert {
+  display: none;
+}
 .parallax {
   perspective: 1px;
   height: 100vh;

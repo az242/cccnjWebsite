@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
@@ -18,6 +18,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
   @Input() userList;
   selectedFile: File | null = null;
   now = new Date();
+  alertMessage: string = undefined;
   time;
   recurranceEnabled: boolean = false;
   minDate = { year: this.now.getFullYear(), month: this.now.getMonth() + 1, day: this.now.getDate() };
@@ -86,6 +87,7 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
     this.owner.removeAt(index);
   }
   resetForm() {
+    this.alertMessage = undefined;
     this.time = undefined;
     this.recurranceEnabled = false;
     this.eventForm.reset();
@@ -146,9 +148,21 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
       event.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role) || Ages.includes(role)))];
       event.attendees = [];
       event.owners = value.owner.map(user=> {return user.uid});
-      let id = await this.db.createEvent(event);
-      let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);
-      await this.db.updateEvent(id, {photoUrl: photoUrl});
+      try {
+        let id = await this.db.createEvent(event);
+        if(this.selectedFile) {
+          let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);
+          await this.db.updateEvent(id, {photoUrl: photoUrl});
+        }
+        var myModalEl = document.getElementById('createEventModal');
+        var modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+      } catch(error) {
+        var modalBody = document.getElementById('createEventModalBody');
+        modalBody.scrollTo({top:0,behavior:'smooth'});
+        this.alertMessage = 'Error with saving the event';
+        console.log(error);
+      }
     }
   }
 }

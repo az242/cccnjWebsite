@@ -42,13 +42,16 @@ export class ProfilePageComponent implements OnDestroy{
     let dbUser = await this.db.getUser(this.auth.getUID());
     this.userProfile = {...dbUser, ...tempUserProf};
     if(this.userProfile.familyId) {
+      console.log('getting Family');
       this.familyMembers = await this.db.getFamilyMembers(this.userProfile.familyId);
       this.familyMembers.splice(this.familyMembers.findIndex(user => user.uid === this.userProfile.uid), 1);
     }
     if(this.userProfile.roles.some(str => Roles.includes(str))) {
+      console.log('getting users');
       this.userList = await this.db.getAllUsers();
     }
     if(this.userProfile.events.length > 0) {
+      console.log('getting events');
       let events = await this.db.getEventByIds(this.userProfile.events);
       let now = new Date();
       events.forEach(event => {
@@ -60,6 +63,7 @@ export class ProfilePageComponent implements OnDestroy{
       });
     }
     if(this.userProfile.groups.length > 0) {
+      console.log('getting Groups');
       this.groups = await this.db.getGroupByIds(this.userProfile.groups);
     }
   }

@@ -8,6 +8,7 @@ import { DbService } from 'src/app/services/db.service';
 import { requireAtLeastOne } from 'src/app/utilities/form.util';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
 import { AuthService } from 'src/app/services/auth.service';
+import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'edit-event-modal',
   templateUrl: './edit-event-modal.component.html',
@@ -17,6 +18,7 @@ export class EditEventModalComponent {
   @Input() userList: User[];
   eventList: Event[];
   event: Event;
+  alertMessage: string = undefined;
   selectedFile: File | null = null;
   now = new Date();
   time;
@@ -116,7 +118,7 @@ export class EditEventModalComponent {
       visibArray.push(this.fb.control(role));
     }
     let ownerArray = this.fb.array([
-    ]);
+    ], [requireAtLeastOne]);
     for(let owner of event.owners) {
       ownerArray.push(this.fb.control(this.userList.find((user)=> user.uid === owner)));
     }
@@ -213,7 +215,18 @@ export class EditEventModalComponent {
         updates.photoUrl = photoUrl;
       }
       console.log(updates);
-      await this.db.updateEvent(id, updates);
+      try {
+        await this.db.updateEvent(id, updates);
+        var myModalEl = document.getElementById('editEventModal');
+        var modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+      } catch (error) {
+        var modalBody = document.getElementById('editEventModalBody');
+        modalBody.scrollTo({top:0,behavior:'smooth'});
+        this.alertMessage = 'Error with saving the event';
+        console.log(error);
+      }
+      
     }
   }
 }

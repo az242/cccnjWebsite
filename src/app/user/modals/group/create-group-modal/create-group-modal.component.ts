@@ -1,22 +1,22 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Group } from 'src/app/common/group.model';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
 import { requireAtLeastOne } from 'src/app/utilities/form.util';
-
+import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'create-group-modal',
   templateUrl: './create-group-modal.component.html',
   styleUrls: ['./create-group-modal.component.scss']
 })
 export class CreateGroupModalComponent implements OnInit, OnChanges{
-  // @Output() onSubmit = new EventEmitter<Group>();
   @Input() user: User;
   @Input() userList;
   selectedFile: File | null = null;
+  alertMessage: string = undefined;
   groupForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(50)]],
     location: ['', [Validators.required, Validators.maxLength(50)]],
@@ -106,9 +106,22 @@ export class CreateGroupModalComponent implements OnInit, OnChanges{
       group.visibility = [...new Set(value.visibility.filter((role) => Roles.includes(role) || Ages.includes(role)))];
       group.attendees = [];
       group.owners = value.owners.map(user=> {return user.uid});
-      let id = await this.db.createGroup(group);
-      let photoUrl = await this.cloud.uploadPhotoPic('groups',id,this.selectedFile);
-      await this.db.updateGroup(id, {photoUrl: photoUrl});
+      try {
+        let id = await this.db.createGroup(group);
+        if(this.selectedFile) {
+          let photoUrl = await this.cloud.uploadPhotoPic('groups',id,this.selectedFile);
+          await this.db.updateGroup(id, {photoUrl: photoUrl});
+        }
+        var myModalEl = document.getElementById('createGroupModal');
+        var modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+      } catch (error) {
+        var modalBody = document.getElementById('createGroupModalBody');
+        modalBody.scrollTo({top:0,behavior:'smooth'});
+        this.alertMessage = 'Error with saving the event';
+        console.log(error);
+      }
+      
     }
   }
 }
