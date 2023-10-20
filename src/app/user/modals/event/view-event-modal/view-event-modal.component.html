@@ -1,1 +1,26 @@
-<p>view-event-modal works!</p>
+<div class="modal fade" #viewEventModal id="viewEventModal" tabindex="-1" role="dialog" aria-labelledby="viewEventModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="viewEventModal">View Event</h3>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="viewEventModalBody">
+                <div class="p-3">
+                    <p>Search for an event</p>
+                    <div class="input-group">
+                        <input id="eventFinder" type="text" class="form-control" placeholder="Event name or UID" container="body" [(ngModel)]="event" [ngbTypeahead]="eventNameUidSearch" [resultFormatter]="eventFormatter" [inputFormatter]="eventFormatter"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" (click)="selectEvent()">Select</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

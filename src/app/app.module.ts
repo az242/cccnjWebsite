@@ -42,7 +42,6 @@ import { RegenPageComponent } from './groups-page/regen-page/regen-page.componen
 import { TaiwanesePageComponent } from './groups-page/taiwanese-page/taiwanese-page.component';
 import { MandarinPageComponent } from './groups-page/mandarin-page/mandarin-page.component';
 import { EditEventModalComponent } from './user/modals/event/edit-event-modal/edit-event-modal.component';
-import { DeleteEventModalComponent } from './user/modals/event/delete-event-modal/delete-event-modal.component';
 import { ViewEventModalComponent } from './user/modals/event/view-event-modal/view-event-modal.component';
 
 @NgModule({
@@ -77,7 +76,6 @@ import { ViewEventModalComponent } from './user/modals/event/view-event-modal/vi
     TaiwanesePageComponent,
     MandarinPageComponent,
     EditEventModalComponent,
-    DeleteEventModalComponent,
     ViewEventModalComponent
   ],
   imports: [

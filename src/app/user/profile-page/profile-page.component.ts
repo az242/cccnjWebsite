@@ -26,6 +26,7 @@ export class ProfilePageComponent implements OnDestroy{
   groups: Group[] = [];
   pastEvents: Event[] = [];
   futureEvents: Event[] = [];
+  ownedEvents: Event[] = [];
   constructor(private auth: AuthService, private db: DbService, private router: Router, private cloud: CloudService) {}
   ngOnDestroy(): void {
     this.destroy.next();
@@ -49,6 +50,10 @@ export class ProfilePageComponent implements OnDestroy{
     if(this.userProfile.roles.some(str => Roles.includes(str))) {
       console.log('getting users');
       this.userList = await this.db.getAllUsers();
+    }
+    if(this.userProfile.roles.includes('event')) {
+      this.ownedEvents = await this.db.getEventsByOwner(this.userProfile.uid);
+      console.log(this.ownedEvents);
     }
     if(this.userProfile.events.length > 0) {
       console.log('getting events');

@@ -16,7 +16,7 @@ import * as bootstrap from 'bootstrap';
 })
 export class EditEventModalComponent {
   @Input() userList: User[];
-  eventList: Event[];
+  @Input() eventList: Event[];
   event: Event;
   alertMessage: string = undefined;
   selectedFile: File | null = null;
@@ -30,12 +30,6 @@ export class EditEventModalComponent {
   ngOnChanges(changes) {
   }
   async ngOnInit() {
-    
-    if(this.auth.getUserProfile().roles.includes('event')) {
-      let userId = this.auth.getUID();
-      this.eventList = await this.db.getEventsByOwner(userId);
-      console.log(this.eventList);
-    }
     const myModalEl = document.getElementById('editEventModal');
     myModalEl.addEventListener('hidden.bs.modal', event => {
       this.resetForm();
@@ -153,6 +147,19 @@ export class EditEventModalComponent {
       let array = this.exceptionDates;
       array.push(date);
       this.exceptionDates = array;
+    }
+  }
+  async deleteEvent() {
+    try {
+      await this.db.deleteEvent(this.event.uid);
+      var myModalEl = document.getElementById('editEventModal');
+      var modal = bootstrap.Modal.getInstance(myModalEl);
+      modal.hide();
+    } catch (error) {
+      var modalBody = document.getElementById('editEventModalBody');
+      modalBody.scrollTo({top:0,behavior:'smooth'});
+      this.alertMessage = 'Error with deleting the event';
+      console.log(error);
     }
   }
   async _onSubmit() {
