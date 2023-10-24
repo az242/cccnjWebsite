@@ -12,9 +12,12 @@ import { FormBuilder } from '@angular/forms';
 export class GroupsPageComponent  implements OnInit{
   groups: Group[] = [];
   displayGroups: Group[] = [];
+  isLoading: boolean = false;
   constructor(private db: DbService, private router: Router, private fb: FormBuilder) {}
   async ngOnInit(): Promise<void> {
+    this.isLoading = true;
     this.groups = await this.db.getGroups(50);
+    this.isLoading = false;
     this.displayGroups = this.groups;
   }
 }

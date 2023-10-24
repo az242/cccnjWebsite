@@ -43,6 +43,10 @@ import { TaiwanesePageComponent } from './groups-page/taiwanese-page/taiwanese-p
 import { MandarinPageComponent } from './groups-page/mandarin-page/mandarin-page.component';
 import { EditEventModalComponent } from './user/modals/event/edit-event-modal/edit-event-modal.component';
 import { ViewEventModalComponent } from './user/modals/event/view-event-modal/view-event-modal.component';
+import { EnumeratePipe } from './utilities/numberNgFor.pipe';
+import { YouthPageComponent } from './groups-page/youth-page/youth-page.component';
+import { MinistriesPageComponent } from './ministries-page/ministries-page.component';
+import { SafePipe } from './utilities/safeUrl.pipe';
 
 @NgModule({
   declarations: [
@@ -76,7 +80,11 @@ import { ViewEventModalComponent } from './user/modals/event/view-event-modal/vi
     TaiwanesePageComponent,
     MandarinPageComponent,
     EditEventModalComponent,
-    ViewEventModalComponent
+    ViewEventModalComponent,
+    EnumeratePipe,
+    YouthPageComponent,
+    MinistriesPageComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -89,7 +97,7 @@ import { ViewEventModalComponent } from './user/modals/event/view-event-modal/vi
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
-    NgbModule
+    NgbModule,
   ],
   providers: [
     // Register the AuthInterceptor as an interceptor

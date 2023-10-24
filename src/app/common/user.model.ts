@@ -43,7 +43,7 @@ export class User {
  * 1 event
  * 2 group
  */
-export const Roles = Object.freeze(['admin', 'event', 'group']);
+export const Roles = Object.freeze(['admin', 'event', 'group', 'content']);
 /**
  *  Available group roles for users/events/groups
  *  Indexes:

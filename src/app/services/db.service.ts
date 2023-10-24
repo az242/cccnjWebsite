@@ -16,7 +16,7 @@ export class DbService {
   familyCollection = collection(this.firestore, 'families').withConverter(familyConverter);
   eventCollection = collection(this.firestore, 'events').withConverter(eventConverter);
   groupCollection = collection(this.firestore, 'groups').withConverter(groupConverter);
-  
+  contentCollection = collection(this.firestore, 'content');
   constructor(private auth: AuthService) { }
 
   async getUser(userId: string): Promise<User> {
@@ -48,13 +48,13 @@ export class DbService {
   async batchUpdateUser(updates: {uid:string, updates:any}[]) {
     const batch = writeBatch(this.firestore);
     for(let update of updates) {
-      const updateRef = doc(this.firestore, "users", update.uid);
+      const updateRef = doc(this.userCollection, update.uid);
       batch.update(updateRef, update.updates);
     }
     await batch.commit();
   }
   async updateUser(userId: string, fieldsToUpdate) {
-    const userRef = doc(this.firestore, "users", userId);
+    const userRef = doc(this.userCollection, userId);
     let result = await updateDoc(userRef, fieldsToUpdate);
     return result;
   }
@@ -85,18 +85,18 @@ export class DbService {
     return result.id;
   }
   async removeFamilyMember(familyId, memberId) {
-    const familyRef = doc(this.firestore, "families", familyId);
+    const familyRef = doc(this.familyCollection, familyId);
     let result = await updateDoc(familyRef, {
       members: arrayRemove(memberId)
     });
     return result;
   }
   async deleteFamily(familyId) {
-    let result = await deleteDoc(doc(this.firestore, "families", familyId));
+    let result = await deleteDoc(doc(this.familyCollection, familyId));
     return result;
   }
   async addFamilyMember(familyId, memberId) {
-    const familyRef = doc(this.firestore, "families", familyId);
+    const familyRef = doc(this.familyCollection, familyId);
     let result = await updateDoc(familyRef, {
       members: arrayUnion(memberId)
     });
@@ -107,7 +107,7 @@ export class DbService {
     return result.id;
   }
   async updateEvent(eventId: string, updates) {
-    const userRef = doc(this.firestore, "events", eventId);
+    const userRef = doc(this.eventCollection, eventId);
     let result = await updateDoc(userRef, updates);
     return result;
   }
@@ -154,7 +154,7 @@ export class DbService {
     return events;
   }
   async addEventAttendee(eventId, attendeeId) {
-    const eventRef = doc(this.firestore, "events", eventId);
+    const eventRef = doc(this.eventCollection, eventId);
     let result = await updateDoc(eventRef, {
       attendees: arrayUnion(attendeeId)
     });
@@ -288,7 +288,7 @@ export class DbService {
     }
   }
   async deleteEvent(eventId) {
-    let result = await deleteDoc(doc(this.firestore, "events", eventId));
+    let result = await deleteDoc(doc(this.eventCollection, eventId));
     return result;
   }
   async createGroup(group: Group) {
@@ -296,12 +296,12 @@ export class DbService {
     return result.id;
   }
   async updateGroup(groupId: string, updates) {
-    const userRef = doc(this.firestore, "groups", groupId);
+    const userRef = doc(this.groupCollection, groupId);
     let result = await updateDoc(userRef, updates);
     return result;
   }
   async addGroupAttendee(groupId, attendeeId) {
-    const eventRef = doc(this.firestore, "groups", groupId);
+    const eventRef = doc(this.groupCollection, groupId);
     let result = await updateDoc(eventRef, {
       attendees: arrayUnion(attendeeId)
     });
@@ -336,6 +336,20 @@ export class DbService {
   }
   async deleteGroup(groupId) {
     let result = await deleteDoc(doc(this.firestore, "groups", groupId));
+    return result;
+  }
+  async getWatchContent() {
+    const docRef = doc(this.contentCollection, 'watch');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return undefined;
+    }
+  }
+  async updateWatchContent(watchUrl) {
+    const userRef = doc(this.contentCollection, 'watch');
+    let result = await updateDoc(userRef, {src: watchUrl});
     return result;
   }
 }

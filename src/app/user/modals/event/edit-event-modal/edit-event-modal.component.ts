@@ -18,6 +18,8 @@ export class EditEventModalComponent {
   @Input() userList: User[];
   @Input() eventList: Event[];
   event: Event;
+  eventUserList: User[];
+  paginationMax: number = 0;
   alertMessage: string = undefined;
   selectedFile: File | null = null;
   now = new Date();
@@ -42,7 +44,6 @@ export class EditEventModalComponent {
     if(this.event) {
       this.initForm(this.event);
     }
-    
   }
   eventNameUidSearch:OperatorFunction<string, readonly Event[]> = (text$: Observable<string>) =>
   text$.pipe(
@@ -86,6 +87,7 @@ export class EditEventModalComponent {
     this.eventForm = undefined;
     this.recurranceEnabled = false;
     this.selectedFile = null;
+    this.eventUserList = [];
   }
   get efc() { return this.eventForm?.controls; }
   get rfc() {return this.eventForm?.controls.recurrence.controls}
@@ -127,7 +129,16 @@ export class EditEventModalComponent {
       visibility: visibArray,
       owner: ownerArray
     });
-    this.time = {hour: event.startDate.getHours(), minute: event.startDate.getMinutes()}
+    this.time = {hour: event.startDate.getHours(), minute: event.startDate.getMinutes()};
+    this.eventUserList = this.event.attendees.slice(0,10).map((attendeeId)=> {
+      return this.userList.find((user)=>user.uid === attendeeId);
+    });
+    this.paginationMax = Math.ceil(this.event.attendees.length/10);
+  }
+  changeAttendeePage(index: number) {
+    this.eventUserList = this.event.attendees.slice(index*10, (index*10)+10).map((attendeeId)=> {
+      return this.userList.find((user)=>user.uid === attendeeId);
+    });
   }
   get exceptionDates() {
     return this.eventForm.get('recurrence').get('exceptionDates').value ? this.eventForm.get('recurrence').get('exceptionDates').value : [];
@@ -165,7 +176,6 @@ export class EditEventModalComponent {
   async _onSubmit() {
     if (this.eventForm.valid) {
       let updates: any = {};
-      let event = new Event();
       let value = this.eventForm.value;
       if(value.name !== this.event.name) {
         updates.name = value.name;
@@ -215,7 +225,6 @@ export class EditEventModalComponent {
       if(ownerDiff.length > 0) {
         updates.owners = rawowner;
       }
-      event.attendees = [];
       let id = this.event.uid;
       if(this.selectedFile) {
         let photoUrl = await this.cloud.uploadPhotoPic('events',id,this.selectedFile);

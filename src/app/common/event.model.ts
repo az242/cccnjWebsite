@@ -63,3 +63,4 @@ export const eventConverter: FirestoreDataConverter<Event> = {
         return event;
     }
 };
+

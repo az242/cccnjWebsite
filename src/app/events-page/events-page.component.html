@@ -91,7 +91,7 @@
         </div>
     </section>
     <section class="expect-bg">
-        <div class="content flex-container g-25 wrap" >
+        <div class="content flex-container g-25 wrap" *ngIf="!isLoading; else loading">
             <ng-container *ngFor="let event of displayEvents">
                 <app-tile-two [event]="event"></app-tile-two>
             </ng-container>
@@ -99,3 +99,11 @@
     </section>
     <app-footer></app-footer>
 </div>
+
+<ng-template #loading>
+    <section>
+        <div class="spinner-border loading-spinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </section>
+</ng-template>

@@ -1,9 +1,9 @@
 <div class="header-padding">
-    <section>
+    <section *ngIf="watchUrl; else loading">
         <div class="content">
             <h2 class="font black">Regeneration Service</h2>
             <div class="divider-right pb-5"></div>
-            <iframe width="100%" height="615" src="https://www.youtube.com/embed/m749djXBLhc?si=vIRp07m_t1tAXY5i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe *ngIf="watchUrl" width="100%" height="615" [src]="watchUrl | safe:'resourceUrl'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <div class="info-container">
                 <div>
                     <h4>Schedule</h4>
@@ -16,5 +16,11 @@
             </div>
         </div>
     </section>
-    <app-footer></app-footer>
 </div>
+<ng-template #loading>
+    <section>
+        <div class="spinner-border loading-spinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </section>
+</ng-template>

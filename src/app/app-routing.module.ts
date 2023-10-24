@@ -15,6 +15,10 @@ import { GivePageComponent } from './give-page/give-page.component';
 import { EventPageComponent } from './events-page/event-page/event-page.component';
 import { GroupPageComponent } from './groups-page/group-page/group-page.component';
 import { RegenPageComponent } from './groups-page/regen-page/regen-page.component';
+import { MandarinPageComponent } from './groups-page/mandarin-page/mandarin-page.component';
+import { TaiwanesePageComponent } from './groups-page/taiwanese-page/taiwanese-page.component';
+import { YouthPageComponent } from './groups-page/youth-page/youth-page.component';
+import { MinistriesPageComponent } from './ministries-page/ministries-page.component';
 
 const loggedInGuard: CanActivateFn = (route, state) => {
   const FirebaseAuth = inject(Auth);
@@ -48,6 +52,10 @@ const routes: Routes = [
   { path: 'groups', title:'CCCNJ - Small Groups', component: GroupsPageComponent},
   { path: 'group/:id', title:'CCCNJ - Small Group Details', component: GroupPageComponent},
   { path: 'regeneration', title: 'CCCNJ - Regeneration', component: RegenPageComponent},
+  { path: 'mandarin', title: 'CCCNJ - Mandarin Congregation', component: MandarinPageComponent},
+  { path: 'taiwanese', title: 'CCCNJ - Taiwanese Congregation', component: TaiwanesePageComponent},
+  { path: 'youth', title: 'CCCNJ - Youth Group', component: YouthPageComponent},
+  { path: 'ministry', title: 'CCCNJ - Ministry Overview', component: MinistriesPageComponent},
   { path: 'give', title:'CCCNJ - Give', component: GivePageComponent},
   { path: '', title:'CCCNJ', component: LandingPageComponent},
   { path: 'not-found', title:'CCCNJ - Error Not Found', component: NotFoundPageComponent},

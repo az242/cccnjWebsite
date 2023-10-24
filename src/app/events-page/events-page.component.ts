@@ -32,8 +32,10 @@ export class EventsPageComponent implements OnInit{
     })
   });
   filters = {age: [], group: []};
+  isLoading: boolean = false;
   constructor(private db: DbService, private router: Router, private fb: FormBuilder, private activedRoute: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {
+    this.isLoading = true;
     this.activedRoute.queryParams.subscribe(params =>{
       if(params.tag) {
         let tag = params.tag;
@@ -51,6 +53,7 @@ export class EventsPageComponent implements OnInit{
       }
     });
     this.events = await this.db.getEventsByDateRange(new Date(), new Date(Date.now() + this.defaultDateRange));
+    this.isLoading = false;
     this.displayEvents = this.events;
     this.filterForm.valueChanges.pipe(
       startWith(this.filterForm.value),
@@ -75,15 +78,21 @@ export class EventsPageComponent implements OnInit{
           const endOfMonthDate = new Date(beginningOfMonth);
           endOfMonthDate.setMonth(endOfMonthDate.getMonth() + 1);
           endOfMonthDate.setDate(0);
+          this.isLoading = true;
           this.events = await this.db.getEventsByDateRange(beginningOfMonth, endOfMonthDate);
+          this.isLoading = false;
         } else if( value.date.week) {
           // Example: Get the start and end of the current week
           const currentDate = new Date();
           const startOfWeek = this.getStartOfWeek(currentDate);
           const endOfWeek = this.getEndOfWeek(currentDate);
+          this.isLoading = true;
           this.events = await this.db.getEventsByDateRange(startOfWeek, endOfWeek);
+          this.isLoading =  false;
         } else {
+          this.isLoading = true;
           this.events = await this.db.getEventsByDateRange(new Date(), new Date(Date.now() + this.defaultDateRange));
+          this.isLoading = false;
         }
         
       }

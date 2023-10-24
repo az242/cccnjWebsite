@@ -1,1 +1,46 @@
-<p>taiwanese-page works!</p>
+<div class="header-padding">
+    <section class="p-0 flex-container vertical">
+        <div style="position:relative; width:100%">
+            <div class="header-background" style="height:500px">
+                <img src="https://firebasestorage.googleapis.com/v0/b/cccnjdb.appspot.com/o/content%2FreGenbanner-01.jpg?alt=media&token=31c3d65b-eb4f-4869-88b0-192b1504e60a" style="width:100%; height:100%; object-fit:cover" class="image-frame">
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="content flex-container vertical">
+            <div class="flex-container">
+                <div class="px-3 flex-container align-end">
+                    <h1 class=" font black m-0">Taiwanese Congregration</h1>
+                </div>
+            </div>
+            <hr class="m-3">
+            <div class="flex-container mt-2">
+                <div class="flex-container vertical what-container" style="flex: 1 1 auto">
+                    <div>
+                        <h4 class="mb-1">What:</h4>
+                    </div>
+                    <div *ngIf="isLoggedIn && !registered" class="mt-5">
+                        <p>If you want to get emails and register for the group press the button below! </p>
+                        <a class="color-button" style="width:250px" (click)="register()"> Register </a>
+                    </div>
+                    <div *ngIf="registered">
+                        <p><b>You have registered for the group!</b></p>
+                    </div>
+                </div>
+                <div class="flex-container vertical info-container">
+                    <div>
+                        <h4 class="mb-1">Who:</h4> 
+                    </div>
+                    <div>
+                        <h4 class="mb-1">Where:</h4> 
+                    </div>
+                    <div>
+                        <h4 class="mb-1">When:</h4> 
+                        <!-- <p *ngFor="let date of recurringDates"></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <app-footer></app-footer>
+</div>

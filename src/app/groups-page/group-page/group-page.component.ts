@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { arrayUnion } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 
@@ -9,23 +10,31 @@ import { DbService } from 'src/app/services/db.service';
   templateUrl: './group-page.component.html',
   styleUrls: ['./group-page.component.scss']
 })
-export class GroupPageComponent {
+export class GroupPageComponent implements OnDestroy{
   color;
   group;
   isLoggedIn: boolean = false;
   registered: boolean = false;
   userId: string = '';
+  isLoading: boolean = false;
   constructor(private db: DbService,private auth: AuthService, private activedRoute: ActivatedRoute) {}
+  destroy: Subject<void> = new Subject();
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+  }
   async ngOnInit(): Promise<void> {
+    this.isLoading = true;
     const id = this.activedRoute.snapshot.paramMap.get('id')!;
     this.group = await this.db.getGroupById(id);
     this.color = this.stringToColour(this.group.uid);
     this.isLoggedIn = this.auth.isLoggedIn();
     this.userId = this.auth.getUID();
+    this.isLoading = false;
     if(this.group.attendees.includes(this.userId)) {
       this.registered = true;
     }
-    this.auth.loginEvent.subscribe(event =>{
+    this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe(event =>{
       if(event) {
         this.userId = this.auth.getUID();
         this.isLoggedIn = true;

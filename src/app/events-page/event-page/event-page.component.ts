@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { arrayUnion } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 
@@ -9,7 +10,7 @@ import { DbService } from 'src/app/services/db.service';
   templateUrl: './event-page.component.html',
   styleUrls: ['./event-page.component.scss']
 })
-export class EventPageComponent implements OnInit {
+export class EventPageComponent implements OnInit, OnDestroy {
   color;
   event;
   recurringDates: Date[] = [];
@@ -17,6 +18,11 @@ export class EventPageComponent implements OnInit {
   registered: boolean = false;
   userId: string = '';
   constructor(private db: DbService,private auth: AuthService, private activedRoute: ActivatedRoute) {}
+  destroy: Subject<void> = new Subject();
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+  }
   async ngOnInit(): Promise<void> {
     const id = this.activedRoute.snapshot.paramMap.get('id')!;
     this.event = await this.db.getEventById(id);
@@ -43,7 +49,7 @@ export class EventPageComponent implements OnInit {
     if(this.event.attendees.includes(this.userId)) {
       this.registered = true;
     }
-    this.auth.loginEvent.subscribe(event =>{
+    this.auth.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe(event =>{
       if(event) {
         this.userId = this.auth.getUID();
         this.isLoggedIn = true;

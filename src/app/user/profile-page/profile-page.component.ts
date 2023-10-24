@@ -52,8 +52,8 @@ export class ProfilePageComponent implements OnDestroy{
       this.userList = await this.db.getAllUsers();
     }
     if(this.userProfile.roles.includes('event')) {
+      console.log('getting owned events');
       this.ownedEvents = await this.db.getEventsByOwner(this.userProfile.uid);
-      console.log(this.ownedEvents);
     }
     if(this.userProfile.events.length > 0) {
       console.log('getting events');

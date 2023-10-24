@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -23,14 +24,19 @@ import { AuthService } from 'src/app/services/auth.service';
     ])
   ]
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit, OnDestroy{
   expanded: boolean = false;
   isLoggedIn: boolean = false;
   name: string;
   constructor(private router: Router, private authService: AuthService) {
   }
+  destroy: Subject<void> = new Subject();
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+  }
   ngOnInit(): void {
-    this.authService.loginEvent.subscribe((user)=> {
+    this.authService.loginEvent.pipe(takeUntil(this.destroy.asObservable())).subscribe((user)=> {
       if(user) {
         this.isLoggedIn = true;
         this.name = user.displayName;
