@@ -4,13 +4,16 @@
     <div class="overlay content flex-container vertical center-all">
       <div class="flex-container center-all vertical welcome-container">
         <h1 class="font white">
-          Welcome
+          <!-- Welcome -->
+          <div [innerHTML]="'landing.landing.title' | translate"></div>
         </h1>
         <div class="visit-us">
-          Come and worship with us
+          <div [innerHTML]="'landing.landing.subtitle' | translate"></div>
+          <!-- Come and worship with us -->
         </div>
         <a class="visit-button" (click)="route('visit', $event)">
-          Visit
+          <!-- Visit -->
+          <div [innerHTML]="'generic.visit' | translate"></div>
         </a>
       </div>
     </div>
