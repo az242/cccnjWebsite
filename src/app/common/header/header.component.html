@@ -170,7 +170,10 @@
       </ul>
     </nav>
     <div class="user-controls">
-      <a *ngIf="!isLoggedIn" routerLink="/profile">
+      <select #langSelect class="form-select" (change)="languageChange(langSelect.value)" style="width: auto">
+        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+      </select>
+      <a *ngIf="!isLoggedIn" routerLink="/login">
         <i class="fa-solid fa-user"></i>
       </a>
       <!-- <a *ngIf="isLoggedIn" class="user-profile">

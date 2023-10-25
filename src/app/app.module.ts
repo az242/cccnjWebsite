@@ -47,6 +47,9 @@ import { EnumeratePipe } from './utilities/numberNgFor.pipe';
 import { YouthPageComponent } from './groups-page/youth-page/youth-page.component';
 import { MinistriesPageComponent } from './ministries-page/ministries-page.component';
 import { SafePipe } from './utilities/safeUrl.pipe';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModalComponent } from './user/modals/translation-modal/translation-modal.component';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 
 @NgModule({
   declarations: [
@@ -84,7 +87,8 @@ import { SafePipe } from './utilities/safeUrl.pipe';
     EnumeratePipe,
     YouthPageComponent,
     MinistriesPageComponent,
-    SafePipe
+    SafePipe,
+    TranslationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +102,8 @@ import { SafePipe } from './utilities/safeUrl.pipe';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     NgbModule,
+    TranslateModule.forRoot({defaultLanguage: 'en'}),
+    NgJsonEditorModule
   ],
   providers: [
     // Register the AuthInterceptor as an interceptor

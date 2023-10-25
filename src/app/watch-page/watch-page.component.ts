@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DbService } from '../services/db.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { DbService } from '../services/db.service';
   templateUrl: './watch-page.component.html',
   styleUrls: ['./watch-page.component.scss']
 })
-export class WatchPageComponent {
+export class WatchPageComponent implements OnInit{
   watchUrl: string;
   constructor(private db: DbService) {}
   async ngOnInit(): Promise<void> {

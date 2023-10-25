@@ -352,4 +352,31 @@ export class DbService {
     let result = await updateDoc(userRef, {src: watchUrl});
     return result;
   }
+  async getLandingContent() {
+    const docRef = doc(this.contentCollection, 'landing');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return undefined;
+    }
+  }
+  async updateLandingContent(content) {
+    const userRef = doc(this.contentCollection, 'landing');
+    let result = await updateDoc(userRef, content);
+    return result;
+  }
+  async getTranslations() {
+    const docRef = doc(this.contentCollection, 'translation');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return undefined;
+    }
+  }
+  async saveTranslation(translation) {
+    const docRef = doc(this.contentCollection, 'translation');
+    await setDoc(docRef,translation, { merge: true });
+  }
 }

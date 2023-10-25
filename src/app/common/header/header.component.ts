@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   expanded: boolean = false;
   isLoggedIn: boolean = false;
   name: string;
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService, public translate: TranslateService) {
   }
   destroy: Subject<void> = new Subject();
   ngOnDestroy(): void {
@@ -48,6 +49,10 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
   signOut() {
     this.authService.logout();
+  }
+  languageChange(language) {
+    this.translate.use(language);
+    localStorage.setItem('cccnj-language', language);
   }
   route(path, event) {
     if(event) {
