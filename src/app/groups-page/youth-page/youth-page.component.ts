@@ -14,8 +14,9 @@ export class YouthPageComponent implements OnDestroy {
   isLoggedIn: boolean = false;
   registered: boolean = false;
   userId: string = '';
-  destroy: Subject<void> = new Subject();
+  
   constructor(private db: DbService,private auth: AuthService) {}
+  destroy: Subject<void> = new Subject();
   ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.unsubscribe();

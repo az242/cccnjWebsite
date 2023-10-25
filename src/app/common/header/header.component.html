@@ -169,7 +169,7 @@
         <li>
           <a routerLink="/watch" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
             <!-- Watch -->
-            <div [innerHTML]="'generic.visit' | translate"></div>
+            <div [innerHTML]="'generic.watch' | translate"></div>
           </a>
         </li>
       </ul>
@@ -205,19 +205,24 @@
   <div class="nav-container">
     <div class="group">
       <a class="parent" routerLink="/visit">
-        Visit
+        <!-- Visit -->
+        <div [innerHTML]="'generic.visit' | translate"></div>
       </a>
       <a class="parent" routerLink="/events">
-        Events
+        <!-- Events -->
+        <div [innerHTML]="'generic.events' | translate"></div>
       </a>
       <a class="parent" routerLink="/groups">
-        Groups
+        <!-- Groups -->
+        <div [innerHTML]="'generic.groups' | translate"></div>
       </a>
       <a class="parent" routerLink="/give">
-        Give
+        <!-- Give -->
+        <div [innerHTML]="'generic.give' | translate"></div>
       </a>
       <a class="parent" routerLink="/watch">
-        Watch
+        <!-- Watch -->
+        <div [innerHTML]="'generic.watch' | translate"></div>
       </a>
     </div>
     <div class="group">
