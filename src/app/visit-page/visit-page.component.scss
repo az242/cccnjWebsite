@@ -46,3 +46,12 @@ hr {
     border:none;
     opacity: 1;
 }
+
+.groups-bg {
+    background-image: linear-gradient(to bottom, var(--very-dark), white 40px);
+}
+
+.group-tile {
+    min-height:200px;
+    min-width:200px;
+}

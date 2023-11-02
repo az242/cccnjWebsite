@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
@@ -15,11 +15,14 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./edit-event-modal.component.scss']
 })
 export class EditEventModalComponent {
+  @Output() onSubmit = new EventEmitter<any>();
   @Input() userList: User[];
   @Input() eventList: Event[];
   event: Event;
   eventUserList: User[];
+  displayEvents: Event[];
   paginationMax: number = 0;
+  eventPMax: number = 0;
   alertMessage: string = undefined;
   selectedFile: File | null = null;
   now = new Date();
@@ -30,12 +33,20 @@ export class EditEventModalComponent {
   constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService, private auth: AuthService) {
   }
   ngOnChanges(changes) {
+    if(changes.eventList) {
+      this.displayEvents = changes.eventList.currentValue.slice(0,10);
+      this.eventPMax = Math.ceil(changes.eventList.currentValue.length/10);
+    }
+    
   }
   async ngOnInit() {
     const myModalEl = document.getElementById('editEventModal');
     myModalEl.addEventListener('hidden.bs.modal', event => {
       this.resetForm();
     })
+    // this.displayEvents = this.eventList.slice(0,10);
+    // this.eventPMax = Math.ceil(this.eventList.length/10);
+    // console.log(this.eventList);
   }
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -44,6 +55,10 @@ export class EditEventModalComponent {
     if(this.event) {
       this.initForm(this.event);
     }
+  }
+  selectEvent2(event) {
+    this.event = event;
+
   }
   eventNameUidSearch:OperatorFunction<string, readonly Event[]> = (text$: Observable<string>) =>
   text$.pipe(
@@ -92,6 +107,7 @@ export class EditEventModalComponent {
   get efc() { return this.eventForm?.controls; }
   get rfc() {return this.eventForm?.controls.recurrence.controls}
   initForm(event) {
+    console.log(event);
     let recurranceGroup;
     if(event.recurrence) {
       recurranceGroup = this.fb.group({
@@ -130,15 +146,18 @@ export class EditEventModalComponent {
       owner: ownerArray
     });
     this.time = {hour: event.startDate.getHours(), minute: event.startDate.getMinutes()};
-    this.eventUserList = this.event.attendees.slice(0,10).map((attendeeId)=> {
+    this.eventUserList = event.attendees.slice(0,10).map((attendeeId)=> {
       return this.userList.find((user)=>user.uid === attendeeId);
     });
-    this.paginationMax = Math.ceil(this.event.attendees.length/10);
+    this.paginationMax = Math.ceil(event.attendees.length/10);
   }
   changeAttendeePage(index: number) {
     this.eventUserList = this.event.attendees.slice(index*10, (index*10)+10).map((attendeeId)=> {
       return this.userList.find((user)=>user.uid === attendeeId);
     });
+  }
+  changeEventPage(index: number) {
+    this.displayEvents = this.eventList.slice(index*10, (index*10)+10);
   }
   get exceptionDates() {
     return this.eventForm.get('recurrence').get('exceptionDates').value ? this.eventForm.get('recurrence').get('exceptionDates').value : [];
@@ -163,8 +182,10 @@ export class EditEventModalComponent {
   async deleteEvent() {
     try {
       await this.db.deleteEvent(this.event.uid);
+      Object.assign(this.eventList, this.eventList.slice(this.eventList.findIndex((event => event.uid === this.event.uid)),1));
       var myModalEl = document.getElementById('editEventModal');
       var modal = bootstrap.Modal.getInstance(myModalEl);
+      this.onSubmit.next({action: 'delete', uid: this.event.uid});
       modal.hide();
     } catch (error) {
       var modalBody = document.getElementById('editEventModalBody');
@@ -242,7 +263,7 @@ export class EditEventModalComponent {
         this.alertMessage = 'Error with saving the event';
         console.log(error);
       }
-      
+      this.onSubmit.next({action: 'update', event: this.event});
     }
   }
 }

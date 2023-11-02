@@ -13,9 +13,9 @@ p {
     text-align: center;
 }
 .give-option-container {
-    max-width: 33%;
+    // max-width: 33%;
     padding: 1rem;
-    flex: 1 1 auto;
+    flex: 1 1 0;
     border-radius: 10px;
     // border: 2px solid #f3f3f3;
     i {
@@ -34,4 +34,9 @@ hr {
     background: var(--accent-1);
     border:none;
     opacity: 1;
+}
+@media only screen and (max-width: 850px) {
+    .give-mobile {
+        flex-direction: column;
+    }
 }

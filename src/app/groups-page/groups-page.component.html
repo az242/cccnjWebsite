@@ -10,7 +10,7 @@
         </div>
     </section>
     <section class="expect-bg">
-        <div class="content flex-container g-25 wrap" *ngIf="!isLoading; else loading">
+        <div class="content flex-container g-25 wrap align-center" *ngIf="!isLoading; else loading">
             <ng-container *ngFor="let group of displayGroups">
                 <app-tile-three [group]="group"></app-tile-three>
             </ng-container>

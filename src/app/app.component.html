@@ -1,5 +1,12 @@
-<div class="full-page">
+<div class="full-page" *ngIf="!isLoading; else loading">
     <app-header></app-header>
     <router-outlet></router-outlet>
 </div>
 
+<ng-template #loading>
+    <section>
+        <div class="spinner-border loading-spinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </section>
+</ng-template>

@@ -42,6 +42,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
       }
     }
     if(new Date().getTimezoneOffset() === 240) {
+      console.log('added 1 hour');
       this.event.startDate.setHours(this.event.startDate.getHours() + 1);
     }
     this.isLoggedIn = this.auth.isLoggedIn();

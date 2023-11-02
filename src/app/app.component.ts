@@ -9,10 +9,12 @@ import { DbService } from './services/db.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+  isLoading: boolean = false;
   constructor(private translate: TranslateService, private db: DbService){
   }
   async ngOnInit(): Promise<void> {
     // this language will be used as a fallback when a translation isn't found in the current language
+    this.isLoading = true;
     this.translate.setDefaultLang('en');
     let translations = await this.db.getTranslations();
     // the lang to use, if the lang isn't available, it will use the current loader to get them
@@ -25,5 +27,6 @@ export class AppComponent implements OnInit{
     } else {
       this.translate.use('en');
     }
+    this.isLoading = false;
   }
 }

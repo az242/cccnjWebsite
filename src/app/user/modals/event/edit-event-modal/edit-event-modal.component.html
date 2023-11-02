@@ -19,6 +19,32 @@
                             <button class="btn btn-outline-primary" type="button" (click)="selectEvent()">Select</button>
                         </div>
                     </div>
+                    <div class="pt-3">
+                        <label>Owned Events</label>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let event of displayEvents">
+                                <td>{{event.name}}</td>
+                                <td>{{event.startDate | date:'short'}}</td>
+                                <td><button class="color-button p-1" style="font-size: 12px; letter-spacing: 1pt" (click)="initForm(event);selectEvent2(event)">Select</button></td>
+                                <!-- <td><div class="flex-container center-all">
+                                    <i class="fa-solid fa-trash"></i>
+                                </div></td> -->
+                              </tr>
+                            </tbody>
+                        </table>
+                        <nav aria-label="Page navigation example" *ngIf="eventPMax > 1">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" *ngFor="let key of eventPMax | enumerate"><a class="page-link" (click)="changeEventPage(key)">{{key + 1}}</a></li>
+                            </ul>
+                        </nav>
+                    </div>  
                 </div>
                 <form *ngIf="eventForm" [formGroup]="eventForm">
                     <div class="form-group">
@@ -178,7 +204,7 @@
                         </table>
                         <nav aria-label="Page navigation example" *ngIf="paginationMax > 1">
                             <ul class="pagination justify-content-center">
-                                <li class="page-item" *ngFor="let key of paginationMax | enumerate"><a class="page-link">{{key + 1}}</a></li>
+                                <li class="page-item" *ngFor="let key of paginationMax | enumerate"><a class="page-link" (click)="changeAttendeePage(key)">{{key + 1}}</a></li>
                             </ul>
                         </nav>
                     </div>  
@@ -186,7 +212,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()"> Cancel</button>
-                <button type="button" class="btn btn-danger" (click)="deleteEvent()"> Delete</button>
+                <button type="button" class="btn btn-danger" [disabled]="!event" (click)="deleteEvent()"> Delete</button>
                 <button type="button" class="btn btn-primary" [disabled]="!eventForm?.valid" (click)="_onSubmit()">Save</button>
             </div>
         </div>
