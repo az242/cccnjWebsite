@@ -63,6 +63,7 @@ export const Groups = Object.freeze(['english','taiwanese','mandarin']);
  * 4 infant
  */
 export const Ages = Object.freeze(['adult','college', 'youth', 'child', 'infant']);
+export const AllRoles = Object.freeze([...Roles, ...Groups, ...Ages]);
 /**
  * Get user age role by JS Date object
  * @param dob Date used to calculate current age

@@ -50,6 +50,7 @@ import { SafePipe } from './utilities/safeUrl.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModalComponent } from './user/modals/translation-modal/translation-modal.component';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
     provideStorage(() => getStorage()),
     NgbModule,
     TranslateModule.forRoot({defaultLanguage: 'en'}),
-    NgJsonEditorModule
+    NgJsonEditorModule,
+    NgSelectModule
   ],
   providers: [
     // Register the AuthInterceptor as an interceptor

@@ -1,4 +1,4 @@
-<div class="modal fade" #userRolesModal id="userRolesModal" tabindex="-1" role="dialog" aria-labelledby="userRolesModal" aria-hidden="true">
+<div class="modal fade testingCss" #userRolesModal id="userRolesModal" tabindex="-1" role="dialog" aria-labelledby="userRolesModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form [formGroup]="rolesForm">
@@ -11,20 +11,25 @@
                 <div class="modal-body">
                     <div class="p-3">
                         <p>Search who you would like to add/remove roles to and type in the roles which you would like to edit.</p>
-                        <div formArrayName="users" class="p-2">
-                            <label>Users:</label>
-                            <div *ngFor="let user of users.controls; let i=index">
-                                <input id="users-{{ i }}" type="text" class="form-control w-100 my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="formatter" [inputFormatter]="formatter"/>
-                            </div>
-                            <button type="button" class="color-button" (click)="addUser()">Add User</button>
+                        <div class="p-2">
+                            <label for="users">Users:</label>
+                            <ng-select formControlName="users" [multiple]="true" id="userSelected" name="users" [hideSelected]="true" appendTo="body"
+                                [items]="userList" dropdownPosition="auto" placeholder="Select Users">
+                                <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                                    <span class="ng-value-label">{{item.firstName + ' ' + item.lastName}}</span>
+                                    <span class="ng-value-icon right" (click)="clear(item)">x</span>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                      <span >{{ item.firstName + ' ' + item.lastName + ' ' + item.email }}</span>
+                                </ng-template>
+                            </ng-select>
                         </div>
                         
-                        <div formArrayName="roles" class="p-2">
-                            <label>Roles:</label>
-                            <div *ngFor="let role of roles.controls; let i=index">
-                                <input id="roles-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i">
-                            </div>
-                            <button type="button" class="color-button" (click)="addRole()">Add role</button>
+                        <div class="p-2">
+                            <label for="roles">Roles:</label>
+                            <ng-select formControlName="roles" [multiple]="true" id="roles" bindLabel="roles" name="roles" [hideSelected]="true" appendTo="body"
+                                [items]="allRoles" dropdownPosition="auto" placeholder="Add/Remove Roles">
+                            </ng-select>
                         </div>
                     </div>
                 </div>
