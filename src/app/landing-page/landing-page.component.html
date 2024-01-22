@@ -5,10 +5,10 @@
       <div class="flex-container center-all vertical welcome-container">
         <h1 class="font white">
           <!-- Welcome -->
-          <div [innerHTML]="'landing.landing.title' | translate"></div>
+          <div [innerHTML]="'landing.landing.title' | translate" style="text-align: center;"></div>
         </h1>
         <div class="visit-us">
-          <div [innerHTML]="'landing.landing.subtitle' | translate"></div>
+          <div [innerHTML]="'landing.landing.subtitle' | translate" style="text-align: center;"></div>
           <!-- Come and worship with us -->
         </div>
         <a class="visit-button" (click)="route('visit', $event)">
@@ -90,6 +90,9 @@
         </div>
         <div  class="flex-container center-all event-container">
           <ng-container #eventContainer></ng-container>
+          <div *ngIf="noEvents">
+            <h4 class="font accent-1 m-0"> No Current Events!</h4>
+          </div>
         </div>
       </div>
       

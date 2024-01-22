@@ -228,12 +228,12 @@
 
 <edit-user-roles-modal [userList]="userList"></edit-user-roles-modal>
 
-<create-group-modal  [user]="userProfile" [userList]="userList"></create-group-modal>
+<create-group-modal  [user]="userProfile" [userList]="powerUserList"></create-group-modal>
 
 <edit-profile-modal [user]="userProfile" (onSubmit)="updateUserProfile($event)"></edit-profile-modal>
 
-<create-event-modal [user]="userProfile" [userList]="userList"></create-event-modal>
-<edit-event-modal [userList]="userList" [eventList]="ownedEvents"></edit-event-modal>
+<create-event-modal [user]="userProfile" [userList]="powerUserList"></create-event-modal>
+<edit-event-modal [userList]="powerUserList" [eventList]="ownedEvents"></edit-event-modal>
 <view-event-modal [eventList]="ownedEvents"></view-event-modal>
 
 <translation-modal *ngIf="userProfile?.roles.includes('content')"></translation-modal>

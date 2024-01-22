@@ -52,6 +52,12 @@ hr {
 }
 
 .group-tile {
-    min-height:200px;
-    min-width:200px;
+    flex: 1 1 0;
+}
+
+.flex-container {
+    @media only screen and (max-width: 850px) {
+        flex-direction: column;
+    }
+    
 }

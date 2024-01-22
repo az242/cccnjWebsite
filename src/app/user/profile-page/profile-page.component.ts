@@ -21,6 +21,7 @@ export class ProfilePageComponent implements OnDestroy{
   userProfile: User;
   familyMembers = [];
   userList = [];
+  powerUserList = [];
   alertMessage: string;
   destroy: Subject<void> = new Subject();
   groups: Group[] = [];
@@ -50,6 +51,7 @@ export class ProfilePageComponent implements OnDestroy{
     if(this.userProfile.roles.some(str => Roles.includes(str))) {
       console.log('getting users');
       this.userList = await this.db.getAllUsers();
+      this.powerUserList = this.userList.filter(user=> user.roles.some( role => Roles.includes(role)))
     }
     if(this.userProfile.roles.includes('event')) {
       console.log('getting owned events');

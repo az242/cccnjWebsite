@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, EnvironmentInjector, OnInit, ViewChild, ViewContainerRef, createComponent } from '@angular/core';
+import { AfterViewInit, Component, EnvironmentInjector, OnInit, Renderer2, ViewChild, ViewContainerRef, createComponent } from '@angular/core';
 import { Router } from '@angular/router';
 import { TileOneComponent } from '../common/tiles/tile-one/tile-one.component';
 import { Event } from '../common/event.model';
@@ -11,7 +11,8 @@ import { DbService } from '../services/db.service';
 })
 export class LandingPageComponent implements OnInit, AfterViewInit {
   @ViewChild('eventContainer',{ read: ViewContainerRef }) eventContainer: ViewContainerRef;
-  constructor(private environmentInjector: EnvironmentInjector,private router: Router, private db: DbService) { 
+  noEvents: boolean = false;
+  constructor(private environmentInjector: EnvironmentInjector,private router: Router, private db: DbService,private renderer: Renderer2) { 
   }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
@@ -65,7 +66,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       temp.location.nativeElement.className="slidein-container-short";
       this.eventContainer.insert(temp.hostView);
     }
-    
+    if(events.length === 0) {
+      this.noEvents = true;
+    } else {
+      this.noEvents = false;
+    }
   }
   arrowClick() {
     document.querySelector('.very-dark-bg').scrollIntoView({behavior:'smooth'});

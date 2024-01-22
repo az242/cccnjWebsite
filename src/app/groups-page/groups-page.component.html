@@ -14,6 +14,11 @@
             <ng-container *ngFor="let group of displayGroups">
                 <app-tile-three [group]="group"></app-tile-three>
             </ng-container>
+            <ng-container *ngIf="displayGroups.length === 0">
+                <div>
+                    <h4 class="font black m-0"> No groups found!</h4>
+                </div>
+            </ng-container>
         </div>
     </section>
     <app-footer></app-footer>

@@ -95,6 +95,11 @@
             <ng-container *ngFor="let event of displayEvents">
                 <app-tile-two [event]="event"></app-tile-two>
             </ng-container>
+            <ng-container *ngIf="displayEvents.length === 0">
+                <div>
+                    <h4 class="font black m-0"> No events found!</h4>
+                </div>
+            </ng-container>
         </div>
     </section>
     <app-footer></app-footer>
