@@ -40,7 +40,8 @@ export class CreateEventModalComponent implements OnInit, OnChanges {
     ]),
     owner: this.fb.array([
       this.fb.control(undefined)
-    ], [requireAtLeastOne])
+    ], [requireAtLeastOne]),
+    googleForm: this.fb.control('')
   }, {validators: dateOrderValidator});
   constructor(private db: DbService,private fb: FormBuilder, private cloud: CloudService) {
   }
