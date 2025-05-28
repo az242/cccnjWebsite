@@ -19,7 +19,7 @@ import { EventsPageComponent } from './events-page/events-page.component';
 import { WatchPageComponent } from './watch-page/watch-page.component';
 import { LoginPageComponent } from './login/login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/auth.interceptor';
 import { ProfilePageComponent } from './user/profile-page/profile-page.component';
 import { ForgottenPasswordPageComponent } from './login/forgotten-password-page/forgotten-password-page.component';
@@ -52,67 +52,61 @@ import { TranslationModalComponent } from './user/modals/translation-modal/trans
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LandingPageComponent,
-    VisitPageComponent,
-    HeaderComponent,
-    FooterComponent,
-    TileOneComponent,
-    TileTwoComponent,
-    EventsPageComponent,
-    WatchPageComponent,
-    LoginPageComponent,
-    ProfilePageComponent,
-    ForgottenPasswordPageComponent,
-    SignUpPageComponent,
-    NotFoundPageComponent,
-    GroupsPageComponent,
-    GivePageComponent,
-    CreateEventModalComponent,
-    EditUserRolesModalComponent,
-    AddFamilyMemberModalComponent,
-    LeaveFamilyModalComponent,
-    EventPageComponent,
-    GroupPageComponent,
-    CreateGroupModalComponent,
-    TileThreeComponent,
-    TileFourComponent,
-    EditProfileModalComponent,
-    RegenPageComponent,
-    TaiwanesePageComponent,
-    MandarinPageComponent,
-    EditEventModalComponent,
-    ViewEventModalComponent,
-    EnumeratePipe,
-    YouthPageComponent,
-    MinistriesPageComponent,
-    SafePipe,
-    TranslationModalComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
-    NgbModule,
-    TranslateModule.forRoot({defaultLanguage: 'en'}),
-    NgJsonEditorModule,
-    NgSelectModule
-  ],
-  providers: [
-    // Register the AuthInterceptor as an interceptor
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
-    [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LandingPageComponent,
+        VisitPageComponent,
+        HeaderComponent,
+        FooterComponent,
+        TileOneComponent,
+        TileTwoComponent,
+        EventsPageComponent,
+        WatchPageComponent,
+        LoginPageComponent,
+        ProfilePageComponent,
+        ForgottenPasswordPageComponent,
+        SignUpPageComponent,
+        NotFoundPageComponent,
+        GroupsPageComponent,
+        GivePageComponent,
+        CreateEventModalComponent,
+        EditUserRolesModalComponent,
+        AddFamilyMemberModalComponent,
+        LeaveFamilyModalComponent,
+        EventPageComponent,
+        GroupPageComponent,
+        CreateGroupModalComponent,
+        TileThreeComponent,
+        TileFourComponent,
+        EditProfileModalComponent,
+        RegenPageComponent,
+        TaiwanesePageComponent,
+        MandarinPageComponent,
+        EditEventModalComponent,
+        ViewEventModalComponent,
+        EnumeratePipe,
+        YouthPageComponent,
+        MinistriesPageComponent,
+        SafePipe,
+        TranslationModalComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+        provideAuth(() => getAuth()),
+        provideFirestore(() => getFirestore()),
+        provideStorage(() => getStorage()),
+        NgbModule,
+        TranslateModule.forRoot({ defaultLanguage: 'en' }),
+        NgJsonEditorModule,
+        NgSelectModule], providers: [
+        // Register the AuthInterceptor as an interceptor
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+        [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, from, lastValueFrom } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
 
