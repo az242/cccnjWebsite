@@ -8,8 +8,8 @@ describe('AddFamilyMemberModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AddFamilyMemberModalComponent]
-    });
+    imports: [AddFamilyMemberModalComponent]
+});
     fixture = TestBed.createComponent(AddFamilyMemberModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

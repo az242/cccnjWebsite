@@ -12,10 +12,33 @@ import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 import { Event } from 'src/app/common/event.model';
 import { Group } from 'src/app/common/group.model';
 import { CloudService } from 'src/app/services/cloud.service';
+import { TranslationModalComponent } from '../modals/translation-modal/translation-modal.component';
+import { TileFourComponent } from 'src/app/common/tiles/tile-four/tile-four.component';
+import { ViewEventModalComponent } from '../modals/event/view-event-modal/view-event-modal.component';
+import { EditEventModalComponent } from '../modals/event/edit-event-modal/edit-event-modal.component';
+import { CreateEventModalComponent } from '../modals/event/create-event-modal/create-event-modal.component';
+import { EditProfileModalComponent } from '../modals/edit-profile-modal/edit-profile-modal.component';
+import { CreateGroupModalComponent } from '../modals/group/create-group-modal/create-group-modal.component';
+import { EditUserRolesModalComponent } from '../modals/edit-user-roles-modal/edit-user-roles-modal.component';
+import { AddFamilyMemberModalComponent } from '../modals/family/add-family-member-modal/add-family-member-modal.component';
+import { LeaveFamilyModalComponent } from '../modals/family/leave-family-modal/leave-family-modal.component';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
+import { CommonModule, DatePipe, NgClass } from '@angular/common';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.scss']
+  styleUrls: ['./profile-page.component.scss'],
+  imports: [CommonModule, TileFourComponent,
+    TranslationModalComponent, 
+    ViewEventModalComponent, EditEventModalComponent, CreateEventModalComponent, 
+    EditProfileModalComponent, 
+    CreateGroupModalComponent, 
+    EditUserRolesModalComponent,
+    AddFamilyMemberModalComponent, LeaveFamilyModalComponent,
+    FooterComponent, 
+    DatePipe,
+    NgClass
+  ]
 })
 export class ProfilePageComponent implements OnDestroy{
   userProfile: User;

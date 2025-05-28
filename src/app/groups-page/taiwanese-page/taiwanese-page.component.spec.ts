@@ -8,8 +8,8 @@ describe('TaiwanesePageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TaiwanesePageComponent]
-    });
+    imports: [TaiwanesePageComponent]
+});
     fixture = TestBed.createComponent(TaiwanesePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

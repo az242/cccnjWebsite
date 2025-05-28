@@ -8,8 +8,8 @@ describe('TileFourComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TileFourComponent]
-    });
+    imports: [TileFourComponent]
+});
     fixture = TestBed.createComponent(TileFourComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

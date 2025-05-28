@@ -8,8 +8,8 @@ describe('ViewEventModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewEventModalComponent]
-    });
+    imports: [ViewEventModalComponent]
+});
     fixture = TestBed.createComponent(ViewEventModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

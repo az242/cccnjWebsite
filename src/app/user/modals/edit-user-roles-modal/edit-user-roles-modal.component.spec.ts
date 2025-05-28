@@ -8,8 +8,8 @@ describe('EditUserRolesModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EditUserRolesModalComponent]
-    });
+    imports: [EditUserRolesModalComponent]
+});
     fixture = TestBed.createComponent(EditUserRolesModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

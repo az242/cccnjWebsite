@@ -8,8 +8,8 @@ describe('CreateGroupModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateGroupModalComponent]
-    });
+    imports: [CreateGroupModalComponent]
+});
     fixture = TestBed.createComponent(CreateGroupModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

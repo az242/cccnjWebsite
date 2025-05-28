@@ -8,8 +8,8 @@ describe('WatchPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WatchPageComponent]
-    });
+    imports: [WatchPageComponent]
+});
     fixture = TestBed.createComponent(WatchPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

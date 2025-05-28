@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-forgotten-password-page',
   templateUrl: './forgotten-password-page.component.html',
-  styleUrls: ['./forgotten-password-page.component.scss']
+  styleUrls: ['./forgotten-password-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class ForgottenPasswordPageComponent {
   email: string;

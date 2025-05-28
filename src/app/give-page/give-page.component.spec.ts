@@ -8,8 +8,8 @@ describe('GivePageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GivePageComponent]
-    });
+    imports: [GivePageComponent]
+});
     fixture = TestBed.createComponent(GivePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,8 +8,8 @@ describe('GroupsPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupsPageComponent]
-    });
+    imports: [GroupsPageComponent]
+});
     fixture = TestBed.createComponent(GroupsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

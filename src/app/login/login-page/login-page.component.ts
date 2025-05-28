@@ -3,10 +3,12 @@ import { AuthService } from '../../services/auth.service';
 import { DbService } from '../../services/db.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, combineLatest, debounceTime, takeUntil } from 'rxjs';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  styleUrls: ['./login-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
   email: string;

@@ -8,8 +8,8 @@ describe('MandarinPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MandarinPageComponent]
-    });
+    imports: [MandarinPageComponent]
+});
     fixture = TestBed.createComponent(MandarinPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

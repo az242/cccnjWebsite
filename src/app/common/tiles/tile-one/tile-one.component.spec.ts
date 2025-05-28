@@ -8,8 +8,8 @@ describe('TileOneComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TileOneComponent]
-    });
+    imports: [TileOneComponent]
+});
     fixture = TestBed.createComponent(TileOneComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

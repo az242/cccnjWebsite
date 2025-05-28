@@ -8,8 +8,8 @@ describe('LeaveFamilyModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LeaveFamilyModalComponent]
-    });
+    imports: [LeaveFamilyModalComponent]
+});
     fixture = TestBed.createComponent(LeaveFamilyModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,8 +8,8 @@ describe('GroupPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupPageComponent]
-    });
+    imports: [GroupPageComponent]
+});
     fixture = TestBed.createComponent(GroupPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

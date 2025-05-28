@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { User, getAgeTag } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
@@ -11,7 +12,8 @@ import { americanStates, passwordComplexityValidator, passwordValidator, validat
 @Component({
   selector: 'app-sign-up-page',
   templateUrl: './sign-up-page.component.html',
-  styleUrls: ['./sign-up-page.component.scss']
+  styleUrls: ['./sign-up-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class SignUpPageComponent {
   alertMessage: string;

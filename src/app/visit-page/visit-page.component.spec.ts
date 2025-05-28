@@ -8,8 +8,8 @@ describe('VisitPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VisitPageComponent]
-    });
+    imports: [VisitPageComponent]
+});
     fixture = TestBed.createComponent(VisitPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

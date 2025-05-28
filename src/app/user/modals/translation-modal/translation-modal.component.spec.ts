@@ -8,8 +8,8 @@ describe('TranslationModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TranslationModalComponent]
-    });
+    imports: [TranslationModalComponent]
+});
     fixture = TestBed.createComponent(TranslationModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

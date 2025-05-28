@@ -8,8 +8,8 @@ describe('ProfilePageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfilePageComponent]
-    });
+    imports: [ProfilePageComponent]
+});
     fixture = TestBed.createComponent(ProfilePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import { TileOneComponent } from '../common/tiles/tile-one/tile-one.component';
 import { Event } from '../common/event.model';
 import { DbService } from '../services/db.service';
+import { FooterComponent } from '../common/footer/footer.component';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss']
+  styleUrls: ['./landing-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class LandingPageComponent implements OnInit, AfterViewInit {
   @ViewChild('eventContainer',{ read: ViewContainerRef }) eventContainer: ViewContainerRef;
