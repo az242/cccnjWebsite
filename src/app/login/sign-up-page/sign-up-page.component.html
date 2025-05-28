@@ -1,114 +1,150 @@
 <div class="header-padding">
-    <section>
-        <div class="content flex-container center-all vertical">
-            <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
-                {{alertMessage}}
+  <section>
+    <div class="content flex-container center-all vertical">
+      <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
+        {{alertMessage}}
+      </div>
+      <div class="login-container">
+        <h3 class="">
+          Registration
+        </h3>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit($event)">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input name="email" type="email" class="form-control" id="email" autocomplete="username" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email" [ngClass]="{ 'is-invalid': pfc.email.touched && pfc.email.errors, 'is-valid': pfc.email.valid }">
+            @if (pfc.email.touched && pfc.email.errors) {
+              <div class="invalid-feedback">
+                @if (pfc.email.errors.required) {
+                  <div>Email is required!</div>
+                }
+                @if (pfc.email.errors.email) {
+                  <div>Enter Valid Email ID!</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="First Name" formControlName="firstName" [ngClass]="{ 'is-invalid': pfc.firstName.touched && pfc.firstName.errors, 'is-valid': pfc.firstName.valid }">
+            @if (pfc.firstName.touched && pfc.firstName.errors) {
+              <div class="invalid-feedback">
+                @if (pfc.firstName.errors.required) {
+                  <div>First name is required!</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName"  [ngClass]="{ 'is-invalid': pfc.lastName.touched && pfc.lastName.errors, 'is-valid': pfc.lastName.valid }">
+            @if (pfc.lastName.touched && pfc.lastName.errors) {
+              <div class="invalid-feedback">
+                @if (pfc.lastName.errors.required) {
+                  <div>Last name is required!</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="lastName">Date of Birth</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="mm/dd/yyyy"
+                name="dp"
+                formControlName="dob"
+                ngbDatepicker
+                [minDate]="{year: 1930, month: 1, day: 1}"
+                #d="ngbDatepicker"
+                [ngClass]="{ 'is-invalid': pfc.dob.touched && pfc.dob.errors, 'is-valid': pfc.dob.valid }"
+                />
+              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
+              @if (pfc.dob.touched && pfc.dob.errors) {
+                <div class="invalid-feedback">
+                  @if (pfc.dob.errors.required) {
+                    <div>Date of Birth is required!</div>
+                  }
+                </div>
+              }
             </div>
-            <div class="login-container">
-                <h3 class="">
-                    Registration
-                </h3>
-                <form [formGroup]="profileForm" (ngSubmit)="onSubmit($event)">
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input name="email" type="email" class="form-control" id="email" autocomplete="username" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email" [ngClass]="{ 'is-invalid': pfc.email.touched && pfc.email.errors, 'is-valid': pfc.email.valid }">
-                        <div *ngIf="pfc.email.touched && pfc.email.errors" class="invalid-feedback">
-                            <div *ngIf="pfc.email.errors.required">Email is required!</div>
-                            <div *ngIf="pfc.email.errors.email">Enter Valid Email ID!</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input name="firstName" type="text" class="form-control" id="firstName" placeholder="First Name" formControlName="firstName" [ngClass]="{ 'is-invalid': pfc.firstName.touched && pfc.firstName.errors, 'is-valid': pfc.firstName.valid }">
-                        <div *ngIf="pfc.firstName.touched && pfc.firstName.errors" class="invalid-feedback">
-                            <div *ngIf="pfc.firstName.errors.required">First name is required!</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName"  [ngClass]="{ 'is-invalid': pfc.lastName.touched && pfc.lastName.errors, 'is-valid': pfc.lastName.valid }">
-                        <div *ngIf="pfc.lastName.touched && pfc.lastName.errors" class="invalid-feedback">
-                            <div *ngIf="pfc.lastName.errors.required">Last name is required!</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Date of Birth</label>
-                        <div class="input-group">
-                            <input
-                                class="form-control"
-                                placeholder="mm/dd/yyyy"
-                                name="dp"
-                                formControlName="dob"
-                                ngbDatepicker
-                                [minDate]="{year: 1930, month: 1, day: 1}"
-                                #d="ngbDatepicker"
-                                [ngClass]="{ 'is-invalid': pfc.dob.touched && pfc.dob.errors, 'is-valid': pfc.dob.valid }"
-                            />
-                            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"><i class="fa-solid fa-calendar-days"></i></button>
-                            <div *ngIf="pfc.dob.touched && pfc.dob.errors" class="invalid-feedback">
-                                <div *ngIf="pfc.dob.errors.required">Date of Birth is required!</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input name="password" type="password" class="form-control" autocomplete="new-password" id="password" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': pfc.password.touched && pfc.password.errors, 'is-valid': pfc.password.valid }">
-                        <div *ngIf="pfc.password.touched && pfc.password.errors" class="invalid-feedback">
-                            <div *ngIf="pfc.password.errors.required">Password is required!</div>
-                            <div *ngIf="pfc.password.errors.complexity">Password must have 1 Uppercase, 1 lowercase, and 1 digit.</div>
-                            <div *ngIf="pfc.password.errors.complexity">Must be atleast 6 characters long.</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordCheck">Password</label>
-                        <input name="passwordCheck" type="password" class="form-control" id="passwordCheck" placeholder="Password" formControlName="passwordCheck" [ngClass]="{ 'is-invalid': (pfc.passwordCheck.touched || pfc.passwordCheck.dirty) && profileForm.errors?.['passwordMismatch'], 'is-valid': (pfc.passwordCheck.touched || pfc.passwordCheck.dirty) && !profileForm.errors?.['passwordMismatch'] }">
-                        <div *ngIf="(profileForm.errors?.['passwordMismatch']) && (pfc.passwordCheck.touched || pfc.passwordCheck.dirty)" class="invalid-feedback">
-                            <div *ngIf="profileForm.errors?.['passwordMismatch']">Password needs to match!</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input name="phone" type="text" class="form-control" autocomplete="phone"  id="phone" placeholder="Phone Number" formControlName="phone" [ngClass]="{ 'is-invalid': pfc.phone.touched && pfc.phone.errors, 'is-valid': pfc.phone.valid }">
-                    </div>
-                    <!-- <div class="form-group">
-                        <label for="photo">Photo Url: </label>
-                        <input name="photo" type="text" class="form-control" id="photo" placeholder="URL to Profile Photo" formControlName="photoUrl">
-                    </div> -->
-                    <div class="form-group">
-                        <label for="formFile" class="form-label">Upload a photo</label>
-                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
-                    </div>
-                    <div formGroupName="address">
-                        <div class="form-group">
-                            <label for="street">Street:</label>
-                            <input class="form-control" type="text" id="street" placeholder="Street Address" formControlName="street" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="city">City:</label>
-                            <input class="form-control" type="text" id="city" placeholder="City" formControlName="city" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State:</label>
-                            <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': afc.state.touched && afc.state.errors, 'is-valid': afc.state.valid }">
-                                <option value="" disabled selected>Select a state</option>
-                                <option *ngFor="let state of americanStates" [value]="state.abbreviation">{{ state.name }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="postalCode">Postal Code:</label>
-                            <input class="form-control" type="text" id="postalCode" placeholder="Zip Code" formControlName="zip" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
-                            <div *ngIf="afc.zip.touched && afc.zip.errors" class="invalid-feedback">
-                                <div *ngIf="afc.zip.errors.invalidZip">Invalid Zipcode!</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-container pt-3" style="gap: 20px">
-                        <button type="submit" class="color-button">Register</button>
-                    </div>
-                </form>
-            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input name="password" type="password" class="form-control" autocomplete="new-password" id="password" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': pfc.password.touched && pfc.password.errors, 'is-valid': pfc.password.valid }">
+            @if (pfc.password.touched && pfc.password.errors) {
+              <div class="invalid-feedback">
+                @if (pfc.password.errors.required) {
+                  <div>Password is required!</div>
+                }
+                @if (pfc.password.errors.complexity) {
+                  <div>Password must have 1 Uppercase, 1 lowercase, and 1 digit.</div>
+                }
+                @if (pfc.password.errors.complexity) {
+                  <div>Must be atleast 6 characters long.</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="passwordCheck">Password</label>
+            <input name="passwordCheck" type="password" class="form-control" id="passwordCheck" placeholder="Password" formControlName="passwordCheck" [ngClass]="{ 'is-invalid': (pfc.passwordCheck.touched || pfc.passwordCheck.dirty) && profileForm.errors?.['passwordMismatch'], 'is-valid': (pfc.passwordCheck.touched || pfc.passwordCheck.dirty) && !profileForm.errors?.['passwordMismatch'] }">
+            @if ((profileForm.errors?.['passwordMismatch']) && (pfc.passwordCheck.touched || pfc.passwordCheck.dirty)) {
+              <div class="invalid-feedback">
+                @if (profileForm.errors?.['passwordMismatch']) {
+                  <div>Password needs to match!</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input name="phone" type="text" class="form-control" autocomplete="phone"  id="phone" placeholder="Phone Number" formControlName="phone" [ngClass]="{ 'is-invalid': pfc.phone.touched && pfc.phone.errors, 'is-valid': pfc.phone.valid }">
+          </div>
+          <!-- <div class="form-group">
+          <label for="photo">Photo Url: </label>
+          <input name="photo" type="text" class="form-control" id="photo" placeholder="URL to Profile Photo" formControlName="photoUrl">
+        </div> -->
+        <div class="form-group">
+          <label for="formFile" class="form-label">Upload a photo</label>
+          <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
         </div>
-    </section>
-    <app-footer></app-footer>
+        <div formGroupName="address">
+          <div class="form-group">
+            <label for="street">Street:</label>
+            <input class="form-control" type="text" id="street" placeholder="Street Address" formControlName="street" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
+          </div>
+
+          <div class="form-group">
+            <label for="city">City:</label>
+            <input class="form-control" type="text" id="city" placeholder="City" formControlName="city" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
+          </div>
+          <div class="form-group">
+            <label for="state">State:</label>
+            <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': afc.state.touched && afc.state.errors, 'is-valid': afc.state.valid }">
+              <option value="" disabled selected>Select a state</option>
+              @for (state of americanStates; track state) {
+                <option [value]="state.abbreviation">{{ state.name }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="postalCode">Postal Code:</label>
+            <input class="form-control" type="text" id="postalCode" placeholder="Zip Code" formControlName="zip" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
+            @if (afc.zip.touched && afc.zip.errors) {
+              <div class="invalid-feedback">
+                @if (afc.zip.errors.invalidZip) {
+                  <div>Invalid Zipcode!</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+        <div class="flex-container pt-3" style="gap: 20px">
+          <button type="submit" class="color-button">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>
 </div>

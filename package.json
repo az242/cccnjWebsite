@@ -16,19 +16,19 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~18.2.13",
-    "@angular/cdk": "^18.2.14",
-    "@angular/cli": "~18.2.19",
-    "@angular/common": "~18.2.13",
-    "@angular/compiler": "~18.2.13",
-    "@angular/core": "~18.2.13",
-    "@angular/fire": "^18.0.1",
-    "@angular/forms": "~18.2.13",
-    "@angular/localize": "^18.2.13",
-    "@angular/material": "^18.2.14",
-    "@angular/platform-browser": "~18.2.13",
-    "@angular/platform-browser-dynamic": "~18.2.13",
-    "@angular/router": "~18.2.13",
+    "@angular/animations": "~20.0.0",
+    "@angular/cdk": "^19.2.18",
+    "@angular/cli": "~19.2.14",
+    "@angular/common": "~20.0.0",
+    "@angular/compiler": "~20.0.0",
+    "@angular/core": "~20.0.0",
+    "@angular/fire": "^19.2.0",
+    "@angular/forms": "~20.0.0",
+    "@angular/localize": "^20.0.0",
+    "@angular/material": "^19.2.18",
+    "@angular/platform-browser": "~20.0.0",
+    "@angular/platform-browser-dynamic": "~20.0.0",
+    "@angular/router": "~20.0.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "@ng-select/ng-select": "^11.2.0",
     "@ngx-translate/core": "^15.0.0",
@@ -39,11 +39,11 @@
     "ngx-cookie-service": "^16.0.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.19",
-    "@angular/compiler-cli": "^18.2.13",
+    "@angular-devkit/build-angular": "^19.2.14",
+    "@angular/compiler-cli": "^20.0.0",
     "@types/jasmine": "^4.3.6",
     "@types/node": "^20.7.1",
     "codelyzer": "^6.0.2",
@@ -57,7 +57,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~10.9.1",
     "tslint": "~6.1.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.8.3"
   },
   "overrides": {
     "@angular/fire@~7.6.1": {

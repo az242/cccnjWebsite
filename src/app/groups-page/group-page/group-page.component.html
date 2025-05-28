@@ -1,60 +1,69 @@
 <div class="header-padding">
-    <section class="p-0 flex-container vertical">
-        <div style="position:relative; width:100%">
-            <div class="header-background" [style.background-color]="color">
-                <img *ngIf="group?.photoUrl && group?.photoUrl !== ''" src="{{group.photoUrl}}" style="width:100%; height:100%" class="image-frame">
-            </div>
-            <div class="w-100 flex-container center-all" style="position:fixed; top:0;">
-                <div class="content" *ngIf="!group?.photoUrl || group?.photoUrl === ''">
-                    <h2>{{group?.name}}</h2>
-                </div>
-            </div>
+  <section class="p-0 flex-container vertical">
+    <div style="position:relative; width:100%">
+      <div class="header-background" [style.background-color]="color">
+        @if (group?.photoUrl && group?.photoUrl !== '') {
+          <img src="{{group.photoUrl}}" style="width:100%; height:100%" class="image-frame">
+        }
+      </div>
+      <div class="w-100 flex-container center-all" style="position:fixed; top:0;">
+        @if (!group?.photoUrl || group?.photoUrl === '') {
+          <div class="content">
+            <h2>{{group?.name}}</h2>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+  @if (!isLoading) {
+    <section>
+      <div class="content flex-container vertical">
+        <div class="flex-container">
+          <div class="px-3 flex-container align-end">
+            <h1 class=" font black m-0">{{group?.name}}</h1>
+          </div>
         </div>
-    </section>
-    <section *ngIf="!isLoading; else loading">
-        <div class="content flex-container vertical">
-            <div class="flex-container">
-                <div class="px-3 flex-container align-end">
-                    <h1 class=" font black m-0">{{group?.name}}</h1>
-                </div>
+        <hr class="m-3">
+        <div class="flex-container mt-2">
+          <div class="flex-container vertical what-container" style="flex: 1 1 auto">
+            <div>
+              <h4 class="mb-1">What:</h4> <p>{{group?.desc}}</p>
             </div>
-            <hr class="m-3">
-            <div class="flex-container mt-2">
-                <div class="flex-container vertical what-container" style="flex: 1 1 auto">
-                    <div>
-                        <h4 class="mb-1">What:</h4> <p>{{group?.desc}}</p>
-                    </div>
-                    <div *ngIf="isLoggedIn && !registered" class="mt-5">
-                        <p>If you want to get emails and register for the group press the button below! </p>
-                        <a class="color-button" style="width:250px" (click)="register()"> Register </a>
-                    </div>
-                    <div *ngIf="registered">
-                        <p><b>You have registered for the group!</b></p>
-                    </div>
-                </div>
-                <div class="flex-container vertical info-container">
-                    <div>
-                        <h4 class="mb-1">Who:</h4> <p>{{group?.forWho}}</p>
-                    </div>
-                    <div>
-                        <h4 class="mb-1">Where:</h4> <p>{{group?.location}}</p>
-                    </div>
-                    <div>
-                        <h4 class="mb-1">When:</h4> 
-                        <div>{{group?.startDate}}</div>
-                        <!-- <p *ngFor="let date of recurringDates"></p> -->
-                    </div>
-                </div>
+            @if (isLoggedIn && !registered) {
+              <div class="mt-5">
+                <p>If you want to get emails and register for the group press the button below! </p>
+                <a class="color-button" style="width:250px" (click)="register()"> Register </a>
+              </div>
+            }
+            @if (registered) {
+              <div>
+                <p><b>You have registered for the group!</b></p>
+              </div>
+            }
+          </div>
+          <div class="flex-container vertical info-container">
+            <div>
+              <h4 class="mb-1">Who:</h4> <p>{{group?.forWho}}</p>
             </div>
+            <div>
+              <h4 class="mb-1">Where:</h4> <p>{{group?.location}}</p>
+            </div>
+            <div>
+              <h4 class="mb-1">When:</h4>
+              <div>{{group?.startDate}}</div>
+              <!-- <p *ngFor="let date of recurringDates"></p> -->
+            </div>
+          </div>
         </div>
+      </div>
     </section>
-    <app-footer></app-footer>
+  } @else {
+    <section>
+      <div class="spinner-border loading-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </section>
+  }
+  <app-footer></app-footer>
 </div>
 
-<ng-template #loading>
-    <section>
-        <div class="spinner-border loading-spinner" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </section>
-</ng-template>

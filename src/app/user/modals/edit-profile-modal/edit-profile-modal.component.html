@@ -1,68 +1,82 @@
 <div class="modal fade" #editProfileModal id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form [formGroup]="profileForm">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="editProfileModal">Edit Profile</h3>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input name="firstName" type="text" class="form-control" id="firstName" placeholder="First Name" formControlName="firstName" [ngClass]="{ 'is-invalid': pfc.firstName.touched && pfc.firstName.errors, 'is-valid': pfc.firstName.valid }">
-                        <div *ngIf="pfc.firstName.touched && pfc.firstName.errors" class="invalid-feedback">
-                            <div *ngIf="pfc.firstName.errors.required">First name is required!</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName"  [ngClass]="{ 'is-invalid': pfc.lastName.touched && pfc.lastName.errors, 'is-valid': pfc.lastName.valid }">
-                        <div *ngIf="pfc.lastName.touched && pfc.lastName.errors" class="invalid-feedback">
-                            <div *ngIf="pfc.lastName.errors.required">Last name is required!</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone Number" formControlName="phone" [ngClass]="{ 'is-invalid': pfc.phone.touched && pfc.phone.errors, 'is-valid': pfc.phone.valid }">
-                    </div>
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload a Profile photo!</label>
-                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
-                    </div>
-                    <h4>Address</h4>
-                    <div formGroupName="address">
-                        <div class="form-group">
-                            <label for="street">Street:</label>
-                            <input class="form-control" type="text" id="street" placeholder="Street Address" formControlName="street" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="city">City:</label>
-                            <input class="form-control" type="text" id="city" placeholder="City" formControlName="city" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State:</label>
-                            <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': afc.state.touched && afc.state.errors, 'is-valid': afc.state.valid }">
-                                <option value="" disabled selected>Select a state</option>
-                                <option *ngFor="let state of americanStates" [value]="state.abbreviation">{{ state.name }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="postalCode">Postal Code:</label>
-                            <input class="form-control" type="text" id="postalCode" placeholder="Zip Code" formControlName="zip" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
-                            <div *ngIf="afc.zip.touched && afc.zip.errors" class="invalid-feedback">
-                                <div *ngIf="afc.zip.errors.invalidZip">Invalid Zipcode!</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!profileForm.valid" (click)="_onSubmit()">Save</button>
-                </div>
-            </form>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="profileForm">
+        <div class="modal-header">
+          <h3 class="modal-title" id="editProfileModal">Edit Profile</h3>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="First Name" formControlName="firstName" [ngClass]="{ 'is-invalid': pfc.firstName.touched && pfc.firstName.errors, 'is-valid': pfc.firstName.valid }">
+            @if (pfc.firstName.touched && pfc.firstName.errors) {
+              <div class="invalid-feedback">
+                @if (pfc.firstName.errors.required) {
+                  <div>First name is required!</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName"  [ngClass]="{ 'is-invalid': pfc.lastName.touched && pfc.lastName.errors, 'is-valid': pfc.lastName.valid }">
+            @if (pfc.lastName.touched && pfc.lastName.errors) {
+              <div class="invalid-feedback">
+                @if (pfc.lastName.errors.required) {
+                  <div>Last name is required!</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone Number" formControlName="phone" [ngClass]="{ 'is-invalid': pfc.phone.touched && pfc.phone.errors, 'is-valid': pfc.phone.valid }">
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Upload a Profile photo!</label>
+            <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+          </div>
+          <h4>Address</h4>
+          <div formGroupName="address">
+            <div class="form-group">
+              <label for="street">Street:</label>
+              <input class="form-control" type="text" id="street" placeholder="Street Address" formControlName="street" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
+            </div>
+
+            <div class="form-group">
+              <label for="city">City:</label>
+              <input class="form-control" type="text" id="city" placeholder="City" formControlName="city" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
+            </div>
+            <div class="form-group">
+              <label for="state">State:</label>
+              <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': afc.state.touched && afc.state.errors, 'is-valid': afc.state.valid }">
+                <option value="" disabled selected>Select a state</option>
+                @for (state of americanStates; track state) {
+                  <option [value]="state.abbreviation">{{ state.name }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="postalCode">Postal Code:</label>
+              <input class="form-control" type="text" id="postalCode" placeholder="Zip Code" formControlName="zip" [ngClass]="{ 'is-invalid': afc.zip.touched && afc.zip.errors, 'is-valid': afc.zip.valid }">
+              @if (afc.zip.touched && afc.zip.errors) {
+                <div class="invalid-feedback">
+                  @if (afc.zip.errors.invalidZip) {
+                    <div>Invalid Zipcode!</div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!profileForm.valid" (click)="_onSubmit()">Save</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

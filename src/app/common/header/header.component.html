@@ -176,15 +176,20 @@
     </nav>
     <div class="user-controls">
       <select #langSelect class="form-select" (change)="languageChange(langSelect.value)" style="width: auto">
-        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+        @for (lang of translate.getLangs(); track lang) {
+          <option [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+        }
       </select>
-      <a *ngIf="!isLoggedIn" routerLink="/login">
-        <i class="fa-solid fa-user"></i>
-      </a>
+      @if (!isLoggedIn) {
+        <a routerLink="/login">
+          <i class="fa-solid fa-user"></i>
+        </a>
+      }
       <!-- <a *ngIf="isLoggedIn" class="user-profile">
-        <i class="fa-solid fa-user"></i> {{name}}
-      </a> -->
-      <div *ngIf="isLoggedIn" ngbDropdown class="d-inline-block" style="margin-top:5px;">
+      <i class="fa-solid fa-user"></i> {{name}}
+    </a> -->
+    @if (isLoggedIn) {
+      <div ngbDropdown class="d-inline-block" style="margin-top:5px;">
         <button type="button" class="btn btn-outline-primary user-profile" id="profile-dropdown" ngbDropdownToggle>
           <i class="fa-solid fa-user"></i> {{name}}
         </button>
@@ -194,12 +199,17 @@
           <button ngbDropdownItem (click)="signOut()">Sign Out</button>
         </div>
       </div>
-      <a (click)="expandNav($event)">
-        <i *ngIf="!expanded" class="fa-solid fa-bars" style="width:20px"></i>
-        <i *ngIf="expanded" class="fa-solid fa-x" style="width:20px"></i>
-      </a>
-    </div>
+    }
+    <a (click)="expandNav($event)">
+      @if (!expanded) {
+        <i class="fa-solid fa-bars" style="width:20px"></i>
+      }
+      @if (expanded) {
+        <i class="fa-solid fa-x" style="width:20px"></i>
+      }
+    </a>
   </div>
+</div>
 </header>
 <div id="expandedNav" class="expanded-nav"  [@visibilityChanged]="expanded ? 'in' : 'out'"  (blur)="expanded = false" tabindex="-1">
   <div class="nav-container">
@@ -236,69 +246,69 @@
         events
       </a>
       <!-- <a class="child">
-        Sunday School
-      </a> -->
-      <a class="child">
-        Regen Times
-      </a>
-      <a class="parent" routerLink="/youth">
-        Youth
-      </a>
-      <a class="child" routerLink="/events" [queryParams]="{tag: 'youth'}">
-        events
-      </a>
-      <a class="child">
-        Friday Night Fellowship
-      </a>
-      <!-- <a class="child">
-        Sunday School
-      </a> -->
-    </div>
-    <div class="group">
-      <a class="parent">
-        Children
-      </a>
-      <a class="child" routerLink="/events" [queryParams]="{tag: 'child'}">
-        Events
-      </a>
-      <!-- <a class="child">
-        Sunday School
-      </a> -->
-      <a class="child">
-        Friday Night
-      </a>
-      <a class="child">
-        Children's Choir
-      </a>
-      <a class="child">
-        Regen Kids
-      </a>
-      <a class="parent"  routerLink="/ministry">
-        Ministries
-      </a>
-      <a class="child">
-        Chinese Education
-      </a>
-      <a class="child">
-        Missions
-      </a>
-      <a class="child">
-        Music Ministry
-      </a>
-      <a class="child">
-        Community Outreach
-      </a>
-    </div>
-    <div class="group">
-      <a class="parent">
-        Volunteer
-      </a>
-      <a class="parent" routerLink="/give">
-        Give
-      </a>
-      <a class="parent"  routerLink="/contactus">
-        Contact Us
-      </a>
-    </div>
-  </div>
+      Sunday School
+    </a> -->
+    <a class="child">
+      Regen Times
+    </a>
+    <a class="parent" routerLink="/youth">
+      Youth
+    </a>
+    <a class="child" routerLink="/events" [queryParams]="{tag: 'youth'}">
+      events
+    </a>
+    <a class="child">
+      Friday Night Fellowship
+    </a>
+    <!-- <a class="child">
+    Sunday School
+  </a> -->
+</div>
+<div class="group">
+  <a class="parent">
+    Children
+  </a>
+  <a class="child" routerLink="/events" [queryParams]="{tag: 'child'}">
+    Events
+  </a>
+  <!-- <a class="child">
+  Sunday School
+</a> -->
+<a class="child">
+  Friday Night
+</a>
+<a class="child">
+  Children's Choir
+</a>
+<a class="child">
+  Regen Kids
+</a>
+<a class="parent"  routerLink="/ministry">
+  Ministries
+</a>
+<a class="child">
+  Chinese Education
+</a>
+<a class="child">
+  Missions
+</a>
+<a class="child">
+  Music Ministry
+</a>
+<a class="child">
+  Community Outreach
+</a>
+</div>
+<div class="group">
+  <a class="parent">
+    Volunteer
+  </a>
+  <a class="parent" routerLink="/give">
+    Give
+  </a>
+  <a class="parent"  routerLink="/contactus">
+    Contact Us
+  </a>
+</div>
+</div>
 </div>

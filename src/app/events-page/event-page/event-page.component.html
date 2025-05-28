@@ -1,58 +1,68 @@
 <div class="header-padding">
-    <section class="p-0 flex-container vertical">
-        <div style="position:relative; width:100%">
-            <div class="header-background" [style.background-color]="color">
-                <img *ngIf="event?.photoUrl && event?.photoUrl !== ''" src="{{event.photoUrl}}" style="width:100%; height:100%;object-fit: contain" class="image-frame">
-            </div>
-            <div class="w-100 flex-container center-all" style="position:fixed; top:0;">
-                <div class="content" *ngIf="!event?.photoUrl || event?.photoUrl === ''">
-                    <h2>{{event?.name}}</h2>
-                </div>
-            </div>
+  <section class="p-0 flex-container vertical">
+    <div style="position:relative; width:100%">
+      <div class="header-background" [style.background-color]="color">
+        @if (event?.photoUrl && event?.photoUrl !== '') {
+          <img src="{{event.photoUrl}}" style="width:100%; height:100%;object-fit: contain" class="image-frame">
+        }
+      </div>
+      <div class="w-100 flex-container center-all" style="position:fixed; top:0;">
+        @if (!event?.photoUrl || event?.photoUrl === '') {
+          <div class="content">
+            <h2>{{event?.name}}</h2>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="content flex-container vertical">
+      <div class="flex-container">
+        <div class="date-info flex-container vertical center-all">
+          <div>{{event?.startDate | date:'LLL'}}</div>
+          <div class="day">{{event?.startDate | date:'dd'}}</div>
+          <div>{{event?.startDate | date:'yyyy'}}</div>
         </div>
-    </section>
-    <section>
-        <div class="content flex-container vertical">
-            <div class="flex-container">
-                <div class="date-info flex-container vertical center-all">
-                    <div>{{event?.startDate | date:'LLL'}}</div>
-                    <div class="day">{{event?.startDate | date:'dd'}}</div>
-                    <div>{{event?.startDate | date:'yyyy'}}</div>
-                </div>
-                <div class="px-3 flex-container align-end">
-                    <h1 class=" font black m-0">{{event?.name}}</h1>
-                </div>
-            </div>
-            <hr class="m-3">
-            <div class="flex-container mt-2">
-                <div class="flex-container vertical what-container" style="flex: 1 1 auto">
-                    <div>
-                        <h4 class="mb-1">What:</h4> <p>{{event?.desc}}</p>
-                    </div>
-                    <div *ngIf="isLoggedIn && !registered" class="mt-5">
-                        <p>If you want to get emails and register for the event press the button below! </p>
-                        <a class="color-button" style="width:250px" (click)="register()"> Register </a>
-                    </div>
-                    <div *ngIf="registered">
-                        <p><b>You have registered for the event!</b></p>
-                    </div>
-                </div>
-                <div class="flex-container vertical info-container">
-                    <div>
-                        <h4 class="mb-1">Who:</h4> <p>{{event?.forWho}}</p>
-                    </div>
-                    <div>
-                        <h4 class="mb-1">Where:</h4> <p>{{event?.location}}</p>
-                    </div>
-                    <div>
-                        <h4 class="mb-1">When:</h4> 
-                        <div>{{event?.startDate | date:'medium':'est'}}</div>
-                        <div *ngFor="let date of recurringDates">{{date | date:'medium':'est'}}</div>
-                        <!-- <p *ngFor="let date of recurringDates"></p> -->
-                    </div>
-                </div>
-            </div>
+        <div class="px-3 flex-container align-end">
+          <h1 class=" font black m-0">{{event?.name}}</h1>
         </div>
-    </section>
-    <app-footer></app-footer>
+      </div>
+      <hr class="m-3">
+      <div class="flex-container mt-2">
+        <div class="flex-container vertical what-container" style="flex: 1 1 auto">
+          <div>
+            <h4 class="mb-1">What:</h4> <p>{{event?.desc}}</p>
+          </div>
+          @if (isLoggedIn && !registered) {
+            <div class="mt-5">
+              <p>If you want to get emails and register for the event press the button below! </p>
+              <a class="color-button" style="width:250px" (click)="register()"> Register </a>
+            </div>
+          }
+          @if (registered) {
+            <div>
+              <p><b>You have registered for the event!</b></p>
+            </div>
+          }
+        </div>
+        <div class="flex-container vertical info-container">
+          <div>
+            <h4 class="mb-1">Who:</h4> <p>{{event?.forWho}}</p>
+          </div>
+          <div>
+            <h4 class="mb-1">Where:</h4> <p>{{event?.location}}</p>
+          </div>
+          <div>
+            <h4 class="mb-1">When:</h4>
+            <div>{{event?.startDate | date:'medium':'est'}}</div>
+            @for (date of recurringDates; track date) {
+              <div>{{date | date:'medium':'est'}}</div>
+            }
+            <!-- <p *ngFor="let date of recurringDates"></p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
 </div>

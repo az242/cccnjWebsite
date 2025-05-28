@@ -1,96 +1,140 @@
 <div class="modal fade" #createGroupModal id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form [formGroup]="groupForm">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="createGroupModal">Create New Group</h3>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="createGroupModalBody">
-                    <div class="p-3">
-                        <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
-                            {{alertMessage}}
-                        </div>
-                        <p>Fill out the fields to create a new group.</p>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name" [ngClass]="{ 'is-invalid': gfc.name.touched && gfc.name.errors, 'is-valid': gfc.name.valid }">
-                            <div *ngIf="gfc.name.touched && gfc.name.errors" class="invalid-feedback">
-                                <div *ngIf="gfc.name.errors.required">Name is required!</div>
-                                <div *ngIf="gfc.name.errors.maxlength">Entered value is too long!</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location" [ngClass]="{ 'is-invalid': gfc.location.touched && gfc.location.errors, 'is-valid': gfc.location.valid }">
-                            <div *ngIf="gfc.location.touched && gfc.location.errors" class="invalid-feedback">
-                                <div *ngIf="gfc.location.errors.required">Location is required!</div>
-                                <div *ngIf="gfc.location.errors.maxlength">Entered value is too long!</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="when">When</label>
-                            <input name="when" type="text" class="form-control" id="when" placeholder="when" formControlName="when" [ngClass]="{ 'is-invalid': gfc.when.touched && gfc.when.errors, 'is-valid': gfc.when.valid }">
-                            <div *ngIf="gfc.when.touched && gfc.when.errors" class="invalid-feedback">
-                                <div *ngIf="gfc.when.errors.required">When is required!</div>
-                                <div *ngIf="gfc.when.errors.maxlength">Entered value is too long!</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="formFile" class="form-label">Upload a photo</label>
-                            <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
-                        </div>
-                        <div class="form-group">
-                            <label for="forWho">Who is the group for?</label>
-                            <input name="forWho" type="text" class="form-control" id="forWho" placeholder="Adults, regen, etc" formControlName="forWho" [ngClass]="{ 'is-invalid': gfc.forWho.touched && gfc.forWho.errors, 'is-valid': gfc.forWho.valid }">
-                            <div *ngIf="gfc.forWho.touched && gfc.forWho.errors" class="invalid-feedback">
-                                <div *ngIf="gfc.forWho.errors.required">This is required!</div>
-                                <div *ngIf="gfc.forWho.errors.maxlength">Entered value is too long!</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="shortDesc">Short Description (max: 100 characters)</label>
-                            <input name="shortDesc" type="text" class="form-control" maxlength="175" id="shortDesc" placeholder="Short Description" formControlName="shortDesc" [ngClass]="{ 'is-invalid': gfc.shortDesc.touched && gfc.shortDesc.errors, 'is-valid': gfc.shortDesc.valid }">
-                            <div *ngIf="gfc.shortDesc.touched && gfc.shortDesc.errors" class="invalid-feedback">
-                                <div *ngIf="gfc.shortDesc.errors.required">Short description is required!</div>
-                                <div *ngIf="gfc.shortDesc.errors.maxlength">Entered value is too long!</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="desc">Description</label>
-                            <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc" [ngClass]="{ 'is-invalid': gfc.desc.touched && gfc.desc.errors, 'is-valid': gfc.desc.valid }"></textarea>
-                            <div *ngIf="gfc.desc.touched && gfc.desc.errors" class="invalid-feedback">
-                                <div *ngIf="gfc.desc.errors.required">Description is required!</div>
-                                <div *ngIf="gfc.desc.errors.maxlength">Entered value is too long!</div>
-                            </div>
-                        </div>
-                        <div formArrayName="owners" class="form-group">
-                            <label>Owners:</label>
-                            <div *ngFor="let role of owners.controls; let i=index" class="flex-container center-all">
-                                <input id="owners-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="userFormatter" [inputFormatter]="userFormatter"/>
-                                <i class="fa-solid fa-x p-2" (click)="removeOwner(i)"></i>
-                            </div>
-                            <div *ngIf="gfc.owners.errors">
-                                <div *ngIf="gfc.owners.errors.requireAtLeastOne" class="custom-invalid">Requires at least 1 owner!</div>
-                            </div>
-                            <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addOwner()">Add User</button>
-                        </div>
-                        <div formArrayName="visibility" class="form-group">
-                            <label>Visibility:</label>
-                            <div *ngFor="let role of visibility.controls; let i=index" class="flex-container center-all">
-                                <input id="visiblity-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i"><i class="fa-solid fa-x p-2" (click)="removeVis(i)"></i>
-                            </div>
-                            <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addVisibility()">Add role</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()"> Cancel</button>
-                    <button type="button" class="btn btn-primary" [disabled]="!groupForm.valid" (click)="_onSubmit()">Add</button>
-                </div>
-            </form>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="groupForm">
+        <div class="modal-header">
+          <h3 class="modal-title" id="createGroupModal">Create New Group</h3>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body" id="createGroupModalBody">
+          <div class="p-3">
+            <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
+              {{alertMessage}}
+            </div>
+            <p>Fill out the fields to create a new group.</p>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input name="name" type="text" class="form-control" id="name" placeholder="Name" formControlName="name" [ngClass]="{ 'is-invalid': gfc.name.touched && gfc.name.errors, 'is-valid': gfc.name.valid }">
+              @if (gfc.name.touched && gfc.name.errors) {
+                <div class="invalid-feedback">
+                  @if (gfc.name.errors.required) {
+                    <div>Name is required!</div>
+                  }
+                  @if (gfc.name.errors.maxlength) {
+                    <div>Entered value is too long!</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input name="location" type="text" class="form-control" id="location" placeholder="Location" formControlName="location" [ngClass]="{ 'is-invalid': gfc.location.touched && gfc.location.errors, 'is-valid': gfc.location.valid }">
+              @if (gfc.location.touched && gfc.location.errors) {
+                <div class="invalid-feedback">
+                  @if (gfc.location.errors.required) {
+                    <div>Location is required!</div>
+                  }
+                  @if (gfc.location.errors.maxlength) {
+                    <div>Entered value is too long!</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="when">When</label>
+              <input name="when" type="text" class="form-control" id="when" placeholder="when" formControlName="when" [ngClass]="{ 'is-invalid': gfc.when.touched && gfc.when.errors, 'is-valid': gfc.when.valid }">
+              @if (gfc.when.touched && gfc.when.errors) {
+                <div class="invalid-feedback">
+                  @if (gfc.when.errors.required) {
+                    <div>When is required!</div>
+                  }
+                  @if (gfc.when.errors.maxlength) {
+                    <div>Entered value is too long!</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="formFile" class="form-label">Upload a photo</label>
+              <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+            </div>
+            <div class="form-group">
+              <label for="forWho">Who is the group for?</label>
+              <input name="forWho" type="text" class="form-control" id="forWho" placeholder="Adults, regen, etc" formControlName="forWho" [ngClass]="{ 'is-invalid': gfc.forWho.touched && gfc.forWho.errors, 'is-valid': gfc.forWho.valid }">
+              @if (gfc.forWho.touched && gfc.forWho.errors) {
+                <div class="invalid-feedback">
+                  @if (gfc.forWho.errors.required) {
+                    <div>This is required!</div>
+                  }
+                  @if (gfc.forWho.errors.maxlength) {
+                    <div>Entered value is too long!</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="shortDesc">Short Description (max: 100 characters)</label>
+              <input name="shortDesc" type="text" class="form-control" maxlength="175" id="shortDesc" placeholder="Short Description" formControlName="shortDesc" [ngClass]="{ 'is-invalid': gfc.shortDesc.touched && gfc.shortDesc.errors, 'is-valid': gfc.shortDesc.valid }">
+              @if (gfc.shortDesc.touched && gfc.shortDesc.errors) {
+                <div class="invalid-feedback">
+                  @if (gfc.shortDesc.errors.required) {
+                    <div>Short description is required!</div>
+                  }
+                  @if (gfc.shortDesc.errors.maxlength) {
+                    <div>Entered value is too long!</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="desc">Description</label>
+              <textarea name="desc" type="text" class="form-control" id="desc" placeholder="Description" formControlName="desc" [ngClass]="{ 'is-invalid': gfc.desc.touched && gfc.desc.errors, 'is-valid': gfc.desc.valid }"></textarea>
+              @if (gfc.desc.touched && gfc.desc.errors) {
+                <div class="invalid-feedback">
+                  @if (gfc.desc.errors.required) {
+                    <div>Description is required!</div>
+                  }
+                  @if (gfc.desc.errors.maxlength) {
+                    <div>Entered value is too long!</div>
+                  }
+                </div>
+              }
+            </div>
+            <div formArrayName="owners" class="form-group">
+              <label>Owners:</label>
+              @for (role of owners.controls; track role; let i = $index) {
+                <div class="flex-container center-all">
+                  <input id="owners-{{ i }}" type="text" class="form-control my-3" placeholder="Name, Email, or UID" [formControlName]="i" [ngbTypeahead]="nameEmailUidSearch" [resultFormatter]="userFormatter" [inputFormatter]="userFormatter"/>
+                  <i class="fa-solid fa-x p-2" (click)="removeOwner(i)"></i>
+                </div>
+              }
+              @if (gfc.owners.errors) {
+                <div>
+                  @if (gfc.owners.errors.requireAtLeastOne) {
+                    <div class="custom-invalid">Requires at least 1 owner!</div>
+                  }
+                </div>
+              }
+              <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addOwner()">Add User</button>
+            </div>
+            <div formArrayName="visibility" class="form-group">
+              <label>Visibility:</label>
+              @for (role of visibility.controls; track role; let i = $index) {
+                <div class="flex-container center-all">
+                  <input id="visiblity-{{ i }}" placeholder="Enter Role" class="form-control my-3" type="text" [formControlName]="i"><i class="fa-solid fa-x p-2" (click)="removeVis(i)"></i>
+                </div>
+              }
+              <button type="button" class="color-button p-2" style="font-size:12px;letter-spacing: normal;" (click)="addVisibility()">Add role</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()"> Cancel</button>
+          <button type="button" class="btn btn-primary" [disabled]="!groupForm.valid" (click)="_onSubmit()">Add</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

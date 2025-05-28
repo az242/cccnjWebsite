@@ -1,227 +1,264 @@
 <div class="header-padding">
-    <section class="light-bg">
-        <div class="content flex-container vertical gap-25" *ngIf="userProfile">
-            <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
-                {{alertMessage}}
-            </div>
-            <div class="flex-container w-100 gap-25">
-                <div class="profile-container profile">
-                    <div class="flex-container center-all vertical">
-                        <div class="circle m-3">
-                            <img *ngIf="userProfile.photoUrl" src="{{userProfile.photoUrl}}" alt="Your Image">
-                            <img *ngIf="!userProfile.photoUrl" src="assets/default-user.svg" alt="Your Image">
-                        </div>
-                        <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
-                        <div>User since {{userProfile.created | date:'yyyy'}}</div>
-                        <a data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</a>
-                        <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
-                    </div>
-                </div>
-                <div class="profile-container info">
-                    <h4 class="m-2 underline pb-2">User Info</h4>
-                    <div class="flex-container vertical gap-25">
-                        <div class="flex-container user-info">
-                            <div class="px-2">
-                                <h5>First Name</h5>
-                                <div>{{userProfile.firstName}}</div>
-                            </div>
-                            <div class="px-2">
-                                <h5>Last Name</h5>
-                                <div>{{userProfile.lastName}}</div>
-                            </div>
-                            <div class="px-2">
-                                <h5>Date of Birth</h5>
-                                <div>{{userProfile.dob ? (userProfile.dob | date:'longDate') : 'N/A'}}</div>
-                            </div>
-                            <div class="px-2">
-                                <h5>Member Status</h5>
-                                <div>{{userProfile.member ? 'Member since ' + (userProfile.member | date:'longDate') : 'N/A'}}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex-container user-info">
-                            <div class="px-2">
-                                <h5>Email</h5>
-                                <div>{{userProfile.email}}</div>
-                            </div>
-                            <div class="px-2">
-                                <h5>Phone</h5>
-                                <div>{{userProfile.phone ? userProfile.phone : 'N/A'}}</div>
-                            </div>
-                            <div class="px-2">
-                                <h5>Address</h5>
-                                <div class="flex-container vertical" *ngIf="userProfile.address">
-                                    <div>{{userProfile.address.street}}</div>
-                                    <div>{{userProfile.address.city}}, {{userProfile.address.state}}, {{userProfile.address.zip}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-container user-info">
-                            <div class="px-2">
-                                <h5>Created</h5>
-                                <div>{{userProfile.created | date:'fullDate'}}</div>
-                            </div>
-                            <div class="px-2">
-                                <h5>Last Logged In</h5>
-                                <div>{{userProfile.loggedIn | date:'fullDate'}}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-container w-100 gap-25">
-                <div class="profile-container family">
-                    <h4 class="m-2 underline pb-2">My Family</h4>
-                    <div id="family-container" class="flex-container p-3" style="overflow-x:auto">
-                        <div class="flex-container center-all vertical">
-                            <div class="circle m-3">
-                                <img *ngIf="userProfile.photoUrl" src="{{userProfile.photoUrl}}" alt="Your Image">
-                                <img *ngIf="!userProfile.photoUrl" src="assets/default-user.svg" alt="Your Image">
-                            </div>
-                            <h5 class="mb-3">{{userProfile.firstName}} {{userProfile.lastName}}</h5>
-                            <button *ngIf="userProfile.familyId" class="color-button p-2" style="font-size: 12px; letter-spacing: 1pt;" data-bs-toggle="modal" data-bs-target="#leaveFamilyModal">Leave Family</button>
-                        </div>
-                        <div *ngFor="let user of familyMembers">
-                            <div class="flex-container center-all vertical">
-                                <div class="circle m-3">
-                                    <img *ngIf="user.photoUrl" src="{{user.photoUrl}}" alt="Your Image">
-                                <img *ngIf="!user.photoUrl" src="assets/default-user.svg" alt="Your Image">
-                                </div>
-                                <h5 class="mb-3">{{user.firstName}} {{user.lastName}}</h5>
-                            </div>
-                        </div>
-                        <a class="flex-container align-center vertical add-family-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="circle m-3">
-                                <img src="assets/default-user.svg" alt="Your Image">
-                            </div>
-                            <h5 class="mb-3">Add Member</h5>
-                        </a>
-                    </div>
-                </div>
-                <div class="profile-container giving">
-                    <h4 class="m-2 underline pb-2">My Giving</h4>
-                    <div class="subtitle pl-2">The following list of Donations is informational and should not be used for tax purposes.</div>
-                    <div id="giving-container" class="flex-container p-3">
-                        Giving History is currently under construction!
-                    </div>
-                </div>
-            </div>
-            <div class="flex-container w-100 gap-25">
-                <div class="profile-container groups">
-                    <h4 class="m-2 underline pb-2">My Groups</h4>
-                    <div class="flex-container p-3">
-                        <ng-container *ngFor="let group of groups">
-                            <tile-four [group]="group"></tile-four>
-                        </ng-container>
-                        <div *ngIf="groups.length === 0">
-                            <p>No groups!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="profile-container events">
-                    <h4 class="m-2 underline pb-2">My Past Events</h4>
-                    <div class="flex-container vertical p-3 event-container">
-                        <div *ngFor="let event of pastEvents">
-                            <a class="font black event-item" routerLink="/event/{{event.uid}}">
-                                <h5>{{event.name}}</h5>
-                                <div class="event-detail">
-                                    {{event.startDate | date:'shortDate'}}
-                                </div>
-                            </a>
-                        </div>
-                        <div *ngIf="pastEvents.length === 0">
-                            <p>No past events</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="profile-container events">
-                    <h4 class="m-2 underline pb-2">My Future Events</h4>
-                    <div class="flex-container vertical p-3 event-container">
-                        <div *ngFor="let event of futureEvents">
-                            <a class="font black event-item" routerLink="/event/{{event.uid}}">
-                                <h5>{{event.name}}</h5>
-                                <div class="event-detail">
-                                    {{event.startDate | date:'shortDate'}}
-                                </div>
-                            </a>
-                        </div>
-                        <div *ngIf="futureEvents.length === 0">
-                            <p>No future events</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('admin')">
-                <div class="profile-container admin">
-                    <h4 class="m-2 underline pb-2">Admin Control Panel</h4>
-                    <div class="flex-container p-3">
-                        <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#userRolesModal">
-                            <i class="fa-solid fa-user-gear mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Add/Remove User Roles</h5>
-                        </a>
-                        <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
-                            <i class="fa-solid fa-user-slash mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Edit User</h5>
-                        </a>
-                        <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
-                            <i class="fa-solid fa-user-tag mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Info By Roles</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('content')">
-                <div class="profile-container admin">
-                    <h4 class="m-2 underline pb-2">Content Control Panel</h4>
-                    <div class="flex-container p-3">
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#translationModal">
-                            <i class="fa-regular fa-calendar-plus mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Edit Translations</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('event')">
-                <div class="profile-container admin">
-                    <h4 class="m-2 underline pb-2">Event Control Panel</h4>
-                    <div class="flex-container p-3">
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#createEventModal">
-                            <i class="fa-regular fa-calendar-plus mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Add Event</h5>
-                        </a>
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#editEventModal">
-                            <i class="fa-regular fa-calendar-check mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Edit Event</h5>
-                        </a>
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#viewEventModal">
-                            <i class="fa-regular fa-calendar-minus mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">View Event Info</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-container w-100 gap-25" *ngIf="userProfile?.roles?.includes('group')">
-                <div class="profile-container admin">
-                    <h4 class="m-2 underline pb-2">Group Control Panel</h4>
-                    <div class="flex-container p-3">
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#createGroupModal">
-                            <i class="fa-solid fa-people-group mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Add Group</h5>
-                        </a>
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
-                            <i class="fa-solid fa-users-viewfinder mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">Edit Group</h5>
-                        </a>
-                        <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
-                            <i class="fa-solid fa-users-between-lines mt-3" style="font-size: 60px;"></i>
-                            <h5 class="m-3">View Group Info</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
+  <section class="light-bg">
+    @if (userProfile) {
+      <div class="content flex-container vertical gap-25">
+        <div class="alert alert-danger" [ngClass]="{'hide-alert': alertMessage === undefined}" role="alert">
+          {{alertMessage}}
         </div>
-    </section>
-    <app-footer></app-footer>
+        <div class="flex-container w-100 gap-25">
+          <div class="profile-container profile">
+            <div class="flex-container center-all vertical">
+              <div class="circle m-3">
+                @if (userProfile.photoUrl) {
+                  <img src="{{userProfile.photoUrl}}" alt="Your Image">
+                }
+                @if (!userProfile.photoUrl) {
+                  <img src="assets/default-user.svg" alt="Your Image">
+                }
+              </div>
+              <h4>{{userProfile.firstName}} {{userProfile.lastName}}</h4>
+              <div>User since {{userProfile.created | date:'yyyy'}}</div>
+              <a data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</a>
+              <!-- <div>{{userProfile.firstName}} {{userProfile.lastName}}</div> -->
+            </div>
+          </div>
+          <div class="profile-container info">
+            <h4 class="m-2 underline pb-2">User Info</h4>
+            <div class="flex-container vertical gap-25">
+              <div class="flex-container user-info">
+                <div class="px-2">
+                  <h5>First Name</h5>
+                  <div>{{userProfile.firstName}}</div>
+                </div>
+                <div class="px-2">
+                  <h5>Last Name</h5>
+                  <div>{{userProfile.lastName}}</div>
+                </div>
+                <div class="px-2">
+                  <h5>Date of Birth</h5>
+                  <div>{{userProfile.dob ? (userProfile.dob | date:'longDate') : 'N/A'}}</div>
+                </div>
+                <div class="px-2">
+                  <h5>Member Status</h5>
+                  <div>{{userProfile.member ? 'Member since ' + (userProfile.member | date:'longDate') : 'N/A'}}</div>
+                </div>
+              </div>
+              <div class="flex-container user-info">
+                <div class="px-2">
+                  <h5>Email</h5>
+                  <div>{{userProfile.email}}</div>
+                </div>
+                <div class="px-2">
+                  <h5>Phone</h5>
+                  <div>{{userProfile.phone ? userProfile.phone : 'N/A'}}</div>
+                </div>
+                <div class="px-2">
+                  <h5>Address</h5>
+                  @if (userProfile.address) {
+                    <div class="flex-container vertical">
+                      <div>{{userProfile.address.street}}</div>
+                      <div>{{userProfile.address.city}}, {{userProfile.address.state}}, {{userProfile.address.zip}}</div>
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="flex-container user-info">
+                <div class="px-2">
+                  <h5>Created</h5>
+                  <div>{{userProfile.created | date:'fullDate'}}</div>
+                </div>
+                <div class="px-2">
+                  <h5>Last Logged In</h5>
+                  <div>{{userProfile.loggedIn | date:'fullDate'}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-container w-100 gap-25">
+          <div class="profile-container family">
+            <h4 class="m-2 underline pb-2">My Family</h4>
+            <div id="family-container" class="flex-container p-3" style="overflow-x:auto">
+              <div class="flex-container center-all vertical">
+                <div class="circle m-3">
+                  @if (userProfile.photoUrl) {
+                    <img src="{{userProfile.photoUrl}}" alt="Your Image">
+                  }
+                  @if (!userProfile.photoUrl) {
+                    <img src="assets/default-user.svg" alt="Your Image">
+                  }
+                </div>
+                <h5 class="mb-3">{{userProfile.firstName}} {{userProfile.lastName}}</h5>
+                @if (userProfile.familyId) {
+                  <button class="color-button p-2" style="font-size: 12px; letter-spacing: 1pt;" data-bs-toggle="modal" data-bs-target="#leaveFamilyModal">Leave Family</button>
+                }
+              </div>
+              @for (user of familyMembers; track user) {
+                <div>
+                  <div class="flex-container center-all vertical">
+                    <div class="circle m-3">
+                      @if (user.photoUrl) {
+                        <img src="{{user.photoUrl}}" alt="Your Image">
+                      }
+                      @if (!user.photoUrl) {
+                        <img src="assets/default-user.svg" alt="Your Image">
+                      }
+                    </div>
+                    <h5 class="mb-3">{{user.firstName}} {{user.lastName}}</h5>
+                  </div>
+                </div>
+              }
+              <a class="flex-container align-center vertical add-family-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <div class="circle m-3">
+                  <img src="assets/default-user.svg" alt="Your Image">
+                </div>
+                <h5 class="mb-3">Add Member</h5>
+              </a>
+            </div>
+          </div>
+          <div class="profile-container giving">
+            <h4 class="m-2 underline pb-2">My Giving</h4>
+            <div class="subtitle pl-2">The following list of Donations is informational and should not be used for tax purposes.</div>
+            <div id="giving-container" class="flex-container p-3">
+              Giving History is currently under construction!
+            </div>
+          </div>
+        </div>
+        <div class="flex-container w-100 gap-25">
+          <div class="profile-container groups">
+            <h4 class="m-2 underline pb-2">My Groups</h4>
+            <div class="flex-container p-3">
+              @for (group of groups; track group) {
+                <tile-four [group]="group"></tile-four>
+              }
+              @if (groups.length === 0) {
+                <div>
+                  <p>No groups!</p>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="profile-container events">
+            <h4 class="m-2 underline pb-2">My Past Events</h4>
+            <div class="flex-container vertical p-3 event-container">
+              @for (event of pastEvents; track event) {
+                <div>
+                  <a class="font black event-item" routerLink="/event/{{event.uid}}">
+                    <h5>{{event.name}}</h5>
+                    <div class="event-detail">
+                      {{event.startDate | date:'shortDate'}}
+                    </div>
+                  </a>
+                </div>
+              }
+              @if (pastEvents.length === 0) {
+                <div>
+                  <p>No past events</p>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="profile-container events">
+            <h4 class="m-2 underline pb-2">My Future Events</h4>
+            <div class="flex-container vertical p-3 event-container">
+              @for (event of futureEvents; track event) {
+                <div>
+                  <a class="font black event-item" routerLink="/event/{{event.uid}}">
+                    <h5>{{event.name}}</h5>
+                    <div class="event-detail">
+                      {{event.startDate | date:'shortDate'}}
+                    </div>
+                  </a>
+                </div>
+              }
+              @if (futureEvents.length === 0) {
+                <div>
+                  <p>No future events</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        @if (userProfile?.roles?.includes('admin')) {
+          <div class="flex-container w-100 gap-25">
+            <div class="profile-container admin">
+              <h4 class="m-2 underline pb-2">Admin Control Panel</h4>
+              <div class="flex-container p-3">
+                <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#userRolesModal">
+                  <i class="fa-solid fa-user-gear mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Add/Remove User Roles</h5>
+                </a>
+                <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                  <i class="fa-solid fa-user-slash mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Edit User</h5>
+                </a>
+                <a id="add-family-button" class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                  <i class="fa-solid fa-user-tag mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Info By Roles</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+        @if (userProfile?.roles?.includes('content')) {
+          <div class="flex-container w-100 gap-25">
+            <div class="profile-container admin">
+              <h4 class="m-2 underline pb-2">Content Control Panel</h4>
+              <div class="flex-container p-3">
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#translationModal">
+                  <i class="fa-regular fa-calendar-plus mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Edit Translations</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+        @if (userProfile?.roles?.includes('event')) {
+          <div class="flex-container w-100 gap-25">
+            <div class="profile-container admin">
+              <h4 class="m-2 underline pb-2">Event Control Panel</h4>
+              <div class="flex-container p-3">
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#createEventModal">
+                  <i class="fa-regular fa-calendar-plus mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Add Event</h5>
+                </a>
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#editEventModal">
+                  <i class="fa-regular fa-calendar-check mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Edit Event</h5>
+                </a>
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#viewEventModal">
+                  <i class="fa-regular fa-calendar-minus mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">View Event Info</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+        @if (userProfile?.roles?.includes('group')) {
+          <div class="flex-container w-100 gap-25">
+            <div class="profile-container admin">
+              <h4 class="m-2 underline pb-2">Group Control Panel</h4>
+              <div class="flex-container p-3">
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+                  <i class="fa-solid fa-people-group mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Add Group</h5>
+                </a>
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                  <i class="fa-solid fa-users-viewfinder mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">Edit Group</h5>
+                </a>
+                <a class="flex-container align-center vertical add-family-button p-3" data-bs-toggle="modal" data-bs-target="#asd">
+                  <i class="fa-solid fa-users-between-lines mt-3" style="font-size: 60px;"></i>
+                  <h5 class="m-3">View Group Info</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+  <app-footer></app-footer>
 </div>
 <leave-family-modal (onSubmit)="leaveFamily()"></leave-family-modal>
 <add-family-member-modal [userList]="userList" [familyMembers]="familyMembers" [uid]="userProfile?.uid" (onSubmit)="addFamilyMember($event)"></add-family-member-modal>
@@ -236,4 +273,6 @@
 <edit-event-modal [userList]="powerUserList" [eventList]="ownedEvents"></edit-event-modal>
 <view-event-modal [eventList]="ownedEvents"></view-event-modal>
 
-<translation-modal *ngIf="userProfile?.roles.includes('content')"></translation-modal>
+@if (userProfile?.roles.includes('content')) {
+  <translation-modal></translation-modal>
+}
