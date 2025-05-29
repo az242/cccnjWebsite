@@ -1,12 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DbService } from './services/db.service';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from './common/header/header.component';
 // import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  imports: [RouterModule, HeaderComponent]
 })
 export class AppComponent implements OnInit {
   isLoading: boolean = false;

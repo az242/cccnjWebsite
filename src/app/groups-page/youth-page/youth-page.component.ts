@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { arrayUnion } from '@angular/fire/firestore';
 import { Subject, takeUntil } from 'rxjs';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { Ages, Groups } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
@@ -8,7 +9,8 @@ import { DbService } from 'src/app/services/db.service';
 @Component({
   selector: 'app-youth-page',
   templateUrl: './youth-page.component.html',
-  styleUrls: ['./youth-page.component.scss']
+  styleUrls: ['./youth-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class YouthPageComponent implements OnDestroy {
   isLoggedIn: boolean = false;

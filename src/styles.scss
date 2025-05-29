@@ -186,12 +186,12 @@ section {
         z-index: 1;
         height: 515px;
         width:50%;
-        @media only screen and (max-width: 850px) {
-          width:100%;
-        }
         margin-left:-15px;
         padding-right:0px;
         justify-content: center;
+        @media only screen and (max-width: 850px) {
+          width:100%;
+        }
         h2 {
           color: black;
         }
@@ -235,12 +235,12 @@ section {
         z-index: 1;
         height: 515px;
         width:50%;
-        @media only screen and (max-width: 850px) {
-          width:100%;
-        }
         margin-right:-15px;
         padding-left:10px;
         justify-content: center;
+        @media only screen and (max-width: 850px) {
+          width:100%;
+        }
         h2 {
           color: black;
         }

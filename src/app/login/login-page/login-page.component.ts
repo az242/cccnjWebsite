@@ -4,11 +4,13 @@ import { DbService } from '../../services/db.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, combineLatest, debounceTime, takeUntil } from 'rxjs';
 import { FooterComponent } from 'src/app/common/footer/footer.component';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
-  imports: [FooterComponent]
+  imports: [FooterComponent, FormsModule, NgClass]
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
   email: string;

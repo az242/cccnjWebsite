@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgbDate, NgbDatepickerModule, NgbTimepickerModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
 import * as bootstrap from 'bootstrap';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
@@ -8,10 +8,12 @@ import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map }
 import { DbService } from 'src/app/services/db.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { dateOrderValidator, requireAtLeastOne } from 'src/app/utilities/form.util';
+import { DatePipe, NgClass } from '@angular/common';
 @Component({
   selector: 'create-event-modal',
   templateUrl: './create-event-modal.component.html',
-  styleUrls: ['./create-event-modal.component.scss']
+  styleUrls: ['./create-event-modal.component.scss'],
+  imports: [NgClass, DatePipe, NgbDatepickerModule, NgbTimepickerModule, FormsModule, ReactiveFormsModule, NgbTypeaheadModule]
 })
 export class CreateEventModalComponent implements OnInit, OnChanges {
   @Input() user: User;

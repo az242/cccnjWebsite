@@ -2,13 +2,15 @@ import { Component, OnDestroy } from '@angular/core';
 import { arrayUnion } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-group-page',
   templateUrl: './group-page.component.html',
-  styleUrls: ['./group-page.component.scss']
+  styleUrls: ['./group-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class GroupPageComponent implements OnDestroy{
   color;

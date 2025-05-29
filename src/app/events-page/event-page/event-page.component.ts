@@ -1,14 +1,17 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { arrayUnion } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-event-page',
   templateUrl: './event-page.component.html',
-  styleUrls: ['./event-page.component.scss']
+  styleUrls: ['./event-page.component.scss'],
+  imports: [FooterComponent, DatePipe]
 })
 export class EventPageComponent implements OnInit, OnDestroy {
   color;

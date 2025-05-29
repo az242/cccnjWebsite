@@ -1,7 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { User, getAgeTag } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +15,7 @@ import { americanStates, passwordComplexityValidator, passwordValidator, validat
   selector: 'app-sign-up-page',
   templateUrl: './sign-up-page.component.html',
   styleUrls: ['./sign-up-page.component.scss'],
-  imports: [FooterComponent]
+  imports: [FooterComponent, NgClass, NgbDatepickerModule, ReactiveFormsModule]
 })
 export class SignUpPageComponent {
   alertMessage: string;

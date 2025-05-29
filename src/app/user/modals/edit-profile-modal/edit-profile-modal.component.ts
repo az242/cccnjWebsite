@@ -1,6 +1,7 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
@@ -9,7 +10,8 @@ import { americanStates, validateUSZipCode } from 'src/app/utilities/form.util';
 @Component({
   selector: 'edit-profile-modal',
   templateUrl: './edit-profile-modal.component.html',
-  styleUrls: ['./edit-profile-modal.component.scss']
+  styleUrls: ['./edit-profile-modal.component.scss'],
+  imports: [NgClass, ReactiveFormsModule]
 })
 export class EditProfileModalComponent implements OnInit, OnChanges {
   @Input() user;

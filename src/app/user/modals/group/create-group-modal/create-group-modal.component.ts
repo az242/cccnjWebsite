@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Group } from 'src/app/common/group.model';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
@@ -7,10 +7,13 @@ import { CloudService } from 'src/app/services/cloud.service';
 import { DbService } from 'src/app/services/db.service';
 import { requireAtLeastOne } from 'src/app/utilities/form.util';
 import * as bootstrap from 'bootstrap';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass } from '@angular/common';
 @Component({
   selector: 'create-group-modal',
   templateUrl: './create-group-modal.component.html',
-  styleUrls: ['./create-group-modal.component.scss']
+  styleUrls: ['./create-group-modal.component.scss'],
+  imports: [ReactiveFormsModule, NgbTypeaheadModule, NgClass]
 })
 export class CreateGroupModalComponent implements OnInit, OnChanges{
   @Input() user: User;

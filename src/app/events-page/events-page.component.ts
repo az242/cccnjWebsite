@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { DbService } from '../services/db.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../common/event.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { filter, map, pairwise, startWith } from 'rxjs';
 import { Ages, Groups } from '../common/user.model';
+import { FooterComponent } from '../common/footer/footer.component';
+import { TileTwoComponent } from '../common/tiles/tile-two/tile-two.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-events-page',
   templateUrl: './events-page.component.html',
-  styleUrls: ['./events-page.component.scss']
+  styleUrls: ['./events-page.component.scss'],
+  imports: [FooterComponent, TileTwoComponent, NgbDropdownModule, ReactiveFormsModule]
 })
 export class EventsPageComponent implements OnInit{
   events: Event[] = [];

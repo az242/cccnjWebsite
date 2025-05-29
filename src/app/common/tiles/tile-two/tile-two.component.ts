@@ -1,10 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tile-two',
   templateUrl: './tile-two.component.html',
-  styleUrls: ['./tile-two.component.scss']
+  styleUrls: ['./tile-two.component.scss'],
+  imports: [DatePipe]
 })
 export class TileTwoComponent implements OnInit {
   @Input() event;

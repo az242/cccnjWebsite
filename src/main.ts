@@ -26,13 +26,12 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage()), NgbModule, TranslateModule.forRoot({ defaultLanguage: 'en' }), NgJsonEditorModule, NgSelectModule),
+        importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, NgbModule, TranslateModule.forRoot({ defaultLanguage: 'en' }), NgJsonEditorModule, NgSelectModule),
         // Register the AuthInterceptor as an interceptor
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
         [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
         provideHttpClient(withInterceptorsFromDi()),
-        provideAnimations()
+        provideAnimations(), provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage())
     ]
-})
-    .catch(err => console.error(err));
+}).catch(err => console.error(err));

@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import * as bootstrap from 'bootstrap';
 import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, map } from 'rxjs';
 @Component({
   selector: 'add-family-member-modal',
   templateUrl: './add-family-member-modal.component.html',
-  styleUrls: ['./add-family-member-modal.component.scss']
+  styleUrls: ['./add-family-member-modal.component.scss'],
+  imports: [NgbTypeaheadModule, FormsModule]
 })
 export class AddFamilyMemberModalComponent {
   @Output() onSubmit = new EventEmitter<any>();

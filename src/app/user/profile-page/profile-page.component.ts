@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Observable, OperatorFunction, Subject, debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs';
 import { Roles, User } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -37,7 +37,8 @@ import { CommonModule, DatePipe, NgClass } from '@angular/common';
     AddFamilyMemberModalComponent, LeaveFamilyModalComponent,
     FooterComponent, 
     DatePipe,
-    NgClass
+    NgClass,
+    RouterModule
   ]
 })
 export class ProfilePageComponent implements OnDestroy{

@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { arrayUnion } from '@angular/fire/firestore';
 import { Subject, takeUntil } from 'rxjs';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 import { Groups } from 'src/app/common/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DbService } from 'src/app/services/db.service';
@@ -8,7 +9,8 @@ import { DbService } from 'src/app/services/db.service';
 @Component({
   selector: 'app-taiwanese-page',
   templateUrl: './taiwanese-page.component.html',
-  styleUrls: ['./taiwanese-page.component.scss']
+  styleUrls: ['./taiwanese-page.component.scss'],
+  imports: [FooterComponent]
 })
 export class TaiwanesePageComponent implements OnDestroy{
   isLoggedIn: boolean = false;

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgbDate, NgbDatepickerModule, NgbTimepickerModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Ages, Groups, Roles, User } from 'src/app/common/user.model';
 import { CloudService } from 'src/app/services/cloud.service';
@@ -9,10 +9,13 @@ import { requireAtLeastOne } from 'src/app/utilities/form.util';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
 import { AuthService } from 'src/app/services/auth.service';
 import * as bootstrap from 'bootstrap';
+import { EnumeratePipe } from 'src/app/utilities/numberNgFor.pipe';
+import { DatePipe, NgClass } from '@angular/common';
 @Component({
   selector: 'edit-event-modal',
   templateUrl: './edit-event-modal.component.html',
-  styleUrls: ['./edit-event-modal.component.scss']
+  styleUrls: ['./edit-event-modal.component.scss'],
+  imports: [EnumeratePipe, DatePipe, NgbDatepickerModule, NgbTypeaheadModule, NgbTimepickerModule, FormsModule, ReactiveFormsModule, NgClass]
 })
 export class EditEventModalComponent {
   @Output() onSubmit = new EventEmitter<any>();

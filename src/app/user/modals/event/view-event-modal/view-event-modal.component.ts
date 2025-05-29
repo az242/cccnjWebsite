@@ -2,10 +2,13 @@ import { Component, Input } from '@angular/core';
 import { DbService } from 'src/app/services/db.service';
 import { Event, RecurranceRule } from 'src/app/common/event.model';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'view-event-modal',
   templateUrl: './view-event-modal.component.html',
-  styleUrls: ['./view-event-modal.component.scss']
+  styleUrls: ['./view-event-modal.component.scss'],
+  imports: [NgbTypeaheadModule, FormsModule, ReactiveFormsModule]
 })
 export class ViewEventModalComponent {
   @Input() eventList: Event[];

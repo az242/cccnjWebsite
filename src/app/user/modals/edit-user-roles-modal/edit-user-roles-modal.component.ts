@@ -1,14 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, OperatorFunction, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { Ages, AllRoles, Groups, Roles, User } from '../../../common/user.model';
 import { DbService } from 'src/app/services/db.service';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'edit-user-roles-modal',
   templateUrl: './edit-user-roles-modal.component.html',
-  styleUrls: ['./edit-user-roles-modal.component.scss']
+  styleUrls: ['./edit-user-roles-modal.component.scss'],
+  imports: [NgSelectComponent, ReactiveFormsModule]
 })
 export class EditUserRolesModalComponent implements OnInit{
   @Input() userList;
