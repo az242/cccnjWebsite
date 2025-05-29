@@ -16,7 +16,6 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AppComponent } from './app/app.component';
 
@@ -26,7 +25,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, NgbModule, TranslateModule.forRoot({ defaultLanguage: 'en' }), NgJsonEditorModule, NgSelectModule),
+        importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, NgbModule, TranslateModule.forRoot({ defaultLanguage: 'en' }), NgSelectModule),
         // Register the AuthInterceptor as an interceptor
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },

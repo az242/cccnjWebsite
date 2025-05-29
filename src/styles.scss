@@ -43,6 +43,19 @@ p {
 }
 .full-page {
   height: 100vh;
+  overflow:hidden;
+}
+.page-container {
+  height: calc(100vh - 66px);
+  overflow-y: auto;
+  display:flex;
+  flex-direction: column;
+  section {
+    flex: 1 0 0;
+  }
+  &.header-margin {
+    margin-top: 66px;
+  }
 }
 .font {
   &.accent-1 {
@@ -269,21 +282,13 @@ hr {
   border:none;
   opacity: 1;
 }
-.header-padding {
-  padding-top: 66px;
-  height:100%;
-  display:flex;
-  flex-direction: column;
-  section {
-    flex: 1 0 0;
-  }
-}
 .hide-alert {
   display: none;
 }
 .parallax {
+  margin-top: 66px;
   perspective: 1px;
-  height: 100vh;
+  height: calc(100vh - 66px);
   overflow-x: hidden;
   overflow-y: auto;
   z-index:0;

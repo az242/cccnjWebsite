@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,7 +25,7 @@ import { AuthService } from 'src/app/services/auth.service';
       transition('out => in', animate('100ms ease-out'))
     ])
   ],
-  imports: [RouterModule, TranslatePipe]
+  imports: [RouterModule, TranslatePipe, NgbDropdownModule]
 })
 export class HeaderComponent implements OnInit, OnDestroy{
   expanded: boolean = false;
