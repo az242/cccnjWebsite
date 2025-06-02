@@ -1,0 +1,150 @@
+<div class="pf2-table">
+    <div class="form-inline form-group float-right"><input class="form-control" aria-label="Search all columns"
+            #globalFilter *ngIf="globalFilter" type="text" placeholder="Search all columns..."
+            (keyup)="setGlobalFilter(globalFilter.value)"></div>
+    <div class="pf2-table-wrapper {{wrapperClasses}}" [class.loading]="data.loading">
+        <div *ngIf="data.loading" class="pf2-table-overlay">
+            <div role="alert">
+                <div>
+                    <i class="fa-solid fa-spinner"></i>
+                </div>Loading...
+            </div>
+        </div>
+        <table *ngIf="data" class="table {{tableClasses}}" id="{{tableId}}">
+            <thead class="{{headerClasses}}">
+                <tr>
+                    <th class="pf2-table-slim-col"
+                        *ngIf="selectionScheme === 'single' || selectionScheme === 'multiple'">
+                        <span class="sr-only">Selection</span>
+                        <input #toggleAll *ngIf="selectionScheme === 'multiple'" type="checkbox" aria-label="Select All"
+                            (click)="selectAll(toggleAll.checked)" [(ngModel)]="toggleAllState">
+                    </th>
+                    <th *ngIf="expansionField || expansionTemplate"><span class="sr-only">Details</span></th>
+                    <th [ngClass]="{'hide-column': col.hidden}" *ngFor="let col of data.columns">
+                        <ng-container
+                            *ngTemplateOutlet="col.headerTemplate ? templateMap[col.headerTemplate]: defaultHeader;context:col">
+                        </ng-container>
+                        <a class="pf2-table-sort" *ngIf="sortable && !col.disableSort && getSort(col) === 'none'"
+                            href="#" title="Unsorted, click to sort ascending" (click)="sortAsc(col)">
+                            <i class="fa-solid fa-sort"></i>
+                            <span class="sr-only">Unsorted, click to sort ascending</span>
+                        </a>
+                        <a class="pf2-table-sort" *ngIf="sortable && !col.disableSort && getSort(col) === 'ASCENDING'"
+                            href="#" title="Sorted Ascending, click to sort descending" (click)="sortDesc(col)">
+                            <i class="fa-solid fa-sort-up"></i>
+                            <span class="sr-only">Sorted Ascending, click to sort descending</span>
+                        </a>
+                        <a class="pf2-table-sort" *ngIf="sortable && !col.disableSort && getSort(col) === 'DESCENDING'"
+                            href="#" title="Sorted Descending, click to unsort" (click)="clearSort(col)">
+                            <i class="fa-solid fa-sort-down"></i>
+                            <span class="sr-only">Sorted Descending, click to unsort</span>
+                        </a>
+                    </th>
+                </tr>
+                <tr class="{{colFilterClasses}}" *ngIf="fieldFilter">
+                    <th *ngIf="selectionScheme === 'single' || selectionScheme === 'multiple'"></th>
+                    <th *ngIf="expansionField || expansionTemplate"></th>
+                    <th [ngClass]="{'hide-column': col.hidden}" *ngFor="let col of data.columns; let colIndex = index;">
+                        <label for="colFilter{{ colIndex }}" class="sr-only">{{ filterLabel }}</label>  
+                        <input class="form-control" id="colFilter{{ colIndex }}" #colFilter *ngIf="!col.disableFilter"
+                            type="text" placeholder="Filter..." (keyup)="setFieldFilter(col, colFilter.value)">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let row of data.page; let rowIndex = index;">
+                    <tr class="{{getRowStyle(row)}}" [class.expanded]="expandedRow === row"
+                        (click)="processRowClick(row)">
+                        <td class="pf2-table-slim-col" *ngIf="selectionScheme === 'multiple'"
+                            (click)="rowCheck.checked = !rowCheck.checked; toggleRow($event, rowCheck.checked, rowIndex, row);">
+                            <input #rowCheck type="checkbox" aria-label="Select Row"
+                                (click)="toggleRow($event, rowCheck.checked, rowIndex, row)"
+                                [ngModel]="isSelected(row)">
+                        </td>
+                        <td class="pf2-table-slim-col" *ngIf="selectionScheme === 'single'"
+                            (click)="rowRadio.checked = true; selectRow($event, row);">
+                            <input #rowRadio name="row-select" value="{{rowIndex}}" type="radio" aria-label="Select Row"
+                                (click)="selectRow($event, row)" [ngModel]="indexSelected()">
+                        </td>
+                        <td class="pf2-table-slim-col" *ngIf="expansionField || expansionTemplate">
+                            <button class="pf2-table-expander" *ngIf="expandedRow !== row" type="button"
+                                aria-expanded="false" (click)="expand($event, row)">
+                                <i class="fa-solid fa-plus"></i><span class="sr-only">Expand</span>
+                            </button>
+                            <button class="pf2-table-expander" *ngIf="expandedRow === row" type="button"
+                                aria-expanded="true" (click)="collapse($event, row)">
+                                <i class="fa-solid fa-minus"></i><span class="sr-only">Collapse</span>
+                            </button>
+                        </td>
+                        <ng-container *ngFor="let col of data.columns; let colIndex = index;">
+                            <td [ngClass]="{'hide-column': col.hidden}">
+                                <ng-container
+                                    *ngTemplateOutlet="col.cellTemplate ? templateMap[col.cellTemplate] : defaultCell;context: {cell: getValue(colIndex, row), data: row, pipes: col.cellPipes, params: col.templateParams, colIndex, rowIndex}">
+                                </ng-container>
+                            </td>
+                        </ng-container>
+
+                    </tr>
+                    <tr class="expanded {{getRowStyle(row)}}"
+                        *ngIf="(expansionField || expansionTemplate) && expandedRow === row">
+                        <td *ngIf="selectionScheme === 'single' || selectionScheme === 'multiple'"></td>
+                        <td></td>
+                        <td attr.colspan="{{data.columns.length}}">
+                            <ng-container
+                                *ngTemplateOutlet="expansionTemplate ? templateMap[expansionTemplate] : defaultExpansion;context: {data: row}">
+                            </ng-container>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr *ngIf="data && data.page && data.page.length === 0">
+                    <td class="no-rows-message" [attr.colspan]="getColumnCount()">{{noRowsMessage}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav *ngIf="paginate && data && data.page && pageSize < data.totalSize" aria-label="Table page navigation">
+        <ul class="pagination justify-content-end">
+            <li *ngIf="showFirstLast" class="page-item" [class.disabled]="isFirst()">
+                <span *ngIf="isFirst()" class="page-link disabled">
+                    <i class="fa-solid fa-angles-left"></i>
+                </span>
+                <a *ngIf="!isFirst()" class="page-link" href="#" aria-label="Previous" (click)="setPage(0)">
+                    <i class="fa-solid fa-angles-left"></i>
+                    <span class="sr-only">First</span>
+                </a>
+            </li>
+            <li class="page-item" [class.disabled]="isFirst()">
+                <span *ngIf="isFirst()" class="page-link disabled">
+                    <i class="fa-solid fa-angle-left"></i>
+                </span>
+                <a *ngIf="!isFirst()" class="page-link" href="#" aria-label="Previous" (click)="setPage(currentPage-1)">
+                    <i class="fa-solid fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li *ngFor="let page of showPages()" class="page-item" [class.active]="page === currentPage"><a
+                    class="page-link" href="#" (click)="setPage(page)">{{page + 1}}</a></li>
+            <li class="page-item" [class.disabled]="isLast()">
+                <span *ngIf="isLast()" class="page-link disabled">
+                    <i class="fa-solid fa-angle-right"></i>
+                </span>
+                <a *ngIf="!isLast()" class="page-link" href="#" aria-label="Next" (click)="setPage(currentPage+1)">
+                    <i class="fa-solid fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+            <li *ngIf="showFirstLast" class="page-item" [class.disabled]="isLast()">
+                <span *ngIf="isLast()" class="page-link disabled">
+                    <i class="fa-solid fa-angles-right"></i>
+                </span>
+                <a *ngIf="!isLast()" class="page-link" href="#" aria-label="Next" (click)="setPage(pageCount()-1)">
+                    <i class="fa-solid fa-angles-right"></i>
+                    <span class="sr-only">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ng-template #defaultHeader let-header="header">{{header}}</ng-template>
+    <ng-template #defaultCell let-cell="cell" let-pipes="pipes">{{pipes ? (cell | multiPipe:pipes) : cell}}</ng-template>
+    <ng-template #defaultExpansion let-data="data">{{data[expansionField]}}</ng-template>
+</div>
